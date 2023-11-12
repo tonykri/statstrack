@@ -1,0 +1,36 @@
+namespace UserService.Categories;
+
+public enum Hobbies
+{
+    Reading,
+    Gardening,
+    Cooking_and_Baking,
+    Painting_and_Drawing,
+    Sports_and_Physical_Activities,
+    Photography,
+    Playing_Musical_Instruments,
+    Traveling,
+    Crafting,
+    Fishing,
+    Model_Building,
+    Collecting,
+    Hiking_and_Camping,
+    DIY_Home_Improvement,
+    Bird_Watching,
+    Cycling,
+    Meditation_and_Mindfulness,
+    Dancing,
+    Volunteering,
+    Board_Games_and_Puzzles,
+    Writing,
+    Fitness_and_Exercise,
+    Comics_and_Graphic_Novels,
+    Sculpting,
+    Astrology_and_Astronomy,
+    Sewing_and_Quilting,
+    Archery,
+    Genealogy,
+    Metal_Detecting,
+    Vintage_and_Classic_Cars,
+    Other
+}

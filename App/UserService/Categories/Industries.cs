@@ -1,0 +1,37 @@
+namespace UserService.Categories;
+
+public enum Industries
+{
+    Information_Technology,
+    Healthcare,
+    Finance_and_Banking,
+    Education,
+    Engineering,
+    Manufacturing_and_Production,
+    Retail,
+    Hospitality_and_Tourism,
+    Marketing_and_Advertising,
+    Government_and_Public_Administration,
+    Legal,
+    Agriculture,
+    Media_and_Journalism,
+    Art_and_Design,
+    Nonprofit_and_Social_Services,
+    Environmental_and_Sustainability,
+    Construction_and_Skilled_Trades,
+    Automotive,
+    Transportation_and_Logistics,
+    Sports_and_Fitness,
+    Online_Businesses,
+    Pharmaceuticals_and_Healthcare_Research,
+    Entertainment_and_Arts,
+    Tech_Startups_and_Entrepreneurship,
+    Real_Estate_and_Property_Management,
+    Food_and_Beverage,
+    Aviation_and_Aerospace,
+    Renewable_Energy_and_Green_Technology,
+    Fitness_and_Wellness,
+    Emergency_Services_and_Public_Safety,
+    Student,
+    Retired
+}
