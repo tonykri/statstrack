@@ -2927,11 +2927,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tonyk\\Desktop\\Demo\\statstrack\\LocationService\\LocationService.csproj",
+      "projectUniqueName": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\LocationService\\LocationService.csproj",
       "projectName": "LocationService",
-      "projectPath": "C:\\Users\\tonyk\\Desktop\\Demo\\statstrack\\LocationService\\LocationService.csproj",
+      "projectPath": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\LocationService\\LocationService.csproj",
       "packagesPath": "C:\\Users\\tonyk\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tonyk\\Desktop\\Demo\\statstrack\\LocationService\\obj\\",
+      "outputPath": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\LocationService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "CXuj3T08I0Z0RJvPommN26cMNWrIq0SsBiHEEpm5zjrgasQeO2aerNgOjc31G+fpfMa6fhIwdHzEz6uyfkqTNw==",
+  "dgSpecHash": "uYJknFt7sqOrmOkvcmezAzYQnJFYv18EPjQeS4zcxiqekktee8VDc9Jk2ONF0rbgYuQ8yPwPV4p6BeYtvJw/wQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\tonyk\\Desktop\\Demo\\statstrack\\LocationService\\LocationService.csproj",
+  "projectFilePath": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\LocationService\\LocationService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tonyk\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\tonyk\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

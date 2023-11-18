@@ -2927,11 +2927,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tonyk\\Desktop\\Demo\\statstrack\\ReviewService\\ReviewService.csproj",
+      "projectUniqueName": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\ReviewService\\ReviewService.csproj",
       "projectName": "ReviewService",
-      "projectPath": "C:\\Users\\tonyk\\Desktop\\Demo\\statstrack\\ReviewService\\ReviewService.csproj",
+      "projectPath": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\ReviewService\\ReviewService.csproj",
       "packagesPath": "C:\\Users\\tonyk\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tonyk\\Desktop\\Demo\\statstrack\\ReviewService\\obj\\",
+      "outputPath": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\ReviewService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

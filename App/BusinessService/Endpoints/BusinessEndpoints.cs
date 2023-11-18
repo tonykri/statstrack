@@ -1,6 +1,7 @@
 using BusinessService.Dto;
 using BusinessService.Models;
 using BusinessService.Repositories;
+using BusinessService.Utils;
 using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,10 @@ public class BusinessEndpoints : IEndpointDefinition
 
     private IResult UpdateBusiness([FromServices] IBusinessRepo businessRepo, [FromBody] BusinessDto business)
     {
+        var validator = new BusinessDtoValidator();
+        var results = validator.Validate(business);
+        if(!results.IsValid)
+            return Results.BadRequest(results.Errors);
         try
         {
             businessRepo.UpdateBusiness(business);

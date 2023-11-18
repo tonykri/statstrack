@@ -2,6 +2,7 @@ using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Dto.Profile;
 using UserService.Repositories.Profile;
+using UserService.Validators;
 
 namespace UserService.Endpoints.Profile;
 
@@ -24,6 +25,10 @@ public class ExpensesEndpoints : IEndpointDefinition
 
     private IResult RegisterExpenses([FromServices] IExpensesRepo expensesRepo, [FromBody] ExpensesDto userData)
     {
+        var validator = new ExpensesDtoValidator();
+        var result = validator.Validate(userData);
+        if(!result.IsValid)
+            return Results.BadRequest(result.Errors);
         try
         {
             string token = expensesRepo.RegisterExpenses(userData);
@@ -36,6 +41,10 @@ public class ExpensesEndpoints : IEndpointDefinition
 
     private IResult UpdateExpenses([FromServices] IExpensesRepo expensesRepo, [FromBody] ExpensesDto userData)
     {
+        var validator = new ExpensesDtoValidator();
+        var result = validator.Validate(userData);
+        if(!result.IsValid)
+            return Results.BadRequest(result.Errors);
         try
         {
             expensesRepo.UpdateExpenses(userData);

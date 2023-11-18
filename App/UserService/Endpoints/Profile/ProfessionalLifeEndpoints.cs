@@ -2,6 +2,7 @@ using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Dto.Profile;
 using UserService.Repositories.Profile;
+using UserService.Validators;
 
 namespace UserService.Endpoints.Profile;
 
@@ -24,6 +25,10 @@ public class ProfessionalLifeEndpoints : IEndpointDefinition
 
     private IResult RegisterProfessionalLife([FromServices] IProfessionalLifeRepo professionalLifeRepo, [FromBody] ProfessionalLifeDto userData)
     {
+        var validator = new ProfessionalLifeDtoValidator();
+        var results = validator.Validate(userData);
+        if(!results.IsValid)
+            return Results.BadRequest(results.Errors);
         try
         {
             string token = professionalLifeRepo.RegisterProfessionalLife(userData);
@@ -36,6 +41,10 @@ public class ProfessionalLifeEndpoints : IEndpointDefinition
 
     private IResult UpdateProfessionalLife([FromServices] IProfessionalLifeRepo professionalLifeRepo, [FromBody] ProfessionalLifeDto userData)
     {
+        var validator = new ProfessionalLifeDtoValidator();
+        var results = validator.Validate(userData);
+        if(!results.IsValid)
+            return Results.BadRequest(results.Errors);
         try
         {
             professionalLifeRepo.UpdateProfessionalLife(userData);

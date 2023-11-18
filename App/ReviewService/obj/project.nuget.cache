@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "D3sRCiOi2LbFDr1p4eCQDxrx3pwMLEt8gc7SvD9lA6HhSfbjTkiZxhRCsPKy5xp6+VRRK+UhO+B8EON11ODYFA==",
+  "dgSpecHash": "9NP7GVfbpduWnaqL97cgQy/S5bDP1mWLxxGgFO1NOS2b4GNzQviCwH6cr9/VHASu1HKma6VlbMYTVPxQqK0cKA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\tonyk\\Desktop\\Demo\\statstrack\\ReviewService\\ReviewService.csproj",
+  "projectFilePath": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\ReviewService\\ReviewService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tonyk\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\tonyk\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

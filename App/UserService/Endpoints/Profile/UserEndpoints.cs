@@ -2,6 +2,7 @@ using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Dto.Profile;
 using UserService.Repositories.Profile;
+using UserService.Validators;
 
 namespace UserService.Endpoints.Profile;
 
@@ -24,6 +25,10 @@ public class UserEndpoints : IEndpointDefinition
 
     private IResult RegisterUser([FromServices] IUserRepo userRepo, [FromBody] UserDto userData)
     {
+        var validator = new UserDtoValidator();
+        var results = validator.Validate(userData);
+        if(!results.IsValid)
+            return Results.BadRequest(results.Errors);
         try
         {
             string token = userRepo.RegisterUser(userData);
@@ -36,6 +41,10 @@ public class UserEndpoints : IEndpointDefinition
 
     private IResult UpdateUser([FromServices] IUserRepo userRepo, [FromBody] UserDto userData)
     {
+        var validator = new UserDtoValidator();
+        var results = validator.Validate(userData);
+        if(!results.IsValid)
+            return Results.BadRequest(results.Errors);
         try
         {
             userRepo.UpdateUser(userData);

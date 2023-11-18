@@ -2,6 +2,7 @@ using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Dto.Profile;
 using UserService.Repositories.Profile;
+using UserService.Validators;
 
 namespace UserService.Endpoints.Profile;
 
@@ -24,6 +25,10 @@ public class HobbiesEndpoints : IEndpointDefinition
 
     private IResult RegisterHobbies([FromServices] IHobbiesRepo hobbiesRepo, [FromBody] HobbiesDto userData)
     {
+        var validator = new HobbiesDtoValidator();
+        var results = validator.Validate(userData);
+        if(!results.IsValid)
+            return Results.BadRequest(results.Errors);
         try
         {
             string token = hobbiesRepo.RegisterHobbies(userData);
@@ -36,6 +41,10 @@ public class HobbiesEndpoints : IEndpointDefinition
 
     private IResult UpdateHobbies([FromServices] IHobbiesRepo hobbiesRepo, [FromBody] HobbiesDto userData)
     {
+        var validator = new HobbiesDtoValidator();
+        var results = validator.Validate(userData);
+        if(!results.IsValid)
+            return Results.BadRequest(results.Errors);
         try
         {
             hobbiesRepo.UpdateHobbies(userData);
