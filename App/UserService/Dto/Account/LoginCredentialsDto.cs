@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace UserService.Dto.Account;
 
 public class LoginCredentialsDto

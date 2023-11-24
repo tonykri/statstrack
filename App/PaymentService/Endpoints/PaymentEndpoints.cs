@@ -10,10 +10,10 @@ public class PaymentEndpoints : IEndpointDefinition
 {
     public void DefineEndpoints(WebApplication app)
     {
-        app.MapGet("payment/pay", Payment)
+        app.MapGet("pay", Payment)
             .RequireAuthorization("completed_profile");
-        app.MapGet("payment/success", Success);
-        app.MapGet("payment/cancelled",() => "Payment failed");
+        app.MapGet("success", Success);
+        app.MapGet("cancelled",() => "Payment failed");
         
     }
 

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: review-depl
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reviewservice
+  template:
+    metadata:
+      labels:
+        app: reviewservice
+    spec:
+      containers:
+        - name: reviewservice
+          image: tonykr/reviewservice:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: review-clusterip-srv
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: reviewservice
+  ports:
+  - name: reviewservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

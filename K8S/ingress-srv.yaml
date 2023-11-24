@@ -8,6 +8,11 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: 'true'
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite ^/api/user(/.*)$ $1 break;
+      rewrite ^/api/business(/.*)$ $1 break;
+      rewrite ^/api/discount(/.*)$ $1 break;
+      rewrite ^/api/location(/.*)$ $1 break;
+      rewrite ^/api/payment(/.*)$ $1 break;
+      rewrite ^/api/review(/.*)$ $1 break;
     
 spec:
   rules:
@@ -19,5 +24,40 @@ spec:
             backend:
               service:
                 name: user-clusterip-srv
+                port:
+                  number: 80
+          - path: /api/business
+            pathType: Prefix
+            backend:
+              service:
+                name: business-clusterip-srv
+                port:
+                  number: 80
+          - path: /api/discount
+            pathType: Prefix
+            backend:
+              service:
+                name: discount-clusterip-srv
+                port:
+                  number: 80
+          - path: /api/location
+            pathType: Prefix
+            backend:
+              service:
+                name: location-clusterip-srv
+                port:
+                  number: 80
+          - path: /api/payment
+            pathType: Prefix
+            backend:
+              service:
+                name: payment-clusterip-srv
+                port:
+                  number: 80
+          - path: /api/review
+            pathType: Prefix
+            backend:
+              service:
+                name: review-clusterip-srv
                 port:
                   number: 80

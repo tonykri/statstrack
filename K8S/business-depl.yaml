@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: business-depl
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: businessservice
+  template:
+    metadata:
+      labels:
+        app: businessservice
+    spec:
+      containers:
+        - name: businessservice
+          image: tonykr/businessservice:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: business-clusterip-srv
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: businessservice
+  ports:
+  - name: businessservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

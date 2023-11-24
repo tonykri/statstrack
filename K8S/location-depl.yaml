@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: location-depl
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: locationservice
+  template:
+    metadata:
+      labels:
+        app: locationservice
+    spec:
+      containers:
+        - name: locationservice
+          image: tonykr/locationservice:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: location-clusterip-srv
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: locationservice
+  ports:
+  - name: locationservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

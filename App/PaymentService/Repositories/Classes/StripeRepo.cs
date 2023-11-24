@@ -37,10 +37,10 @@ public class StripeRepo : IStripeRepo
                     },
                 },
                 Mode = "payment",
-                SuccessUrl = "http://localhost:4005/payment/success?session_id={CHECKOUT_SESSION_ID}&business_id=" 
+                SuccessUrl = "http://statstrack.com/payment/success?session_id={CHECKOUT_SESSION_ID}&business_id=" 
                     + businessId is null ? "new-business" : businessId
                     + "user_id=" + tokenDecoder.GetUserId(),
-                CancelUrl = "http://localhost:4005/payment/cancelled",
+                CancelUrl = "http://statstrack.com/payment/cancelled",
             };
 
             var sessionService = new SessionService();
