@@ -1,4 +1,6 @@
 
+using PaymentService.AsymcDataProcessing.MessageBusClient;
+using PaymentService.Dto.MessageBus.Send;
 using PaymentService.Models;
 
 namespace PaymentService.Repositories;
@@ -6,9 +8,11 @@ namespace PaymentService.Repositories;
 public class BusinessRepo : IBusinessRepo
 {
     private readonly DataContext dataContext;
-    public BusinessRepo(DataContext dataContext)
+    private readonly IMessageBusClient messageBusClient;
+    public BusinessRepo(DataContext dataContext, IMessageBusClient messageBusClient)
     {
         this.dataContext = dataContext;
+        this.messageBusClient = messageBusClient;
     }
     public void CreateBusiness(Guid user_id, string session_id)
     {
@@ -29,7 +33,7 @@ public class BusinessRepo : IBusinessRepo
 
         dataContext.Add(business);
         dataContext.Add(payment);
-
+        messageBusClient.SendMessage(new BusinessCreatedRenewedDto(business.BusinessId, business.UserId, business.ExpirationDate));
     }
 
     public void RenewLicense(Guid business_id, string session_id)

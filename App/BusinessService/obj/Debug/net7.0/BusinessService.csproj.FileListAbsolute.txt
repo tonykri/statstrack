@@ -141,3 +141,4 @@ C:\Users\tonyk\Desktop\statstrack\App\BusinessService\obj\Debug\net7.0\refint\Bu
 C:\Users\tonyk\Desktop\statstrack\App\BusinessService\obj\Debug\net7.0\BusinessService.pdb
 C:\Users\tonyk\Desktop\statstrack\App\BusinessService\obj\Debug\net7.0\BusinessService.genruntimeconfig.cache
 C:\Users\tonyk\Desktop\statstrack\App\BusinessService\obj\Debug\net7.0\ref\BusinessService.dll
+C:\Users\tonyk\Desktop\statstrack\App\BusinessService\bin\Debug\net7.0\RabbitMQ.Client.dll

@@ -1,4 +1,6 @@
+using DiscountService.AsymcDataProcessing.MessageBusClient;
 using DiscountService.Dto;
+using DiscountService.Dto.MessageBus.Send;
 using DiscountService.Models;
 using DiscountService.Utils;
 
@@ -6,12 +8,14 @@ namespace DiscountService.Repositories;
 
 public class CouponRepo : ICouponRepo
 {
-    private DataContext dataContext;
-    private ITokenDecoder tokenDecoder;
-    public CouponRepo(DataContext dataContext, ITokenDecoder tokenDecoder)
+    private readonly DataContext dataContext;
+    private readonly ITokenDecoder tokenDecoder;
+    private readonly IMessageBusClient messageBusClient;
+    public CouponRepo(DataContext dataContext, ITokenDecoder tokenDecoder, IMessageBusClient messageBusClient)
     {
         this.dataContext = dataContext;
         this.tokenDecoder = tokenDecoder;
+        this.messageBusClient = messageBusClient;
     }
 
     private string CodeGenerator()
@@ -134,6 +138,7 @@ public class CouponRepo : ICouponRepo
             
             coupon.RedeemDate = DateTime.Now;
             dataContext.SaveChanges();
+            messageBusClient.SendMessage(new CouponRedeemedDto(userId, business.BusinessId));
         }catch(Exception ex)
         {
             Console.WriteLine(ex.Message);

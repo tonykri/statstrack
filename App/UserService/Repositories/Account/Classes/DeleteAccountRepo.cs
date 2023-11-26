@@ -1,3 +1,5 @@
+using UserService.AsymcDataProcessing.MessageBusClient;
+using UserService.Dto.MessageBus.Send;
 using UserService.Models;
 using UserService.Repositories.Profile;
 using UserService.Utils;
@@ -10,12 +12,15 @@ public class DeleteAccountRepo : IDeleteAccountRepo
     private readonly IEmailService emailService;
     private readonly IProfilePhotoRepo profilePhotoRepo;
     private readonly ITokenDecoder tokenDecoder;
-    public DeleteAccountRepo(DataContext dataContext, IEmailService emailService, IProfilePhotoRepo profilePhotoRepo, ITokenDecoder tokenDecoder)
+    private readonly IMessageBusClient messageBusClient;
+    public DeleteAccountRepo(DataContext dataContext, IEmailService emailService,
+            IProfilePhotoRepo profilePhotoRepo, ITokenDecoder tokenDecoder, IMessageBusClient messageBusClient)
     {
         this.dataContext = dataContext;
         this.emailService = emailService;
         this.profilePhotoRepo = profilePhotoRepo;
         this.tokenDecoder = tokenDecoder;
+        this.messageBusClient = messageBusClient;
     }
 
     public void SendDeletionEmail()
@@ -52,5 +57,7 @@ public class DeleteAccountRepo : IDeleteAccountRepo
         profilePhotoRepo.DeletePhoto();
         dataContext.Remove(user);
         dataContext.SaveChanges();
+
+        messageBusClient.DeleteUser(new UserDeletedDto(userId));
     }
 }

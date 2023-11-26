@@ -1,5 +1,7 @@
+using BusinessService.AsymcDataProcessing.MessageBusClient;
 using BusinessService.Categories;
 using BusinessService.Dto;
+using BusinessService.Dto.MessageBus.Send;
 using BusinessService.Models;
 using BusinessService.Utils;
 
@@ -9,10 +11,12 @@ public class BusinessRepo : IBusinessRepo
 {
     private readonly DataContext dataContext;
     private readonly ITokenDecoder tokenDecoder;
-    public BusinessRepo(DataContext dataContext, ITokenDecoder tokenDecoder)
+    private readonly IMessageBusClient messageBusClient;
+    public BusinessRepo(DataContext dataContext, ITokenDecoder tokenDecoder, IMessageBusClient messageBusClient)
     {
         this.dataContext = dataContext;
         this.tokenDecoder = tokenDecoder;
+        this.messageBusClient = messageBusClient;
     }
 
     private bool CheckCategory(string category)
@@ -51,6 +55,8 @@ public class BusinessRepo : IBusinessRepo
             storedBusiness.Longitude = business.Longitude;
 
             dataContext.SaveChanges();
+            BusinessUpdatedDeletedDto businessDataDto = new BusinessUpdatedDeletedDto(storedBusiness.Id, storedBusiness.Brand);
+            messageBusClient.SendMessage(businessDataDto);
         }catch(Exception ex)
         {
             Console.WriteLine(ex.Message);

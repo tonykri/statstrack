@@ -155,3 +155,4 @@ C:\Users\tonyk\Desktop\statstrack\App\UserService\obj\Debug\net7.0\scopedcss\bun
 C:\Users\tonyk\Desktop\statstrack\App\UserService\obj\Debug\net7.0\UserService.csproj.CopyComplete
 C:\Users\tonyk\Desktop\statstrack\App\UserService\obj\Debug\net7.0\UserService.genruntimeconfig.cache
 C:\Users\tonyk\Desktop\statstrack\App\UserService\obj\Debug\net7.0\ref\UserService.dll
+C:\Users\tonyk\Desktop\statstrack\App\UserService\bin\Debug\net7.0\RabbitMQ.Client.dll
