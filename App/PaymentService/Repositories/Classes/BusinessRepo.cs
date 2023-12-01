@@ -33,7 +33,7 @@ public class BusinessRepo : IBusinessRepo
 
         dataContext.Add(business);
         dataContext.Add(payment);
-        messageBusClient.SendMessage(new BusinessCreatedRenewedDto(business.BusinessId, business.UserId, business.ExpirationDate));
+        messageBusClient.BusinessCreateRenew(new BusinessCreatedRenewedDto(business.BusinessId, business.UserId, business.ExpirationDate));
     }
 
     public void RenewLicense(Guid business_id, string session_id)

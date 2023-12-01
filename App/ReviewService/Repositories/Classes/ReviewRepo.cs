@@ -1,4 +1,6 @@
+using ReviewService.AsymcDataProcessing.MessageBusClient;
 using ReviewService.Dto;
+using ReviewService.Dto.MessageBus.Send;
 using ReviewService.Models;
 using ReviewService.Utils;
 
@@ -8,10 +10,29 @@ public class ReviewRepo : IReviewRepo
 {
     private readonly DataContext dataContext;
     private readonly ITokenDecoder tokenDecoder;
-    public ReviewRepo(DataContext dataContext, ITokenDecoder tokenDecoder)
+    private readonly IMessageBusClient messageBusClient;
+    public ReviewRepo(DataContext dataContext, ITokenDecoder tokenDecoder, IMessageBusClient messageBusClient)
     {
         this.dataContext = dataContext;
         this.tokenDecoder = tokenDecoder;
+        this.messageBusClient = messageBusClient;
+    }
+
+    private void SendBusinessReviewData(Guid businessId)
+    {
+        int NoOfReviews = dataContext.Reviews
+            .Where(r => r.BusinessId == businessId)
+            .Count();
+        double stars = dataContext.Reviews
+            .Where(r => r.BusinessId == businessId)
+            .Select(r => r.Stars)
+            .Average();
+
+        messageBusClient.UpdateStars(new BusinessStarsDto(){
+            BusinessId = businessId,
+            Stars = stars,
+            Reviews = NoOfReviews
+        });
     }
 
     public List<ReviewDto> GetBusinessReviews(Guid businessId)
@@ -46,6 +67,7 @@ public class ReviewRepo : IReviewRepo
         try
         {
             Guid userId = tokenDecoder.GetUserId();
+            string fullname = tokenDecoder.GetName();
             var business = dataContext.Businesses.FirstOrDefault(b => b.BusinessId == review.BusinessId);
             if(business is null)
                 throw new NotFoundException("Business not found");
@@ -56,6 +78,7 @@ public class ReviewRepo : IReviewRepo
             
             Review newReview = new Review{
                 UserId = userId,
+                FullName = fullname,
                 Business = business,
                 BusinessId = business.BusinessId,
                 Stars = review.Stars,
@@ -63,6 +86,8 @@ public class ReviewRepo : IReviewRepo
             };
             dataContext.Add(newReview);
             dataContext.SaveChanges();
+
+            SendBusinessReviewData(business.BusinessId);
         }catch(Exception ex)
         {
             Console.WriteLine(ex.Message);
@@ -85,6 +110,8 @@ public class ReviewRepo : IReviewRepo
             storedReview.Content = review.Content;
             storedReview.LastModified = DateTime.Now;
             dataContext.SaveChanges();
+
+            SendBusinessReviewData(storedReview.BusinessId);
         }catch(Exception ex)
         {
             Console.WriteLine(ex.Message);
@@ -105,6 +132,8 @@ public class ReviewRepo : IReviewRepo
             
             dataContext.Remove(storedReview);
             dataContext.SaveChanges();
+
+            SendBusinessReviewData(storedReview.BusinessId);
         }catch(Exception ex)
         {
             Console.WriteLine(ex.Message);

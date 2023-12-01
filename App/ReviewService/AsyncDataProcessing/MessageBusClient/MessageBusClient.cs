@@ -1,9 +1,9 @@
 using System.Text;
 using System.Text.Json;
 using RabbitMQ.Client;
-using UserService.Dto.MessageBus.Send;
+using ReviewService.Dto.MessageBus.Send;
 
-namespace UserService.AsymcDataProcessing.MessageBusClient;
+namespace ReviewService.AsymcDataProcessing.MessageBusClient;
 
 public class MessageBusClient : IMessageBusClient
 {
@@ -33,22 +33,9 @@ public class MessageBusClient : IMessageBusClient
             Console.WriteLine($"--> Could not connect to the Message Bus: {ex.Message}");
         }
     }
-    public void DeleteUser(UserDeletedDto userDeletedDto)
+    public void UpdateStars(BusinessStarsDto data)
     {
-        var message = JsonSerializer.Serialize(userDeletedDto);
-
-        if (connection.IsOpen)
-        {
-            Console.WriteLine("--> RabbitMQ Connection Open, sending message...");
-            SendMessage(message);
-        }
-        else
-            Console.WriteLine("--> RabbitMQ connectionis closed, not sending");
-    }
-
-    public void UpdateUser(UserUpdatedDto userUpdatedDto)
-    {
-        var message = JsonSerializer.Serialize(userUpdatedDto);
+        var message = JsonSerializer.Serialize(data);
 
         if (connection.IsOpen)
         {

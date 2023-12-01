@@ -33,7 +33,7 @@ public class MessageBusClient : IMessageBusClient
             Console.WriteLine($"--> Could not connect to the Message Bus: {ex.Message}");
         }
     }
-    public void SendMessage(CouponRedeemedDto coupon)
+    public void CouponRedeem(CouponRedeemedDto coupon)
     {
         var message = JsonSerializer.Serialize(coupon);
 

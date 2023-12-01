@@ -33,7 +33,20 @@ public class MessageBusClient : IMessageBusClient
             Console.WriteLine($"--> Could not connect to the Message Bus: {ex.Message}");
         }
     }
-    public void SendMessage(BusinessUpdatedDeletedDto business)
+    public void UpdateBusiness(BusinessUpdatedDto business)
+    {
+        var message = JsonSerializer.Serialize(business);
+
+        if (connection.IsOpen)
+        {
+            Console.WriteLine("--> RabbitMQ Connection Open, sending message...");
+            SendMessage(message);
+        }
+        else
+            Console.WriteLine("--> RabbitMQ connectionis closed, not sending");
+    }
+
+    public void DeleteBusiness(BusinessDeletedDto business)
     {
         var message = JsonSerializer.Serialize(business);
 

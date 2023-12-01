@@ -55,8 +55,8 @@ public class BusinessRepo : IBusinessRepo
             storedBusiness.Longitude = business.Longitude;
 
             dataContext.SaveChanges();
-            BusinessUpdatedDeletedDto businessDataDto = new BusinessUpdatedDeletedDto(storedBusiness.Id, storedBusiness.Brand);
-            messageBusClient.SendMessage(businessDataDto);
+            BusinessUpdatedDto businessDataDto = new BusinessUpdatedDto(storedBusiness.Id, storedBusiness.Brand);
+            messageBusClient.UpdateBusiness(businessDataDto);
         }catch(Exception ex)
         {
             Console.WriteLine(ex.Message);

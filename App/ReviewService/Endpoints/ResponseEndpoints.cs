@@ -45,7 +45,7 @@ public class ResponseEndpoints : IEndpointDefinition
     {
         try
         {
-            responseRepo.UpdateReview(response);
+            responseRepo.UpdateResponse(response);
             return Results.NoContent();
         }catch(NotFoundException ex)
         {

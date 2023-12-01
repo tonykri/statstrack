@@ -34,4 +34,15 @@ public class TokenDecoder : ITokenDecoder
 
         return Guid.Parse(claims["Id"]);
     }
+
+    public Guid GetName()
+    {
+        var givenToken = httpContextAccessor.HttpContext?.Request.Headers.Authorization.FirstOrDefault();
+        if (givenToken is null)
+            throw new InvalidDataException("Invalid token");
+        givenToken = givenToken.Split(" ").Last();
+        Dictionary<string, string> claims = GetClaims(givenToken);
+
+        return Guid.Parse(claims["FullName"]);
+    }
 }

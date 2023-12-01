@@ -20,6 +20,9 @@ public class EventProcessor : IEventProcessor
             case EventType.BusinessCreated:
                 BusinessCreated(message);
                 break;
+            case EventType.ReviewsUpdated:
+                ReviewsUpdated(message);
+                break;
             case EventType.UserDeleted:
                 UserDeleted(message);
                 break;
@@ -40,6 +43,9 @@ public class EventProcessor : IEventProcessor
             case "Business_Created":
                 Console.WriteLine("--> Business Created Event Detected");
                 return EventType.BusinessCreated;
+            case "Reviews_Updated":
+                Console.WriteLine("--> Business Created Event Detected");
+                return EventType.ReviewsUpdated;
             case "User_Deleted":
                 Console.WriteLine("--> User Deleted Event Detected");
                 return EventType.UserDeleted;
@@ -58,6 +64,15 @@ public class EventProcessor : IEventProcessor
         }
     }
 
+    private void ReviewsUpdated(string message)
+    {
+        using (var scope = serviceScopeFactory.CreateScope())
+        {
+            var scopedService = scope.ServiceProvider.GetRequiredService<IEventHandler>();
+            scopedService.ReviewsUpdated(message);
+        }
+    }
+
     private void UserDeleted(string message)
     {
         using (var scope = serviceScopeFactory.CreateScope())
@@ -71,6 +86,7 @@ public class EventProcessor : IEventProcessor
 enum EventType
 {
     BusinessCreated,
+    ReviewsUpdated,
     UserDeleted,
     Undetermined
 }

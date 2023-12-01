@@ -4,5 +4,6 @@ namespace BusinessService.AsymcDataProcessing.MessageBusClient;
 
 public interface IMessageBusClient
 {
-    void SendMessage(BusinessUpdatedDeletedDto business);
+    void UpdateBusiness(BusinessUpdatedDto business);
+    void DeleteBusiness(BusinessDeletedDto business);
 }

@@ -4,5 +4,5 @@ namespace DiscountService.AsymcDataProcessing.MessageBusClient;
 
 public interface IMessageBusClient
 {
-    void SendMessage(CouponRedeemedDto coupon);
+    void CouponRedeem(CouponRedeemedDto coupon);
 }

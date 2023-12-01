@@ -9,6 +9,8 @@ public class Review
     [Required]
     public Guid UserId { get; set; }
     [Required]
+    public string FullName { get; set; }
+    [Required]
     public Guid BusinessId { get; set; }
     [Required]
     public Business Business {get; set; }

@@ -1,5 +1,6 @@
 using System.Text.Json;
 using BusinessService.Dto.MessageBus.Received;
+using BusinessService.Dto.MessageBus.Send;
 using BusinessService.Models;
 using BusinessService.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,18 @@ public class EventHandler : IEventHandler
         dataContext.Add(business);
         dataContext.SaveChanges();
         Console.WriteLine("--> Business Created");
+    }
+
+    public void ReviewsUpdated(string message)
+    {
+        var eventDto = JsonSerializer.Deserialize<BusinessStarsDto>(message);
+        if (eventDto is null) return;
+        var business = dataContext.Businesses.FirstOrDefault(b => b.Id == eventDto.BusinessId);
+        if (business is null) return;
+        business.Reviews = eventDto.Reviews;
+        business.Stars = eventDto.Stars;
+        dataContext.SaveChanges();
+        Console.WriteLine("--> Reviews Updated");
     }
 
     public void UserDeleted(string message)

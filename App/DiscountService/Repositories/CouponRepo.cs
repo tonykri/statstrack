@@ -138,7 +138,7 @@ public class CouponRepo : ICouponRepo
             
             coupon.RedeemDate = DateTime.Now;
             dataContext.SaveChanges();
-            messageBusClient.SendMessage(new CouponRedeemedDto(userId, business.BusinessId));
+            messageBusClient.CouponRedeem(new CouponRedeemedDto(userId, business.BusinessId));
         }catch(Exception ex)
         {
             Console.WriteLine(ex.Message);

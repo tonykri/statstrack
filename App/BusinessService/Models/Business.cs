@@ -15,5 +15,6 @@ public class Business
     public double Longitude { get; set; }
     public DateTime ExpirationDate { get; set; }
     public double Stars { get; set; } = 0;
+    public int Reviews { get; set; } = 0;
     public ICollection<Photo> Photos { get; set; }
 }

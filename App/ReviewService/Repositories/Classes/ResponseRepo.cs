@@ -46,7 +46,7 @@ public class ResponseRepo : IResponseRepo
         }
     }
 
-    public void UpdateReview(CreateUpdateResponseDto response)
+    public void UpdateResponse(CreateUpdateResponseDto response)
     {
         try
         {

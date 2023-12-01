@@ -4,5 +4,5 @@ namespace PaymentService.AsymcDataProcessing.MessageBusClient;
 
 public interface IMessageBusClient
 {
-    void SendMessage(BusinessCreatedRenewedDto coupon);
+    void BusinessCreateRenew(BusinessCreatedRenewedDto coupon);
 }
