@@ -34,4 +34,10 @@ public class TokenDecoder : ITokenDecoder
 
         return Guid.Parse(claims["Id"]);
     }
+
+    public Guid GetUserId(string token)
+    {
+        Dictionary<string, string> claims = GetClaims(token);
+        return Guid.Parse(claims["Id"]);
+    }
 }

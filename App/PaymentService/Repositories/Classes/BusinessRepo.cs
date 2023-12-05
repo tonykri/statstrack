@@ -33,10 +33,11 @@ public class BusinessRepo : IBusinessRepo
 
         dataContext.Add(business);
         dataContext.Add(payment);
-        messageBusClient.BusinessCreateRenew(new BusinessCreatedRenewedDto(business.BusinessId, business.UserId, business.ExpirationDate));
+        dataContext.SaveChanges();
+        messageBusClient.BusinessCreateRenew(new BusinessCreatedRenewedDto(business.BusinessId, business.UserId, business.ExpirationDate, "Business_Created"));
     }
 
-    public void RenewLicense(Guid business_id, string session_id)
+    public void RenewLicense(Guid? business_id, string session_id)
     {
         if(dataContext.Payments.Any(p => p.Id.Equals(session_id)))
             throw new PaymentExistsException("Payment with current id already exists");
@@ -55,5 +56,7 @@ public class BusinessRepo : IBusinessRepo
 
         dataContext.Add(payment);
         dataContext.SaveChanges();
+        messageBusClient.BusinessCreateRenew(new BusinessCreatedRenewedDto(business.BusinessId, business.UserId, business.ExpirationDate, "Business_Renewed"));
+
     }
 }

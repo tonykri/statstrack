@@ -51,7 +51,7 @@ public class BusinessPhotosEndpoints : IEndpointDefinition
         }
     }
 
-    private IResult UploadPhotos([FromServices] IBusinessPhotosRepo businessPhotosRepo, [FromRoute] Guid businessId, [FromForm] List<IFormFile> photos)
+    private IResult UploadPhotos([FromServices] IBusinessPhotosRepo businessPhotosRepo, [FromRoute] Guid businessId, [FromForm] IFormFileCollection photos)
     {
         try
         {

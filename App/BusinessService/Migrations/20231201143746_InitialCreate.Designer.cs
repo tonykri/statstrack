@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusinessService.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231111115418_InitialCreate")]
+    [Migration("20231201143746_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -51,6 +51,9 @@ namespace BusinessService.Migrations
 
                     b.Property<double>("Longitude")
                         .HasColumnType("float");
+
+                    b.Property<int>("Reviews")
+                        .HasColumnType("int");
 
                     b.Property<double>("Stars")
                         .HasColumnType("float");

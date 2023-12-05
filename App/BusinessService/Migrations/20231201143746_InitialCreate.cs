@@ -24,7 +24,8 @@ namespace BusinessService.Migrations
                     Latitude = table.Column<double>(type: "float", nullable: false),
                     Longitude = table.Column<double>(type: "float", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Stars = table.Column<double>(type: "float", nullable: false)
+                    Stars = table.Column<double>(type: "float", nullable: false),
+                    Reviews = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -17,8 +17,7 @@ namespace PaymentService.Migrations
                 {
                     BusinessId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Brand = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

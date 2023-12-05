@@ -49,6 +49,9 @@ namespace BusinessService.Migrations
                     b.Property<double>("Longitude")
                         .HasColumnType("float");
 
+                    b.Property<int>("Reviews")
+                        .HasColumnType("int");
+
                     b.Property<double>("Stars")
                         .HasColumnType("float");
 

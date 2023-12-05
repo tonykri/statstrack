@@ -12,7 +12,7 @@ using UserService.Models;
 namespace UserService.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231112161259_InitialCreate")]
+    [Migration("20231201143614_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -124,13 +124,11 @@ namespace UserService.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");

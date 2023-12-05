@@ -11,10 +11,13 @@ public class StripeRepo : IStripeRepo
     {
         this.tokenDecoder = tokenDecoder;
     }
-    public string Pay(Guid? businessId)
+    public string Pay(Guid? businessId, string token)
     {
+        if(!tokenDecoder.GetClaims(token)["ProfileStage"].Equals("Completed"))
+            throw new UnauthorizedAccessException("Could not retrieve data from token");
         try
         {
+            string businessUrl = businessId is null ? "" : "&business_id="+businessId;
             var options = new PaymentIntentCreateOptions
             {
                 Amount = 1200,
@@ -37,10 +40,8 @@ public class StripeRepo : IStripeRepo
                     },
                 },
                 Mode = "payment",
-                SuccessUrl = "http://statstrack.com/payment/success?session_id={CHECKOUT_SESSION_ID}&business_id=" 
-                    + businessId is null ? "new-business" : businessId
-                    + "user_id=" + tokenDecoder.GetUserId(),
-                CancelUrl = "http://statstrack.com/payment/cancelled",
+                SuccessUrl = "http://statstrack.com/api/payment/success?session_id={CHECKOUT_SESSION_ID}"+"&user_id="+tokenDecoder.GetUserId(token)+businessUrl,
+                CancelUrl = "http://statstrack.com/api/payment/cancelled",
             };
 
             var sessionService = new SessionService();

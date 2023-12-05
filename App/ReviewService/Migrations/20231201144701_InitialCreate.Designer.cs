@@ -12,7 +12,7 @@ using ReviewService.Models;
 namespace ReviewService.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231111111133_InitialCreate")]
+    [Migration("20231201144701_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -86,6 +86,10 @@ namespace ReviewService.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

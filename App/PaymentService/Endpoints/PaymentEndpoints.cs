@@ -10,8 +10,7 @@ public class PaymentEndpoints : IEndpointDefinition
 {
     public void DefineEndpoints(WebApplication app)
     {
-        app.MapGet("pay", Payment)
-            .RequireAuthorization("completed_profile");
+        app.MapGet("pay", Payment);
         app.MapGet("success", Success);
         app.MapGet("cancelled",() => "Payment failed");
         
@@ -23,7 +22,7 @@ public class PaymentEndpoints : IEndpointDefinition
         services.AddScoped<IBusinessRepo, BusinessRepo>();
     }
 
-    private IResult Success([FromServices] IBusinessRepo businessRepo, [FromQuery] string session_id, [FromQuery] string business_id, [FromQuery] Guid user_id)
+    private IResult Success([FromServices] IBusinessRepo businessRepo, [FromQuery] string session_id, [FromQuery] Guid? business_id, [FromQuery] Guid user_id)
     {
         try
         {
@@ -32,10 +31,10 @@ public class PaymentEndpoints : IEndpointDefinition
 
             if(stripeSession.PaymentStatus.Equals("paid"))
             {
-                if(business_id.Equals("new-business"))
+                if(business_id is null)
                     businessRepo.CreateBusiness(user_id, session_id);
                 else
-                    businessRepo.RenewLicense(Guid.Parse(business_id), session_id);
+                    businessRepo.RenewLicense(business_id, session_id);
             }
             else
                 throw new Exception("Session failed");
@@ -57,12 +56,18 @@ public class PaymentEndpoints : IEndpointDefinition
         
     }
 
-    private IResult Payment([FromServices] IStripeRepo stripeRepo)
+    private IResult Payment([FromServices] IStripeRepo stripeRepo, [FromQuery] string? token, [FromQuery] Guid? businessId)
     {
         try
         {
-            string url = stripeRepo.Pay(null);
+            if (token is null)
+                throw new Exception("Token is null");
+            string url = stripeRepo.Pay(businessId, token);
             return Results.Redirect(url);
+        }catch (UnauthorizedAccessException ex)
+        {
+            Console.WriteLine(ex.Message);
+            return Results.Unauthorized();
         }
         catch (Exception ex)
         {

@@ -19,7 +19,7 @@ public class BusinessPhotosRepo : IBusinessPhotosRepo
     }
 
 
-    private void AddPhotos(Business business, List<IFormFile> photos)
+    private void AddPhotos(Business business, IFormFileCollection photos)
     {
         Photo newPhoto;
         foreach (IFormFile photo in photos)
@@ -95,7 +95,7 @@ public class BusinessPhotosRepo : IBusinessPhotosRepo
         }
     }
 
-    public void UploadPhotos(Guid businessId, List<IFormFile> photos)
+    public void UploadPhotos(Guid businessId, IFormFileCollection photos)
     {
         try
         {

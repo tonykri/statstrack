@@ -13,8 +13,6 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder
-            .Entity<Location>()
-            .HasNoKey();
+
     }
 }
