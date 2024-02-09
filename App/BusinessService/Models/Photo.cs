@@ -8,6 +8,6 @@ public class Photo
     public Guid PhotoId { get; set; } = Guid.NewGuid();
     [Required]
     public Guid BusinessId { get; set; }
-    public Business Business { get; set; }
-    public string PhotoUri { get; set; }
+    public Business Business { get; set; } = null!;
+    public string PhotoUri { get; set; } = null!;
 }

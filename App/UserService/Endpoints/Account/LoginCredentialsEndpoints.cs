@@ -1,7 +1,7 @@
 using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Dto.Account;
-using UserService.Repositories.Account;
+using UserService.Services.Account;
 
 namespace UserService.Endpoints.Account;
 
@@ -15,36 +15,34 @@ public class LoginCredentialsEndpoints : IEndpointDefinition
 
     public void DefineServices(IServiceCollection services)
     {
-        services.AddScoped<ILoginCredentialsRepo, LoginCredentialsRepo>();
+        services.AddScoped<ILoginCredentialsService, LoginCredentialsService>();
     }
 
-    private IResult SendLoginEmail([FromServices] ILoginCredentialsRepo loginCredentialsRepo, [FromRoute] string email)
+    private async Task<IResult> SendLoginEmail([FromServices] ILoginCredentialsService loginCredentialsService, [FromRoute] string email)
     {
-        try
-        {
-            loginCredentialsRepo.SendLoginEmail(email);
-            return Results.NoContent();
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await loginCredentialsService.SendLoginEmail(email);
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception => {
+                if (exception?.Message == ExceptionMessages.NOT_FOUND)
+                    return Results.NotFound(exception?.Message);
+                else
+                    return Results.BadRequest(exception?.Message);
+            }
+        );
     }
 
-    private IResult LoginCredentials([FromServices] ILoginCredentialsRepo loginCredentialsRepo, [FromBody] LoginCredentialsDto userData)
+    private async Task<IResult> LoginCredentials([FromServices] ILoginCredentialsService loginCredentialsService, [FromBody] LoginCredentialsDto userData)
     {
-        try
-        {
-            UserDataDto data = loginCredentialsRepo.LoginCredentials(userData);
-            return Results.Ok(data);
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await loginCredentialsService.LoginCredentials(userData);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => {
+                if (exception?.Message == ExceptionMessages.NOT_FOUND)
+                    return Results.NotFound(exception?.Message);
+                else
+                    return Results.BadRequest(exception?.Message);
+            }
+        );
     }
 }

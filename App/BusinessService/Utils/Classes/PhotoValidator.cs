@@ -28,10 +28,10 @@ public class PhotoValidator : IPhotoValidator
     public void PhotoValidation(IFormFile photo)
     {
         if (photo is null || photo.Length == 0)
-            throw new NotValidException("Invalid file");
+            throw new Exception("Invalid file");
         if (photo.Length > 5242880)
-            throw new NotValidException("File size too large. Maximum file size allowed is 5 MB");
+            throw new Exception("File size too large. Maximum file size allowed is 5 MB");
         if (!IsImageFile(photo.ContentType))
-            throw new NotValidException("Invalid file type");
+            throw new Exception("Invalid file type");
     }
 }

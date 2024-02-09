@@ -16,5 +16,5 @@ public class Business
     public DateTime ExpirationDate { get; set; }
     public double Stars { get; set; } = 0;
     public int Reviews { get; set; } = 0;
-    public ICollection<Photo> Photos { get; set; }
+    public ICollection<Photo> Photos { get; set; } = new List<Photo>();
 }

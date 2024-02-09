@@ -1,6 +1,7 @@
 using BusinessService.Dto;
 using BusinessService.Models;
 using BusinessService.Repositories;
+using BusinessService.Services;
 using BusinessService.Utils;
 using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
@@ -24,52 +25,54 @@ public class BusinessEndpoints : IEndpointDefinition
     public void DefineServices(IServiceCollection services)
     {
         services.AddScoped<IBusinessRepo, BusinessRepo>();
+        services.AddScoped<IBusinessesService, BusinessesService>();
     }
 
-    private IResult UpdateBusiness([FromServices] IBusinessRepo businessRepo, [FromBody] BusinessDto business)
+    private async Task<IResult> UpdateBusiness([FromServices] IBusinessesService businessesService, [FromBody] BusinessDto business)
     {
         var validator = new BusinessDtoValidator();
         var results = validator.Validate(business);
         if(!results.IsValid)
             return Results.BadRequest(results.Errors);
-        try
-        {
-            businessRepo.UpdateBusiness(business);
-            return Results.NoContent();
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(NotAllowedException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return Results.Forbid();
-        }catch(NotValidException ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+
+        var result = await businessesService.UpdateBusiness(business);
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception => {
+                if (exception?.Message == ExceptionMessages.NOT_FOUND)
+                    return Results.NotFound(exception?.Message);
+                else if (exception?.Message == ExceptionMessages.UNAUTHORIZED)
+                    return Results.Unauthorized();
+                else
+                    return Results.BadRequest(exception?.Message);
+            }
+        );
     }
 
-    private IResult GetBusiness([FromServices] IBusinessRepo businessRepo, [FromRoute] Guid businessId)
+    private async Task<IResult> GetBusiness([FromServices] IBusinessRepo businessRepo, [FromRoute] Guid businessId)
     {
-        try
-        {
-            Business data = businessRepo.GetBusiness(businessId);
-            return Results.Ok(data);
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }
+        var result = await businessRepo.GetBusiness(businessId);
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception => Results.NotFound(exception?.Message)
+        );
     }
 
-    private IResult GetMyBusinesses([FromServices] IBusinessRepo businessRepo)
+    private async Task<IResult> GetMyBusinesses([FromServices] IBusinessRepo businessRepo)
     {
-        List<Business> data = businessRepo.GetMyBusinesses();
-        return Results.Ok(data);
+        var result = await businessRepo.GetMyBusinesses();
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.NotFound(exception?.Message)
+        );
     }
 
-    private IResult GetBusinesses([FromServices] IBusinessRepo businessRepo, [FromQuery]double upperLat, [FromQuery]double upperLong, [FromQuery]double bottomLat, [FromQuery]double bottomLong)
+    private async Task<IResult> GetBusinesses([FromServices] IBusinessRepo businessRepo, [FromQuery]double upperLat, [FromQuery]double upperLong, [FromQuery]double bottomLat, [FromQuery]double bottomLong)
     {
-        List<Business> data = businessRepo.GetBusinesses(upperLat, upperLong, bottomLat, bottomLong);
-        return Results.Ok(data);
+        var result = await businessRepo.GetBusinesses(upperLat, upperLong, bottomLat, bottomLong);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.NotFound(exception?.Message)
+        );
     }
 }

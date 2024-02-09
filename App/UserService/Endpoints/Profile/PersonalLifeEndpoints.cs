@@ -2,6 +2,7 @@ using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Dto.Profile;
 using UserService.Repositories.Profile;
+using UserService.Services.Profile;
 
 namespace UserService.Endpoints.Profile;
 
@@ -20,41 +21,30 @@ public class PersonalLifeEndpoints : IEndpointDefinition
     public void DefineServices(IServiceCollection services)
     {
         services.AddScoped<IPersonalLifeRepo, PersonalLifeRepo>();
+        services.AddScoped<IPersonalLifeService, PersonalLifeService>();
     }
 
-    private IResult RegisterPersonalLife([FromServices] IPersonalLifeRepo personalLifeRepo, [FromBody] PersonalLifeDto userData)
+    private async Task<IResult> RegisterPersonalLife([FromServices] IPersonalLifeService personalLifeService, [FromBody] PersonalLifeDto userData)
     {
-        try
-        {
-            string token = personalLifeRepo.RegisterPersonalLife(userData);
-            return Results.Ok(token);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await personalLifeService.RegisterPersonalLife(userData);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 
-    private IResult UpdatePersonalLife([FromServices] IPersonalLifeRepo personalLifeRepo, [FromBody] PersonalLifeDto userData)
+    private async Task<IResult> UpdatePersonalLife([FromServices] IPersonalLifeService personalLifeService, [FromBody] PersonalLifeDto userData)
     {
-        try
-        {
-            personalLifeRepo.UpdatePersonalLife(userData);
-            return Results.Ok();
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await personalLifeService.UpdatePersonalLife(userData);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 
-    private IResult GetPersonalLife([FromServices] IPersonalLifeRepo personalLifeRepo)
+    private async Task<IResult> GetPersonalLife([FromServices] IPersonalLifeRepo personalLifeRepo)
     {
-        try
-        {
-            var personallife = personalLifeRepo.GetPersonalLife();
-            return Results.Ok(personallife);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var personallife = await personalLifeRepo.GetPersonalLife();
+        return Results.Ok(personallife);
     }
 }

@@ -11,8 +11,8 @@ public class Hobby
     [Key]
     public string UserHobby { get; set; }
 
-    public Hobby()
-    {
+    public Hobby() {
+        
     }
     public Hobby(User user, string hobby)
     {

@@ -72,3 +72,4 @@ C:\Users\tonyk\Desktop\statstrack\App\PaymentService\obj\Debug\net7.0\PaymentSer
 C:\Users\tonyk\Desktop\statstrack\App\PaymentService\obj\Debug\net7.0\PaymentService.genruntimeconfig.cache
 C:\Users\tonyk\Desktop\statstrack\App\PaymentService\obj\Debug\net7.0\ref\PaymentService.dll
 C:\Users\tonyk\Desktop\statstrack\App\PaymentService\bin\Debug\net7.0\RabbitMQ.Client.dll
+C:\Users\tonyk\Desktop\statstrack\App\PaymentService\obj\Debug\net7.0\PaymentService.sourcelink.json

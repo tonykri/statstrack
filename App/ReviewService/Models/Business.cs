@@ -11,8 +11,8 @@ public class Business
     [Required]
     public DateTime ExpirationDate { get; set; }
     [Required]
-    public string Brand { get; set; }
-    public ICollection<Review>? Reviews { get; set; }
-    public ICollection<VerifiedOrder>? VerifiedOrders { get; set; }
-    public ICollection<Response>? Responses { get; set; }
+    public string Brand { get; set; } = null!;
+    public ICollection<Review> Reviews { get; set; } = new List<Review>();
+    public ICollection<VerifiedOrder> VerifiedOrders { get; set; } = new List<VerifiedOrder>();
+    public ICollection<Response> Responses { get; set; } = new List<Response>();
 }

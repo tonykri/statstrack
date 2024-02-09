@@ -3,6 +3,7 @@ using BusinessService.Dto.MessageBus.Received;
 using BusinessService.Dto.MessageBus.Send;
 using BusinessService.Models;
 using BusinessService.Repositories;
+using BusinessService.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessService.AsymcDataProcessing.EventHandling;
@@ -10,11 +11,11 @@ namespace BusinessService.AsymcDataProcessing.EventHandling;
 public class EventHandler : IEventHandler
 {
     private readonly DataContext dataContext;
-    private readonly IBusinessPhotosRepo businessPhotosRepo;
-    public EventHandler(DataContext dataContext, IBusinessPhotosRepo businessPhotosRepo)
+    private readonly IBusinessPhotoService businessPhotoService;
+    public EventHandler(DataContext dataContext, IBusinessPhotoService businessPhotoService)
     {
         this.dataContext = dataContext;
-        this.businessPhotosRepo = businessPhotosRepo;
+        this.businessPhotoService = businessPhotoService;
     }
     
     public void BusinessCreated(string message)
@@ -44,7 +45,7 @@ public class EventHandler : IEventHandler
         Console.WriteLine("--> Reviews Updated");
     }
 
-    public void UserDeleted(string message)
+    public async void UserDeleted(string message)
     {
         var eventDto = JsonSerializer.Deserialize<UserDeletedDto>(message);
         if (eventDto is null) return;
@@ -56,7 +57,7 @@ public class EventHandler : IEventHandler
         foreach(ICollection<Photo> burls in urls)
         {
             foreach(Photo photo in burls)
-                businessPhotosRepo.DeletePhoto(photo.PhotoId);
+                await businessPhotoService.DeletePhoto(photo.PhotoId);
         }
         dataContext.Businesses.RemoveRange(dataContext.Businesses.Where(b => b.UserId == eventDto.UserId));
         dataContext.SaveChanges();

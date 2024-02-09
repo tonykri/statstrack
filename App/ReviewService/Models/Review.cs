@@ -9,18 +9,18 @@ public class Review
     [Required]
     public Guid UserId { get; set; }
     [Required]
-    public string FullName { get; set; }
+    public string FullName { get; set; } = null!;
     [Required]
     public Guid BusinessId { get; set; }
     [Required]
-    public Business Business {get; set; }
+    public Business Business {get; set; } = null!;
     [Required]
     [Range(1,5)]
     public int Stars { get; set; }
     [Required]
     [MinLength(2)]
-    public string Content { get; set; }
+    public string Content { get; set; } = null!;
     [Required]
     public DateTime LastModified { get; set; } = DateTime.Now;
-    public Response Response { get; set; }
+    public Response? Response { get; set; }
 }

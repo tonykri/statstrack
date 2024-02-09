@@ -1,7 +1,7 @@
 using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Dto.Account;
-using UserService.Repositories.Account;
+using UserService.Services.Account;
 
 namespace UserService.Endpoints.Account;
 
@@ -16,31 +16,29 @@ public class RegisterCredentialsEndpoints : IEndpointDefinition
 
     public void DefineServices(IServiceCollection services)
     {
-        services.AddScoped<IRegisterCredentialsRepo, RegisterCredentialsRepo>();
+        services.AddScoped<IRegisterCredentialsService, RegisterCredentialsService>();
     }
 
-    public IResult RegisterCredentials([FromServices] IRegisterCredentialsRepo registerCredentialsRepo, [FromBody] RegisterCredentialsDto user)
+    public async Task<IResult> RegisterCredentials([FromServices] IRegisterCredentialsService registerCredentialsService, [FromBody] RegisterCredentialsDto user)
     {
-        try
-        {
-            string data = registerCredentialsRepo.RegisterCredentials(user);
-            return Results.Ok(data);
-        }catch(UserExistsException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return Results.Forbid();
-        }
+        var result = await registerCredentialsService.RegisterCredentials(user);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 
-    public IResult RegisterEmailVerify([FromServices] IRegisterCredentialsRepo registerCredentialsRepo, [FromRoute] string code)
+    public async Task<IResult> RegisterEmailVerify([FromServices] IRegisterCredentialsService registerCredentialsService, [FromRoute] string code)
     {
-        try
-        {
-            string data = registerCredentialsRepo.RegisterEmailVerify(code);
-            return Results.Ok(data);
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }
+        var result = await registerCredentialsService.RegisterEmailVerify(code);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => {
+                if (exception?.Message == ExceptionMessages.NOT_FOUND)
+                    return Results.NotFound(exception?.Message);
+                else
+                    return Results.BadRequest(exception?.Message);
+            }
+        );
     }
 }

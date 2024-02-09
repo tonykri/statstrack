@@ -2,6 +2,7 @@ using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Dto.Profile;
 using UserService.Repositories.Profile;
+using UserService.Services.Profile;
 using UserService.Validators;
 
 namespace UserService.Endpoints.Profile;
@@ -21,49 +22,43 @@ public class ProfessionalLifeEndpoints : IEndpointDefinition
     public void DefineServices(IServiceCollection services)
     {
         services.AddScoped<IProfessionalLifeRepo, ProfessionalLifeRepo>();
+        services.AddScoped<IProfessionalLifeService, ProfessionalLifeService>();
     }
 
-    private IResult RegisterProfessionalLife([FromServices] IProfessionalLifeRepo professionalLifeRepo, [FromBody] ProfessionalLifeDto userData)
+    private async Task<IResult> RegisterProfessionalLife([FromServices] IProfessionalLifeService professionalLifeService, [FromBody] ProfessionalLifeDto userData)
     {
         var validator = new ProfessionalLifeDtoValidator();
         var results = validator.Validate(userData);
-        if(!results.IsValid)
+        if (!results.IsValid)
             return Results.BadRequest(results.Errors);
-        try
-        {
-            string token = professionalLifeRepo.RegisterProfessionalLife(userData);
-            return Results.Ok(token);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+
+        var result = await professionalLifeService.RegisterProfessionalLife(userData);
+        return result.Match<IResult>(
+                    data => Results.Ok(data),
+                    exception => Results.BadRequest(exception?.Message)
+                );
     }
 
-    private IResult UpdateProfessionalLife([FromServices] IProfessionalLifeRepo professionalLifeRepo, [FromBody] ProfessionalLifeDto userData)
+    private async Task<IResult> UpdateProfessionalLife([FromServices] IProfessionalLifeService professionalLifeService, [FromBody] ProfessionalLifeDto userData)
     {
         var validator = new ProfessionalLifeDtoValidator();
         var results = validator.Validate(userData);
-        if(!results.IsValid)
+        if (!results.IsValid)
             return Results.BadRequest(results.Errors);
-        try
-        {
-            professionalLifeRepo.UpdateProfessionalLife(userData);
-            return Results.Ok();
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+
+        var result = await professionalLifeService.UpdateProfessionalLife(userData);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 
-    private IResult GetProfessionalLife([FromServices] IProfessionalLifeRepo professionalLifeRepo)
+    private async Task<IResult> GetProfessionalLife([FromServices] IProfessionalLifeRepo professionalLifeRepo)
     {
-        try
-        {
-            var professionalLife = professionalLifeRepo.GetProfessionalLife();
-            return Results.Ok(professionalLife);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await professionalLifeRepo.GetProfessionalLife();
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 }

@@ -6,18 +6,18 @@ public class ProfessionalLife
 {
     [Key]
     public Guid UserId { get; set; }
-    public User User { get; set; }
+    public User User { get; set; } = null!;
 
     [Required]
-    public string LevelOfEducation { get; set; }
+    public string LevelOfEducation { get; set; } = null!;
 
     [Required]
-    public string Industry { get; set; }
+    public string Industry { get; set; } = null!;
 
     [Required]
-    public string Income { get; set; }
+    public string Income { get; set; } = null!;
 
     [Required]
-    public string WorkingHours { get; set; }
+    public string WorkingHours { get; set; } = null!;
 
 }

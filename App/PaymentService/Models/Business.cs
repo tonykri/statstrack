@@ -10,5 +10,5 @@ public class Business
     public Guid UserId { get; set; }
     [Required]
     public DateTime ExpirationDate { get; set; }
-    public ICollection<Payment>? Payments { get; set; }
+    public ICollection<Payment> Payments { get; set; } = new List<Payment>();
 }

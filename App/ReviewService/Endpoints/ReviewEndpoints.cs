@@ -2,6 +2,7 @@ using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 using ReviewService.Dto;
 using ReviewService.Repositories;
+using ReviewService.Services;
 
 namespace ReviewService.Endpoints;
 
@@ -21,65 +22,61 @@ public class ReviewEndpoints : IEndpointDefinition
 
     public void DefineServices(IServiceCollection services)
     {
-        services.AddScoped<IReviewRepo, ReviewRepo>();
+        services.AddScoped<IReviewsRepo, ReviewsRepo>();
+        services.AddScoped<IReviewsService, ReviewsService>();
     }
 
-    private IResult GetBusinessReviews([FromServices] IReviewRepo reviewRepo, [FromRoute] Guid businessId)
+    private async Task<IResult> GetBusinessReviews([FromServices] IReviewsRepo reviewsRepo, [FromRoute] Guid businessId)
     {
-        try
-        {
-            List<ReviewDto> reviews = reviewRepo.GetBusinessReviews(businessId);
-            return Results.Ok(reviews);
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }
+        var result = await reviewsRepo.GetBusinessReviews(businessId);
+        return result.Match<IResult>(
+            data => Results.Ok(result.Data),
+            exception => Results.NotFound(exception?.Message)
+        );
     }
 
-    private IResult PostReview([FromServices] IReviewRepo reviewRepo, [FromBody] CreateReviewDto review)
+    private async Task<IResult> PostReview([FromServices] IReviewsService reviewsService, [FromBody] CreateReviewDto review)
     {
-        try
-        {
-            reviewRepo.PostReview(review);
-            return Results.NoContent();
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(ReviewResExistsException ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await reviewsService.PostReview(review);
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception =>
+            {
+                if (exception?.Message == ExceptionMessages.REVIEW_EXISTS)
+                    return Results.BadRequest(exception?.Message);
+                else
+                    return Results.NotFound(exception?.Message);
+            }
+        );
     }
 
-    private IResult UpdateReview([FromServices] IReviewRepo reviewRepo, [FromBody] UpdateReviewDto review)
+    private async Task<IResult> UpdateReview([FromServices] IReviewsService reviewsService, [FromBody] UpdateReviewDto review)
     {
-        try
-        {
-            reviewRepo.UpdateReview(review);
-            return Results.NoContent();
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(NotAllowedException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return Results.Forbid();
-        }
+        var result = await reviewsService.UpdateReview(review);
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception =>
+            {
+                if (exception?.Message == ExceptionMessages.UNAUTHORIZED)
+                    return Results.Forbid();
+                else
+                    return Results.NotFound(exception?.Message);
+            }
+        );
     }
 
-    private IResult DeleteReview([FromServices] IReviewRepo reviewRepo, [FromRoute] Guid reviewId)
+    private async Task<IResult> DeleteReview([FromServices] IReviewsService reviewsService, [FromRoute] Guid reviewId)
     {
-        try
-        {
-            reviewRepo.DeleteReview(reviewId);
-            return Results.NoContent();
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(NotAllowedException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return Results.Forbid();
-        }
+        var result = await reviewsService.DeleteReview(reviewId);
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception =>
+            {
+                if (exception?.Message == ExceptionMessages.UNAUTHORIZED)
+                    return Results.Forbid();
+                else
+                    return Results.NotFound(exception?.Message);
+            }
+        );
     }
 }

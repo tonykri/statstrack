@@ -1,6 +1,6 @@
 using Config.Stracture;
 using LocationService.Dto;
-using LocationService.Repositories;
+using LocationService.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LocationService.Endpoints;
@@ -15,18 +15,15 @@ public class LocationEndpoints : IEndpointDefinition
 
     public void DefineServices(IServiceCollection services)
     {
-        services.AddScoped<ILocationRepo, LocationRepo>();
+        services.AddScoped<ILocationsService, LocationsService>();
     }
 
-    public IResult PostLocation([FromServices] ILocationRepo locationRepo, [FromBody] LocationDto location)
+    public async Task<IResult> PostLocation([FromServices] ILocationsService locationsService, [FromBody] LocationDto location)
     {
-        try
-        {
-            locationRepo.PostLocation(location);
-            return Results.NoContent();
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await locationsService.PostLocation(location);
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 }

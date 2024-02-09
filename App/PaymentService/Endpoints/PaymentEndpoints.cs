@@ -1,8 +1,8 @@
 using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
-using PaymentService.Repositories;
-using Stripe;
+using PaymentService.Services;
 using Stripe.Checkout;
+using PaymentService.Dto;
 
 namespace PaymentService.Endpoints;
 
@@ -12,66 +12,49 @@ public class PaymentEndpoints : IEndpointDefinition
     {
         app.MapGet("pay", Payment);
         app.MapGet("success", Success);
-        app.MapGet("cancelled",() => "Payment failed");
-        
+        app.MapGet("cancelled", () => "Payment failed");
     }
 
     public void DefineServices(IServiceCollection services)
     {
-        services.AddScoped<IStripeRepo, StripeRepo>();
-        services.AddScoped<IBusinessRepo, BusinessRepo>();
+        services.AddScoped<IStripeService, StripeService>();
+        services.AddScoped<IBusinessService, BusinessService>();
     }
 
-    private IResult Success([FromServices] IBusinessRepo businessRepo, [FromQuery] string session_id, [FromQuery] Guid? business_id, [FromQuery] Guid user_id)
+    private async Task<IResult> Success([FromServices] IBusinessService businessService, [FromQuery] string session_id, [FromQuery] Guid? business_id, [FromQuery] Guid user_id)
     {
-        try
-        {
-            var sessionService = new SessionService();
-            var stripeSession = sessionService.Get(session_id);
+        var sessionService = new SessionService();
+        var stripeSession = sessionService.Get(session_id);
 
-            if(stripeSession.PaymentStatus.Equals("paid"))
+        if (!stripeSession.PaymentStatus.Equals("paid"))
+            return Results.BadRequest("Session failed");
+
+        ApiResponse<int, Exception> result;
+        if (business_id is null)
+            result = await businessService.CreateBusiness(user_id, session_id);
+        else
+            result = await businessService.RenewLicense(business_id, session_id);
+
+        return result.Match(
+            data => Results.Ok(stripeSession),
+            exception => Results.BadRequest()
+        );
+    }
+
+    private IResult Payment([FromServices] IStripeService stripeService, [FromQuery] string? token, [FromQuery] Guid? businessId)
+    {
+        if (token is null)
+            return Results.BadRequest("Token is required");
+
+        var result = stripeService.Pay(businessId, token);
+        return result.Match(
+            data =>
             {
-                if(business_id is null)
-                    businessRepo.CreateBusiness(user_id, session_id);
-                else
-                    businessRepo.RenewLicense(business_id, session_id);
-            }
-            else
-                throw new Exception("Session failed");
-            
-            return Results.Ok(stripeSession);
-        }
-        catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }
-        catch(PaymentExistsException ex)
-        {
-            return Results.Conflict(ex.Message);
-        }
-        catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
-        
-    }
-
-    private IResult Payment([FromServices] IStripeRepo stripeRepo, [FromQuery] string? token, [FromQuery] Guid? businessId)
-    {
-        try
-        {
-            if (token is null)
-                throw new Exception("Token is null");
-            string url = stripeRepo.Pay(businessId, token);
-            return Results.Redirect(url);
-        }catch (UnauthorizedAccessException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return Results.Unauthorized();
-        }
-        catch (Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+                if (data is not null)
+                    return Results.Redirect(data);
+                return Results.BadRequest();
+            },
+            exception => Results.Forbid()
+        );
     }
 }

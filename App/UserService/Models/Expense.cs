@@ -10,9 +10,10 @@ public class Expense
 
     [Key]
     public string UserExpense { get; set; }
-
+    
     public Expense()
     {
+        
     }
     public Expense(User user, string expense)
     {

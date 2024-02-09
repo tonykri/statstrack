@@ -1,6 +1,6 @@
 using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
-using UserService.Repositories.Account;
+using UserService.Services.Account;
 
 namespace UserService.Endpoints.Account;
 
@@ -16,33 +16,34 @@ public class DeleteAccountEndpoints : IEndpointDefinition
 
     public void DefineServices(IServiceCollection services)
     {
-        services.AddScoped<IDeleteAccountRepo, DeleteAccountRepo>();
+        services.AddScoped<IDeleteAccountService, DeleteAccountService>();
     }
 
-    private IResult SendDeletionEmail([FromServices] IDeleteAccountRepo deleteAccountRepo)
+    private async Task<IResult> SendDeletionEmail([FromServices] IDeleteAccountService deleteAccountService)
     {
-        try
-        {
-            deleteAccountRepo.SendDeletionEmail();
-            return Results.NoContent();
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await deleteAccountService.SendDeletionEmail();
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception => {
+                if (exception?.Message == ExceptionMessages.NOT_FOUND)
+                    return Results.NotFound(exception?.Message);
+                else
+                    return Results.BadRequest(exception?.Message);
+            }
+        );
     }
 
-    private IResult DeleteAccount([FromServices] IDeleteAccountRepo deleteAccountRepo, [FromRoute] string code)
+    private async Task<IResult> DeleteAccount([FromServices] IDeleteAccountService deleteAccountService, [FromRoute] string code)
     {
-        try
-        {
-            deleteAccountRepo.DeleteAccount(code);
-            return Results.NoContent();
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }
+        var result = await deleteAccountService.DeleteAccount(code);
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception => {
+                if (exception?.Message == ExceptionMessages.NOT_FOUND)
+                    return Results.NotFound(exception?.Message);
+                else
+                    return Results.BadRequest(exception?.Message);
+            }
+        );
     }
 }

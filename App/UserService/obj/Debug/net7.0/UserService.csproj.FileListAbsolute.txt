@@ -156,3 +156,4 @@ C:\Users\tonyk\Desktop\statstrack\App\UserService\obj\Debug\net7.0\UserService.c
 C:\Users\tonyk\Desktop\statstrack\App\UserService\obj\Debug\net7.0\UserService.genruntimeconfig.cache
 C:\Users\tonyk\Desktop\statstrack\App\UserService\obj\Debug\net7.0\ref\UserService.dll
 C:\Users\tonyk\Desktop\statstrack\App\UserService\bin\Debug\net7.0\RabbitMQ.Client.dll
+C:\Users\tonyk\Desktop\statstrack\App\UserService\obj\Debug\net7.0\UserService.sourcelink.json

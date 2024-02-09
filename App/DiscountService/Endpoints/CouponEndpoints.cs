@@ -1,7 +1,6 @@
 using Config.Stracture;
-using DiscountService.Dto;
-using DiscountService.Models;
 using DiscountService.Repositories;
+using DiscountService.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiscountService.Endpoints;
@@ -25,67 +24,61 @@ public class CouponEndpoints : IEndpointDefinition
     public void DefineServices(IServiceCollection services)
     {
         services.AddScoped<ICouponRepo, CouponRepo>();
+        services.AddScoped<ICouponService, CouponService>();
     }
 
-    private IResult Create([FromServices] ICouponRepo couponRepo, [FromRoute] Guid businessId)
+    private async Task<IResult> Create([FromServices] ICouponService couponService, [FromRoute] Guid businessId)
     {
-        try
-        {
-            CouponDto data = couponRepo.Create(businessId);
-            return Results.Ok(data);
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(NotAllowedException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return Results.Forbid();
-        }
+        var result = await couponService.Create(businessId);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception =>
+            {
+                if (exception?.Message == ExceptionMessages.UNAUTHORIZED)
+                    return Results.Unauthorized();
+                return Results.NotFound(exception?.Message);
+            }
+        );
     }
 
-    private IResult Redeem([FromServices] ICouponRepo couponRepo, [FromRoute] Guid businessId, [FromRoute] string code)
+    private async Task<IResult> Redeem([FromServices] ICouponService couponService, [FromRoute] Guid businessId, [FromRoute] string code)
     {
-        try
-        {
-            couponRepo.Redeem(businessId, code);
-            return Results.NoContent();
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(NotValidException ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await couponService.Redeem(businessId, code);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception =>
+            {
+                if (exception?.Message == ExceptionMessages.COUPON_NOT_VALID)
+                    return Results.BadRequest(exception?.Message);
+                return Results.NotFound(exception?.Message);
+            }
+        );
     }
 
-    private IResult GetAllUser([FromServices] ICouponRepo couponRepo)
+    private async Task<IResult> GetAllUser([FromServices] ICouponRepo couponRepo)
     {
-        List<CouponDto> coupons = couponRepo.GetAllUser();
-        return Results.Ok(coupons);
+        var result = await couponRepo.GetAllUser();
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 
-    private IResult GetAllBusiness([FromServices] ICouponRepo couponRepo, [FromRoute] Guid businessId)
+    private async Task<IResult> GetAllBusiness([FromServices] ICouponRepo couponRepo, [FromRoute] Guid businessId)
     {
-        try
-        {
-            List<CouponDto> coupons = couponRepo.GetAllBusiness(businessId);
-            return Results.Ok(coupons);
-        }catch(NotFoundException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return Results.NotFound(ex.Message);
-        }        
+        var result = await couponRepo.GetAllBusiness(businessId);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.NotFound(exception?.Message)
+        );
     }
 
-    private IResult GetCoupon([FromServices] ICouponRepo couponRepo, [FromRoute] Guid businessId, [FromRoute] string code)
+    private async Task<IResult> GetCoupon([FromServices] ICouponRepo couponRepo, [FromRoute] Guid businessId, [FromRoute] string code)
     {
-        try
-        {
-            Coupon coupon = couponRepo.GetCoupon(businessId, code);
-            return Results.Ok(coupon);
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }
+        var result = await couponRepo.GetCoupon(businessId, code);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.NotFound(exception?.Message)
+        );
     }
 }

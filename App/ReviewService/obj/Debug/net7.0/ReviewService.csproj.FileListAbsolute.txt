@@ -141,3 +141,4 @@ C:\Users\tonyk\Desktop\statstrack\App\ReviewService\obj\Debug\net7.0\refint\Revi
 C:\Users\tonyk\Desktop\statstrack\App\ReviewService\obj\Debug\net7.0\ReviewService.pdb
 C:\Users\tonyk\Desktop\statstrack\App\ReviewService\obj\Debug\net7.0\ReviewService.genruntimeconfig.cache
 C:\Users\tonyk\Desktop\statstrack\App\ReviewService\obj\Debug\net7.0\ref\ReviewService.dll
+C:\Users\tonyk\Desktop\statstrack\App\ReviewService\obj\Debug\net7.0\ReviewService.sourcelink.json

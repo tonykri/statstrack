@@ -141,3 +141,4 @@ C:\Users\tonyk\Desktop\statstrack\App\LocationService\obj\Debug\net7.0\refint\Lo
 C:\Users\tonyk\Desktop\statstrack\App\LocationService\obj\Debug\net7.0\LocationService.pdb
 C:\Users\tonyk\Desktop\statstrack\App\LocationService\obj\Debug\net7.0\LocationService.genruntimeconfig.cache
 C:\Users\tonyk\Desktop\statstrack\App\LocationService\obj\Debug\net7.0\ref\LocationService.dll
+C:\Users\tonyk\Desktop\statstrack\App\LocationService\obj\Debug\net7.0\LocationService.sourcelink.json

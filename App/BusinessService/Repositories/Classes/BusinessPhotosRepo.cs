@@ -1,62 +1,33 @@
 using BusinessService.Dto;
 using BusinessService.Models;
 using BusinessService.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessService.Repositories;
 
 public class BusinessPhotosRepo : IBusinessPhotosRepo
 {
     private readonly DataContext dataContext;
-    private readonly ITokenDecoder tokenDecoder;
     private readonly IPhotoValidator photoValidator;
-    private readonly string folderPath = "/var";
 
-    public BusinessPhotosRepo(DataContext dataContext, ITokenDecoder tokenDecoder, IPhotoValidator photoValidator)
+    public BusinessPhotosRepo(DataContext dataContext, IPhotoValidator photoValidator)
     {
         this.dataContext = dataContext;
-        this.tokenDecoder = tokenDecoder;
         this.photoValidator = photoValidator;
     }
 
-
-    private void AddPhotos(Business business, IFormFileCollection photos)
+    public async Task<ApiResponse<List<Guid>, Exception>> GetPhotos(Guid businessId)
     {
-        Photo newPhoto;
-        foreach (IFormFile photo in photos)
-        {
-            newPhoto = new Photo
-            {
-                Business = business,
-                BusinessId = business.Id
-            };
-            newPhoto.PhotoUri = Path.Combine(folderPath, newPhoto.PhotoId.ToString() + Path.GetExtension(photo.FileName)); ;
-
-            try
-            {
-                using (var fileStream = new FileStream(newPhoto.PhotoUri, FileMode.Create))                    
-                {
-                    photo.CopyTo(fileStream);
-                }
-                dataContext.Add(photo);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-        }
-    }
-    public List<Guid> GetPhotos(Guid businessId)
-    {
-        if(!dataContext.Businesses.Any(b => b.Id == businessId))
-            throw new NotFoundException("Business not found");
-        return dataContext.Photos.Where(p => p.BusinessId == businessId)
-            .Select(p => p.PhotoId).ToList();
+        if (!dataContext.Businesses.Any(b => b.Id == businessId))
+            return new ApiResponse<List<Guid>, Exception>(new Exception(ExceptionMessages.NOT_FOUND));
+        var data = await dataContext.Photos.Where(p => p.BusinessId == businessId)
+            .Select(p => p.PhotoId).ToListAsync();
+        return new ApiResponse<List<Guid>, Exception>(data);
     }
 
-    public ImageDto GetPhoto(Guid photoId)
+    public async Task<ApiResponse<ImageDto, Exception>> GetPhoto(Guid photoId)
     {
-        string filePath = dataContext.Photos.Where(p => p.PhotoId == photoId).Select(p => p.PhotoUri).First();
+        string filePath = await dataContext.Photos.Where(p => p.PhotoId == photoId).Select(p => p.PhotoUri).FirstAsync();
         try
         {
             if (File.Exists(filePath))
@@ -64,61 +35,15 @@ public class BusinessPhotosRepo : IBusinessPhotosRepo
                 byte[] photoData = File.ReadAllBytes(filePath);
                 string contentType = photoValidator.GetContentType(filePath);
 
-                return new ImageDto(photoData, contentType);
+                var img = new ImageDto(photoData, contentType);
+                return new ApiResponse<ImageDto, Exception>(img);
             }
-            throw new NotFoundException("Photo not found");
-        }catch(Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            throw;
-        }
-    }
-
-    public void DeletePhoto(Guid photoId)
-    {
-        var photo = dataContext.Photos.FirstOrDefault(p => p.PhotoId == photoId);
-        if (photo is null)
-            return;
-        try
-        {
-            if (File.Exists(photo.PhotoUri))
-            {
-                File.Delete(photo.PhotoUri);
-                dataContext.Remove(photo);
-                dataContext.SaveChanges();
-            }
+            throw new Exception(ExceptionMessages.NOT_FOUND);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            throw;
-        }
-    }
-
-    public void UploadPhotos(Guid businessId, IFormFileCollection photos)
-    {
-        try
-        {
-            Guid userId = tokenDecoder.GetUserId();
-            if(!dataContext.Businesses.Any(b => b.UserId == userId&& b.Id == businessId))
-                throw new NotFoundException("There is no business that matches the given user");
-            var business = dataContext.Businesses.FirstOrDefault(b => b.Id == businessId);
-            if (business is null)
-                throw new NotFoundException("Business not found");
-
-            foreach (IFormFile photo in photos)
-            {
-                photoValidator.PhotoValidation(photo);
-            }
-
-            if (photos.Count() + dataContext.Photos.Where(p => p.BusinessId == businessId).ToList().Count() > 10)
-                throw new NotValidException("Cannot have more than 10 photos");
-
-            AddPhotos(business, photos);
-        }catch(Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            throw;
+            return new ApiResponse<ImageDto, Exception>(ex);
         }
     }
 }

@@ -1,5 +1,6 @@
 using BusinessService.Dto;
 using BusinessService.Repositories;
+using BusinessService.Services;
 using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,59 +23,60 @@ public class BusinessPhotosEndpoints : IEndpointDefinition
     public void DefineServices(IServiceCollection services)
     {
         services.AddScoped<IBusinessPhotosRepo, BusinessPhotosRepo>();
+        services.AddScoped<IBusinessPhotoService, BusinessPhotoService>();
     }
 
-    private IResult GetPhotos([FromServices] IBusinessPhotosRepo businessPhotosRepo, [FromRoute] Guid businessId)
+    private async Task<IResult> GetPhotos([FromServices] IBusinessPhotosRepo businessPhotosRepo, [FromRoute] Guid businessId)
     {
-        try
-        {
-            List<Guid> photoIds = businessPhotosRepo.GetPhotos(businessId);
-            return Results.Ok(photoIds);
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }
+        var result = await businessPhotosRepo.GetPhotos(businessId);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.NotFound(exception?.Message)
+        );
     }
 
-    private IResult GetPhoto([FromServices] IBusinessPhotosRepo businessPhotosRepo, [FromRoute] Guid businessId, [FromRoute] Guid photoId)
+    private async Task<IResult> GetPhoto([FromServices] IBusinessPhotosRepo businessPhotosRepo, [FromRoute] Guid businessId, [FromRoute] Guid photoId)
     {
-        try
-        {
-            ImageDto photo = businessPhotosRepo.GetPhoto(photoId);
-            return Results.File(photo.PhotoData, photo.ContentType);
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await businessPhotosRepo.GetPhoto(photoId);
+        return result.Match<IResult>(
+            data =>
+            {
+                if (data is null)
+                    return Results.BadRequest();
+                else
+                    return Results.File(data.PhotoData, data.ContentType);
+            },
+            exception =>
+            {
+                if (exception?.Message == ExceptionMessages.NOT_FOUND)
+                    return Results.NotFound(exception?.Message);
+                else
+                    return Results.BadRequest(exception?.Message);
+            }
+        );
     }
 
-    private IResult UploadPhotos([FromServices] IBusinessPhotosRepo businessPhotosRepo, [FromRoute] Guid businessId, [FromForm] IFormFileCollection photos)
+    private async Task<IResult> UploadPhotos([FromServices] IBusinessPhotoService businessPhotoService, [FromRoute] Guid businessId, [FromForm] IFormFileCollection photos)
     {
-        try
-        {
-            businessPhotosRepo.UploadPhotos(businessId, photos);
-            return Results.Ok();
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await businessPhotoService.UploadPhotos(businessId, photos);
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception =>
+            {
+                if (exception?.Message == ExceptionMessages.NOT_FOUND)
+                    return Results.NotFound(exception?.Message);
+                else
+                    return Results.BadRequest(exception?.Message);
+            }
+        );
     }
 
-    private IResult DeletePhoto([FromServices] IBusinessPhotosRepo businessPhotosRepo, [FromRoute] Guid photoId)
+    private async Task<IResult> DeletePhoto([FromServices] IBusinessPhotoService businessPhotoService, [FromRoute] Guid photoId)
     {
-        try
-        {
-            businessPhotosRepo.DeletePhoto(photoId);
-            return Results.Ok();
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await businessPhotoService.DeletePhoto(photoId);
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 }

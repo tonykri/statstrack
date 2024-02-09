@@ -2,6 +2,7 @@ using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Dto.Profile;
 using UserService.Repositories.Profile;
+using UserService.Services.Profile;
 using UserService.Validators;
 
 namespace UserService.Endpoints.Profile;
@@ -21,49 +22,43 @@ public class UserEndpoints : IEndpointDefinition
     public void DefineServices(IServiceCollection services)
     {
         services.AddScoped<IUserRepo, UserRepo>();
+        services.AddScoped<IUsersService, UsersService>();
     }
 
-    private IResult RegisterUser([FromServices] IUserRepo userRepo, [FromBody] UserDto userData)
+    private async Task<IResult> RegisterUser([FromServices] IUsersService usersService, [FromBody] UserDto userData)
     {
         var validator = new UserDtoValidator();
         var results = validator.Validate(userData);
-        if(!results.IsValid)
+        if (!results.IsValid)
             return Results.BadRequest(results.Errors);
-        try
-        {
-            string token = userRepo.RegisterUser(userData);
-            return Results.Ok(token);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+
+        var result = await usersService.RegisterUser(userData);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 
-    private IResult UpdateUser([FromServices] IUserRepo userRepo, [FromBody] UserDto userData)
+    private async Task<IResult> UpdateUser([FromServices] IUsersService usersService, [FromBody] UserDto userData)
     {
         var validator = new UserDtoValidator();
         var results = validator.Validate(userData);
-        if(!results.IsValid)
+        if (!results.IsValid)
             return Results.BadRequest(results.Errors);
-        try
-        {
-            userRepo.UpdateUser(userData);
-            return Results.Ok();
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+
+        var result = await usersService.UpdateUser(userData);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 
-    private IResult GetUser([FromServices] IUserRepo userRepo)
+    private async Task<IResult> GetUser([FromServices] IUserRepo userRepo)
     {
-        try
-        {
-            var user = userRepo.GetUser();
-            return Results.Ok(user);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await userRepo.GetUser();
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 }

@@ -171,8 +171,7 @@ namespace ReviewService.Migrations
 
             modelBuilder.Entity("ReviewService.Models.Review", b =>
                 {
-                    b.Navigation("Response")
-                        .IsRequired();
+                    b.Navigation("Response");
                 });
 #pragma warning restore 612, 618
         }

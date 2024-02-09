@@ -5,9 +5,7 @@ namespace DiscountService.Repositories;
 
 public interface ICouponRepo
 {
-    CouponDto Create(Guid businessId);
-    void Redeem(Guid businessId, string code);
-    List<CouponDto> GetAllUser();
-    List<CouponDto> GetAllBusiness(Guid businessId);
-    Coupon GetCoupon(Guid businessId, string code);
+    Task<ApiResponse<List<CouponDto>, Exception>> GetAllUser();
+    Task<ApiResponse<List<CouponDto>, Exception>> GetAllBusiness(Guid businessId);
+    Task<ApiResponse<Coupon, Exception>> GetCoupon(Guid businessId, string code);
 }

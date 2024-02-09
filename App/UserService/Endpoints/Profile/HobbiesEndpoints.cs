@@ -2,6 +2,7 @@ using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Dto.Profile;
 using UserService.Repositories.Profile;
+using UserService.Services.Profile;
 using UserService.Validators;
 
 namespace UserService.Endpoints.Profile;
@@ -21,49 +22,40 @@ public class HobbiesEndpoints : IEndpointDefinition
     public void DefineServices(IServiceCollection services)
     {
         services.AddScoped<IHobbiesRepo, HobbiesRepo>();
+        services.AddScoped<IHobbiesService, HobbiesService>();
     }
 
-    private IResult RegisterHobbies([FromServices] IHobbiesRepo hobbiesRepo, [FromBody] HobbiesDto userData)
+    private async Task<IResult> RegisterHobbies([FromServices] IHobbiesService hobbiesService, [FromBody] HobbiesDto userData)
     {
         var validator = new HobbiesDtoValidator();
         var results = validator.Validate(userData);
-        if(!results.IsValid)
+        if (!results.IsValid)
             return Results.BadRequest(results.Errors);
-        try
-        {
-            string token = hobbiesRepo.RegisterHobbies(userData);
-            return Results.Ok(token);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+
+        var result = await hobbiesService.RegisterHobbies(userData);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 
-    private IResult UpdateHobbies([FromServices] IHobbiesRepo hobbiesRepo, [FromBody] HobbiesDto userData)
+    private async Task<IResult> UpdateHobbies([FromServices] IHobbiesService hobbiesService, [FromBody] HobbiesDto userData)
     {
         var validator = new HobbiesDtoValidator();
         var results = validator.Validate(userData);
-        if(!results.IsValid)
+        if (!results.IsValid)
             return Results.BadRequest(results.Errors);
-        try
-        {
-            hobbiesRepo.UpdateHobbies(userData);
-            return Results.Ok();
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+
+        var result = await hobbiesService.UpdateHobbies(userData);
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 
-    private IResult GetHobbies([FromServices] IHobbiesRepo hobbiesRepo)
+    private async Task<IResult> GetHobbies([FromServices] IHobbiesRepo hobbiesRepo)
     {
-        try
-        {
-            var expenses = hobbiesRepo.GetHobbies();
-            return Results.Ok(expenses);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var expenses = await hobbiesRepo.GetHobbies();
+        return Results.Ok(expenses);
     }
 }

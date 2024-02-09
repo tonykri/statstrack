@@ -141,3 +141,4 @@ C:\Users\tonyk\Desktop\statstrack\App\DiscountService\obj\Debug\net7.0\refint\Di
 C:\Users\tonyk\Desktop\statstrack\App\DiscountService\obj\Debug\net7.0\DiscountService.pdb
 C:\Users\tonyk\Desktop\statstrack\App\DiscountService\obj\Debug\net7.0\DiscountService.genruntimeconfig.cache
 C:\Users\tonyk\Desktop\statstrack\App\DiscountService\obj\Debug\net7.0\ref\DiscountService.dll
+C:\Users\tonyk\Desktop\statstrack\App\DiscountService\obj\Debug\net7.0\DiscountService.sourcelink.json

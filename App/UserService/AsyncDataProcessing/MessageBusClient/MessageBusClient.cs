@@ -33,22 +33,15 @@ public class MessageBusClient : IMessageBusClient
             Console.WriteLine($"--> Could not connect to the Message Bus: {ex.Message}");
         }
     }
-    public void DeleteUser(UserDeletedDto userDeletedDto)
-    {
-        var message = JsonSerializer.Serialize(userDeletedDto);
 
-        if (connection.IsOpen)
+    public void Send<T>(ref T data)
+    {
+        if (data is not UserDeletedDto && data is not UserUpdatedDto && data is not EmailNameCodeDto)
         {
-            Console.WriteLine("--> RabbitMQ Connection Open, sending message...");
-            SendMessage(message);
+            Console.WriteLine("Not accepted type of object");
+            return;
         }
-        else
-            Console.WriteLine("--> RabbitMQ connectionis closed, not sending");
-    }
-
-    public void UpdateUser(UserUpdatedDto userUpdatedDto)
-    {
-        var message = JsonSerializer.Serialize(userUpdatedDto);
+        var message = JsonSerializer.Serialize(data);
 
         if (connection.IsOpen)
         {

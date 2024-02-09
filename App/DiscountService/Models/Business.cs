@@ -11,6 +11,6 @@ public class Business
     [Required]
     public DateTime ExpirationDate { get; set; }
     [Required]
-    public string Brand { get; set; }
-    public ICollection<Coupon> Coupons { get; set; }
+    public string Brand { get; set; } = null!;
+    public ICollection<Coupon> Coupons { get; set; } = new List<Coupon>();
 }

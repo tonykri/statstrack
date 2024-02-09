@@ -1,7 +1,7 @@
 using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 using ReviewService.Dto;
-using ReviewService.Repositories;
+using ReviewService.Services;
 
 namespace ReviewService.Endpoints;
 
@@ -19,57 +19,53 @@ public class ResponseEndpoints : IEndpointDefinition
 
     public void DefineServices(IServiceCollection services)
     {
-        services.AddScoped<IResponseRepo, ResponseRepo>();
+        services.AddScoped<IResponseService, ResponseService>();
     }
 
-    public IResult PostResponse([FromServices] IResponseRepo responseRepo, [FromBody] CreateUpdateResponseDto response)
+    public async Task<IResult> PostResponse([FromServices] IResponseService responseService, [FromBody] CreateUpdateResponseDto response)
     {
-        try
-        {
-            responseRepo.PostResponse(response);
-            return Results.NoContent();
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(ReviewResExistsException ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }catch(NotAllowedException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return Results.Forbid();
-        }
+        var result = await responseService.PostResponse(response);
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception =>
+            {
+                if (exception?.Message == ExceptionMessages.RESPONSE_EXISTS)
+                    return Results.BadRequest(exception?.Message);
+                else if (exception?.Message == ExceptionMessages.UNAUTHORIZED)
+                    return Results.Forbid();
+                else
+                    return Results.NotFound(exception?.Message);
+            }
+        );
     }
 
-    public IResult UpdateResponse([FromServices] IResponseRepo responseRepo, [FromBody] CreateUpdateResponseDto response)
+    public async Task<IResult> UpdateResponse([FromServices] IResponseService responseService, [FromBody] CreateUpdateResponseDto response)
     {
-        try
-        {
-            responseRepo.UpdateResponse(response);
-            return Results.NoContent();
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(NotAllowedException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return Results.Forbid();
-        }
+        var result = await responseService.UpdateResponse(response);
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception =>
+            {
+                if (exception?.Message == ExceptionMessages.UNAUTHORIZED)
+                    return Results.Forbid();
+                else
+                    return Results.NotFound(exception?.Message);
+            }
+        );
     }
 
-    public IResult DeleteResponse([FromServices] IResponseRepo responseRepo, [FromRoute] Guid reviewId)
+    public async Task<IResult> DeleteResponse([FromServices] IResponseService responseService, [FromRoute] Guid reviewId)
     {
-        try
-        {
-            responseRepo.DeleteResponse(reviewId);
-            return Results.NoContent();
-        }catch(NotFoundException ex)
-        {
-            return Results.NotFound(ex.Message);
-        }catch(NotAllowedException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return Results.Forbid();
-        }
+        var result = await responseService.DeleteResponse(reviewId);
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception =>
+            {
+                if (exception?.Message == ExceptionMessages.UNAUTHORIZED)
+                    return Results.Forbid();
+                else
+                    return Results.NotFound(exception?.Message);
+            }
+        );
     }
 }

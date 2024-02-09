@@ -1,6 +1,6 @@
 using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
-using UserService.Repositories.Account;
+using UserService.Services.Account;
 
 namespace UserService.Endpoints.Account;
 
@@ -14,18 +14,18 @@ public class GoogleAuthEndpoints : IEndpointDefinition
 
     public void DefineServices(IServiceCollection services)
     {
-        services.AddScoped<IGoogleAuthRepo, GoogleAuthRepo>();
+        services.AddScoped<IGoogleAuthService, GoogleAuthService>();
     }
 
-    private IResult SignInGoogle([FromServices] IGoogleAuthRepo googleAuthRepo)
+    private IResult SignInGoogle([FromServices] IGoogleAuthService googleAuthService)
     {
-        string authorizationUrl = googleAuthRepo.SignInGoogle();
+        string authorizationUrl = googleAuthService.SignInGoogle();
         return Results.Redirect(authorizationUrl);
     }
 
-    private async Task<IResult> SignInGoogleCallback([FromServices] IGoogleAuthRepo googleAuthRepo, string code, string state)
+    private async Task<IResult> SignInGoogleCallback([FromServices] IGoogleAuthService googleAuthService, string code, string state)
     {
-        var data = await googleAuthRepo.SignInGoogleCallback(code, state);
+        var data = await googleAuthService.SignInGoogleCallback(code, state);
         return Results.Ok(data);
     }
 }

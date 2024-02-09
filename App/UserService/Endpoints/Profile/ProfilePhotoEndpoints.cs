@@ -2,6 +2,7 @@ using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Dto.Profile;
 using UserService.Repositories.Profile;
+using UserService.Services.Profile;
 
 namespace UserService.Endpoints.Profile;
 
@@ -22,53 +23,60 @@ public class ProfilePhotoEndpoints : IEndpointDefinition
     public void DefineServices(IServiceCollection services)
     {
         services.AddScoped<IProfilePhotoRepo, ProfilePhotoRepo>();
+        services.AddScoped<IProfilePhotoService, ProfilePhotoService>();
     }
 
-    private IResult UploadPhoto([FromServices] IProfilePhotoRepo profilePhotoRepo, [FromForm] IFormFile photo)
+    private async Task<IResult> UploadPhoto([FromServices] IProfilePhotoService profilePhotoService, [FromForm] IFormFile photo)
     {
-        try
-        {
-            ImageDto profilePhoto = profilePhotoRepo.UploadPhoto(photo);
-            return Results.File(profilePhoto.PhotoData, profilePhoto.ContentType);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await profilePhotoService.UploadPhoto(photo);
+        return result.Match<IResult>(
+            data =>
+            {
+                if (data is null)
+                    return Results.BadRequest();
+                else
+                    return Results.File(data.PhotoData, data.ContentType);
+            },
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 
-    private IResult DeletePhoto([FromServices] IProfilePhotoRepo profilePhotoRepo)
+    private async Task<IResult> DeletePhoto([FromServices] IProfilePhotoService profilePhotoService)
     {
-        try
-        {
-            profilePhotoRepo.DeletePhoto();
-            return Results.Ok();
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await profilePhotoService.DeletePhoto();
+        return result.Match<IResult>(
+            data => Results.NoContent(),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 
-    private IResult UpdatePhoto([FromServices] IProfilePhotoRepo profilePhotoRepo, [FromForm] IFormFile photo)
+    private async Task<IResult> UpdatePhoto([FromServices] IProfilePhotoService profilePhotoService, [FromForm] IFormFile photo)
     {
-        try
-        {
-            ImageDto profilePhoto = profilePhotoRepo.UpdatePhoto(photo);
-            return Results.File(profilePhoto.PhotoData, profilePhoto.ContentType);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await profilePhotoService.UpdatePhoto(photo);
+        return result.Match<IResult>(
+            data =>
+            {
+                if (data is null)
+                    return Results.BadRequest();
+                else
+                    return Results.File(data.PhotoData, data.ContentType);
+            },
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 
-    private IResult GetPhoto([FromServices] IProfilePhotoRepo profilePhotoRepo)
+    private async Task<IResult> GetPhoto([FromServices] IProfilePhotoRepo profilePhotoRepo)
     {
-        try
-        {
-            ImageDto photo = profilePhotoRepo.GetPhoto();
-            return Results.File(photo.PhotoData, photo.ContentType);
-        }catch(Exception ex)
-        {
-            return Results.BadRequest(ex.Message);
-        }
+        var result = await profilePhotoRepo.GetPhoto();
+        return result.Match<IResult>(
+            data =>
+            {
+                if (data is null)
+                    return Results.BadRequest();
+                else
+                    return Results.File(data.PhotoData, data.ContentType);
+            },
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 }
