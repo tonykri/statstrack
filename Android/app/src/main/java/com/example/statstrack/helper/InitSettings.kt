@@ -11,4 +11,5 @@ class InitSettings(private val activity: AppCompatActivity, private val rootView
         activity.supportActionBar?.hide()
         rootView.setBackgroundColor(Color.WHITE)
     }
+
 }
