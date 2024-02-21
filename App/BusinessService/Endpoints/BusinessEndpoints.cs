@@ -53,7 +53,7 @@ public class BusinessEndpoints : IEndpointDefinition
     {
         var result = await businessRepo.GetBusiness(businessId);
         return result.Match<IResult>(
-            data => Results.NoContent(),
+            data => Results.Ok(data),
             exception => Results.NotFound(exception?.Message)
         );
     }
