@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">StatsTrack</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="email">Email</string>
+    <string name="next">Next</string>
+    <string name="name">Name</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="or">or</string>
+    <string name="continue_google">Continue with Google</string>
+    <string name="do_not_have_account">You don\'t have an account?</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
+    <string name="text_code">A code has been sent in your email. It expires in:</string>
+    <string name="six_digit_code">6-digit Code</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
