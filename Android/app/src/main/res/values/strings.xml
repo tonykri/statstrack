@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">StatsTrack</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="email">Email</string>
     <string name="next">Next</string>
+    <string name="finish">Finish</string>
     <string name="name">Name</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
@@ -21,6 +21,65 @@
     <string name="are_you_married">Are you married?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="select_hobbies">Select up to 7 hobbies</string>
+    <string name="select_expenses">Select up to 7 expenses</string>
+
+    <string-array name="hobbies">
+        <item>Reading</item>
+        <item>Gardening</item>
+        <item>Cooking_and_Baking</item>
+        <item>Painting_and_Drawing</item>
+        <item>Sports_and_Physical_Activities</item>
+        <item>Photography</item>
+        <item>Playing_Musical_Instruments</item>
+        <item>Traveling</item>
+        <item>Crafting</item>
+        <item>Fishing</item>
+        <item>Model_Building</item>
+        <item>Collecting</item>
+        <item>Hiking_and_Camping</item>
+        <item>DIY_Home_Improvement</item>
+        <item>Bird_Watching</item>
+        <item>Cycling</item>
+        <item>Meditation_and_Mindfulness</item>
+        <item>Dancing</item>
+        <item>Volunteering</item>
+        <item>Board_Games_and_Puzzles</item>
+        <item>Writing</item>
+        <item>Fitness_and_Exercise</item>
+        <item>Comics_and_Graphic_Novels</item>
+        <item>Sculpting</item>
+        <item>Astrology_and_Astronomy</item>
+        <item>Sewing_and_Quilting</item>
+        <item>Archery</item>
+        <item>Genealogy</item>
+        <item>Metal_Detecting</item>
+        <item>Vintage_and_Classic_Cars</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="expenses">
+        <item>Housing_Expenses</item>
+        <item>Utilities</item>
+        <item>Transportation_Costs</item>
+        <item>Food_and_Groceries</item>
+        <item>Healthcare_Expenses</item>
+        <item>Education_Expenses</item>
+        <item>Debt_Payments</item>
+        <item>Insurance_Premiums</item>
+        <item>Entertainment_and_Leisure</item>
+        <item>Personal_Care_and_Grooming</item>
+        <item>Clothing_and_Apparel</item>
+        <item>Savings_and_Investments</item>
+        <item>Taxes</item>
+        <item>Childcare_and_Education</item>
+        <item>Home_and_Garden</item>
+        <item>Subscriptions_and_Memberships</item>
+        <item>Charitable_Donations</item>
+        <item>Travel_and_Vacation</item>
+        <item>Legal_and_Financial_Services</item>
+        <item>Emergency_Fund_and_Contingencies</item>
+        <item>Other</item>
+    </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
