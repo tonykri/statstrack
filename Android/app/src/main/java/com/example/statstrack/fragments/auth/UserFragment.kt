@@ -6,13 +6,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Spinner
 import android.widget.TextView
 import com.example.statstrack.R
+import com.example.statstrack.activities.MainActivity
 import java.util.Calendar
 
 class UserFragment : Fragment() {
 
     private lateinit var birthdate: TextView
+    private lateinit var phoneCode: Spinner
+    private lateinit var gender: Spinner
+    private lateinit var country: Spinner
+
+    private lateinit var next: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,8 +36,17 @@ class UserFragment : Fragment() {
 
         birthdate = view.findViewById(R.id.userFragmentBirthdate)
 
+        initGender(view)
+        initCountries(view)
+        initPhoneCode(view)
+
         birthdate.setOnClickListener{
             showDatePickerDialog()
+        }
+
+        next = view.findViewById(R.id.userFragmentNext)
+        next.setOnClickListener{
+            (requireActivity() as? MainActivity)?.goToProfessional()
         }
 
         return view
@@ -57,6 +75,42 @@ class UserFragment : Fragment() {
             day
         )
         datePickerDialog.show()
+    }
+    private fun initPhoneCode(view: View) {
+        phoneCode = view.findViewById(R.id.userFragmentPhoneCode)
+
+        val data: Array<String> = resources.getStringArray(R.array.country_codes)
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            data
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        phoneCode.adapter = adapter
+    }
+    private fun initGender(view: View) {
+        gender = view.findViewById(R.id.userFragmentGender)
+
+        val data: Array<String> = resources.getStringArray(R.array.genders)
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            data
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        gender.adapter = adapter
+    }
+    private fun initCountries(view: View) {
+        country = view.findViewById(R.id.userFragmentCountries)
+
+        val data: Array<String> = resources.getStringArray(R.array.country_names)
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            data
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        country.adapter = adapter
     }
 
 }

@@ -23,63 +23,233 @@
     <string name="no">No</string>
     <string name="select_hobbies">Select up to 7 hobbies</string>
     <string name="select_expenses">Select up to 7 expenses</string>
+    <string name="search">Search</string>
+    <string name="my_businesses">My Businesses</string>
+    <string name="coupons">Coupons</string>
+    <string name="profile">Profile</string>
+    <string name="select_edu">Select your Education Level</string>
+    <string name="select_income">Select your Income</string>
+    <string name="select_industry">Select your Industry</string>
+    <string name="select_work_hours">Select your Working Hours</string>
 
     <string-array name="hobbies">
         <item>Reading</item>
         <item>Gardening</item>
-        <item>Cooking_and_Baking</item>
-        <item>Painting_and_Drawing</item>
-        <item>Sports_and_Physical_Activities</item>
+        <item>Cooking and Baking</item>
+        <item>Painting and Drawing</item>
+        <item>Sports and Physical Activities</item>
         <item>Photography</item>
-        <item>Playing_Musical_Instruments</item>
+        <item>Playing Musical Instruments</item>
         <item>Traveling</item>
         <item>Crafting</item>
         <item>Fishing</item>
-        <item>Model_Building</item>
+        <item>Model Building</item>
         <item>Collecting</item>
-        <item>Hiking_and_Camping</item>
-        <item>DIY_Home_Improvement</item>
-        <item>Bird_Watching</item>
+        <item>Hiking and Camping</item>
+        <item>DIY Home Improvement</item>
+        <item>Bird Watching</item>
         <item>Cycling</item>
-        <item>Meditation_and_Mindfulness</item>
+        <item>Meditation and Mindfulness</item>
         <item>Dancing</item>
         <item>Volunteering</item>
-        <item>Board_Games_and_Puzzles</item>
+        <item>Board Games and Puzzles</item>
         <item>Writing</item>
-        <item>Fitness_and_Exercise</item>
-        <item>Comics_and_Graphic_Novels</item>
+        <item>Fitness and Exercise</item>
+        <item>Comics and Graphic Novels</item>
         <item>Sculpting</item>
-        <item>Astrology_and_Astronomy</item>
-        <item>Sewing_and_Quilting</item>
+        <item>Astrology and Astronomy</item>
+        <item>Sewing and Quilting</item>
         <item>Archery</item>
         <item>Genealogy</item>
-        <item>Metal_Detecting</item>
-        <item>Vintage_and_Classic_Cars</item>
+        <item>Metal Detecting</item>
+        <item>Vintage and Classic Cars</item>
         <item>Other</item>
     </string-array>
     <string-array name="expenses">
-        <item>Housing_Expenses</item>
+        <item>Housing Expenses</item>
         <item>Utilities</item>
-        <item>Transportation_Costs</item>
-        <item>Food_and_Groceries</item>
-        <item>Healthcare_Expenses</item>
-        <item>Education_Expenses</item>
-        <item>Debt_Payments</item>
-        <item>Insurance_Premiums</item>
-        <item>Entertainment_and_Leisure</item>
-        <item>Personal_Care_and_Grooming</item>
-        <item>Clothing_and_Apparel</item>
-        <item>Savings_and_Investments</item>
+        <item>Transportation Costs</item>
+        <item>Food and Groceries</item>
+        <item>Healthcare Expenses</item>
+        <item>Education Expenses</item>
+        <item>Debt Payments</item>
+        <item>Insurance Premiums</item>
+        <item>Entertainment and Leisure</item>
+        <item>Personal_Care and Grooming</item>
+        <item>Clothing and Apparel</item>
+        <item>Savings and Investments</item>
         <item>Taxes</item>
-        <item>Childcare_and_Education</item>
-        <item>Home_and_Garden</item>
-        <item>Subscriptions_and_Memberships</item>
-        <item>Charitable_Donations</item>
-        <item>Travel_and_Vacation</item>
-        <item>Legal_and_Financial_Services</item>
-        <item>Emergency_Fund_and_Contingencies</item>
+        <item>Childcare and Education</item>
+        <item>Home and Garden</item>
+        <item>Subscriptions and Memberships</item>
+        <item>Charitable Donations</item>
+        <item>Travel and Vacation</item>
+        <item>Legal and Financial Services</item>
+        <item>Emergency Fund and Contingencies</item>
         <item>Other</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="country_codes">
+        <item>+355</item> <!-- Albania -->
+        <item>+376</item> <!-- Andorra -->
+        <item>+43</item>  <!-- Austria -->
+        <item>+375</item> <!-- Belarus -->
+        <item>+32</item>  <!-- Belgium -->
+        <item>+387</item> <!-- Bosnia and Herzegovina -->
+        <item>+359</item> <!-- Bulgaria -->
+        <item>+385</item> <!-- Croatia -->
+        <item>+357</item> <!-- Cyprus -->
+        <item>+420</item> <!-- Czech Republic -->
+        <item>+45</item>  <!-- Denmark -->
+        <item>+372</item> <!-- Estonia -->
+        <item>+358</item> <!-- Finland -->
+        <item>+33</item>  <!-- France -->
+        <item>+49</item>  <!-- Germany -->
+        <item>+30</item>  <!-- Greece -->
+        <item>+36</item>  <!-- Hungary -->
+        <item>+354</item> <!-- Iceland -->
+        <item>+353</item> <!-- Ireland -->
+        <item>+39</item>  <!-- Italy -->
+        <item>+383</item> <!-- Kosovo -->
+        <item>+371</item> <!-- Latvia -->
+        <item>+423</item> <!-- Liechtenstein -->
+        <item>+370</item> <!-- Lithuania -->
+        <item>+352</item> <!-- Luxembourg -->
+        <item>+356</item> <!-- Malta -->
+        <item>+373</item> <!-- Moldova -->
+        <item>+377</item> <!-- Monaco -->
+        <item>+382</item> <!-- Montenegro -->
+        <item>+31</item>  <!-- Netherlands -->
+        <item>+389</item> <!-- North Macedonia -->
+        <item>+47</item>  <!-- Norway -->
+        <item>+48</item>  <!-- Poland -->
+        <item>+351</item> <!-- Portugal -->
+        <item>+40</item>  <!-- Romania -->
+        <item>+7</item>   <!-- Russia -->
+        <item>+378</item> <!-- San Marino -->
+        <item>+381</item> <!-- Serbia -->
+        <item>+421</item> <!-- Slovakia -->
+        <item>+386</item> <!-- Slovenia -->
+        <item>+34</item>  <!-- Spain -->
+        <item>+46</item>  <!-- Sweden -->
+        <item>+41</item>  <!-- Switzerland -->
+        <item>+380</item> <!-- Ukraine -->
+        <item>+44</item>  <!-- United Kingdom -->
+        <item>+379</item> <!-- Vatican City -->
+    </string-array>
+    <string-array name="country_names">
+        <item>Albania</item>
+        <item>Andorra</item>
+        <item>Austria</item>
+        <item>Belarus</item>
+        <item>Belgium</item>
+        <item>Bosnia and Herzegovina</item>
+        <item>Bulgaria</item>
+        <item>Croatia</item>
+        <item>Cyprus</item>
+        <item>Czech Republic</item>
+        <item>Denmark</item>
+        <item>Estonia</item>
+        <item>Finland</item>
+        <item>France</item>
+        <item>Germany</item>
+        <item>Greece</item>
+        <item>Hungary</item>
+        <item>Iceland</item>
+        <item>Ireland</item>
+        <item>Italy</item>
+        <item>Kosovo</item>
+        <item>Latvia</item>
+        <item>Liechtenstein</item>
+        <item>Lithuania</item>
+        <item>Luxembourg</item>
+        <item>Malta</item>
+        <item>Moldova</item>
+        <item>Monaco</item>
+        <item>Montenegro</item>
+        <item>Netherlands</item>
+        <item>North Macedonia</item>
+        <item>Norway</item>
+        <item>Poland</item>
+        <item>Portugal</item>
+        <item>Romania</item>
+        <item>Russia</item>
+        <item>San Marino</item>
+        <item>Serbia</item>
+        <item>Slovakia</item>
+        <item>Slovenia</item>
+        <item>Spain</item>
+        <item>Sweden</item>
+        <item>Switzerland</item>
+        <item>Ukraine</item>
+        <item>United Kingdom</item>
+        <item>Vatican City</item>
+    </string-array>
+    <string-array name="income_categories">
+        <item>Poverty Line</item>
+        <item>Low Income</item>
+        <item>Lower Middle Income</item>
+        <item>Median Income</item>
+        <item>Upper Middle Income</item>
+        <item>High Income</item>
+        <item>Very High Income</item>
+    </string-array>
+    <string-array name="professional_sectors">
+        <item>Information Technology</item>
+        <item>Healthcare</item>
+        <item>Finance and Banking</item>
+        <item>Education</item>
+        <item>Engineering</item>
+        <item>Manufacturing and Production</item>
+        <item>Retail</item>
+        <item>Hospitality and Tourism</item>
+        <item>Marketing and Advertising</item>
+        <item>Government and Public Administration</item>
+        <item>Legal</item>
+        <item>Agriculture</item>
+        <item>Media and Journalism</item>
+        <item>Art and Design</item>
+        <item>Nonprofit and Social Services</item>
+        <item>Environmental and Sustainability</item>
+        <item>Construction and Skilled Trades</item>
+        <item>Automotive</item>
+        <item>Transportation and Logistics</item>
+        <item>Sports and Fitness</item>
+        <item>Online Businesses</item>
+        <item>Pharmaceuticals and Healthcare Research</item>
+        <item>Entertainment and Arts</item>
+        <item>Tech Startups and Entrepreneurship</item>
+        <item>Real Estate and Property Management</item>
+        <item>Food and Beverage</item>
+        <item>Aviation and Aerospace</item>
+        <item>Renewable Energy and Green Technology</item>
+        <item>Fitness and Wellness</item>
+        <item>Emergency Services and Public Safety</item>
+        <item>Student</item>
+        <item>Retired</item>
+    </string-array>
+    <string-array name="education_levels">
+        <item>Primary</item>
+        <item>Secondary</item>
+        <item>Higher</item>
+        <item>Technical</item>
+    </string-array>
+    <string-array name="employment_types">
+        <item>FullTime Employment</item>
+        <item>PartTime Employment</item>
+        <item>Overtime Hours</item>
+        <item>Shift Work</item>
+        <item>Flexible Hours</item>
+        <item>Seasonal Work</item>
+        <item>Freelancing Work</item>
+        <item>Contract Work</item>
+        <item>Remote Work</item>
+        <item>Night Shifts</item>
+        <item>Weekend Work</item>
+        <item>Unemployed</item>
+    </string-array>
+    <string-array name="genders">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
 </resources>

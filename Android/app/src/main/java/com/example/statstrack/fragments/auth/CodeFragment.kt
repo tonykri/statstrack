@@ -5,9 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.example.statstrack.R
+import com.example.statstrack.activities.MainActivity
 
 class CodeFragment : Fragment() {
+
+    private lateinit var next: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,8 +21,14 @@ class CodeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_code, container, false)
+        val view = inflater.inflate(R.layout.fragment_code, container, false)
+
+        next = view.findViewById(R.id.codeFragmentLoginButton)
+        next.setOnClickListener{
+            (requireActivity() as? MainActivity)?.goToUser()
+        }
+
+        return view
     }
 
 }
