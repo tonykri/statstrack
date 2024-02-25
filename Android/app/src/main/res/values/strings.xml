@@ -1,4 +1,6 @@
 <resources>
+    <string name="google_map_api_key">AIzaSyDMI0DbGwiFi5O2i9C9RKLqLIKtoJi9xSE</string>
+
     <string name="app_name">StatsTrack</string>
     <string name="email">Email</string>
     <string name="next">Next</string>
@@ -251,5 +253,29 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+    <string-array name="business_category_array">
+        <item>Technology and IT</item>
+        <item>Retail and Ecommerce</item>
+        <item>Healthcare</item>
+        <item>Finance and Banking</item>
+        <item>Hospitality and Tourism</item>
+        <item>Manufacturing</item>
+        <item>Real Estate</item>
+        <item>Education</item>
+        <item>Entertainment and Media</item>
+        <item>Transportation and Logistics</item>
+        <item>Food and Beverage</item>
+        <item>Energy and Utilities</item>
+        <item>Legal and Professional Services</item>
+        <item>Agriculture and Farming</item>
+        <item>Nonprofit and Social Services</item>
+        <item>Government and Public Administration</item>
+        <item>Fitness and Wellness</item>
+        <item>Art and Culture</item>
+        <item>Automotive</item>
+        <item>Construction and Home Improvement</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

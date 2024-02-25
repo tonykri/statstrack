@@ -3,14 +3,16 @@ package com.example.statstrack.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.FrameLayout
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.statstrack.R
 import com.example.statstrack.fragments.common.NavbarFragment
+import com.example.statstrack.fragments.pages.SearchPageFragment
 import com.example.statstrack.helper.InitSettings
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var navLayout: FrameLayout
+    private lateinit var pagesLayout: FrameLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -18,10 +20,14 @@ class HomeActivity : AppCompatActivity() {
         val settings = InitSettings(this, findViewById(android.R.id.content))
         settings.initScreen()
 
-        navLayout = findViewById(R.id.homeActivityNavLayout)
-        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        val navFragment = NavbarFragment()
-        transaction.replace(navLayout.id, navFragment)
-        transaction.commit()
+        pagesLayout = findViewById(R.id.homeActivityPagesLayout)
+        replaceFragment(SearchPageFragment())
+
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(pagesLayout.id, fragment)
+            .commit()
     }
 }
