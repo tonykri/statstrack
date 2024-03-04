@@ -42,7 +42,7 @@ class SearchPageFragment : Fragment() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_EXPANDED -> {
-                        //bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
+                        //bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
                     }
                     BottomSheetBehavior.STATE_COLLAPSED -> {
                         bottomSheetFragment.dismiss()

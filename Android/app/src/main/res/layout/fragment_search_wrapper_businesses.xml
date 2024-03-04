@@ -8,9 +8,9 @@
     tools:context=".fragments.pages.searchpage.SearchWrapperBusinessesFragment">
 
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/searchWrapperBusinessesLayout"
@@ -24,6 +24,28 @@
                 android:layout_marginTop="150dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView3"
+                android:name="com.example.statstrack.fragments.pages.searchpage.BusinessFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView4"
+                android:name="com.example.statstrack.fragments.pages.searchpage.BusinessFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView5"
+                android:name="com.example.statstrack.fragments.pages.searchpage.BusinessFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView6"
+                android:name="com.example.statstrack.fragments.pages.searchpage.BusinessFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </FrameLayout>
