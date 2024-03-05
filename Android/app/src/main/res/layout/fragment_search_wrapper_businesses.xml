@@ -27,22 +27,22 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView3"
-                android:name="com.example.statstrack.fragments.pages.searchpage.BusinessFragment"
+                android:name="com.example.statstrack.fragments.common.BusinessFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView4"
-                android:name="com.example.statstrack.fragments.pages.searchpage.BusinessFragment"
+                android:name="com.example.statstrack.fragments.common.BusinessFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView5"
-                android:name="com.example.statstrack.fragments.pages.searchpage.BusinessFragment"
+                android:name="com.example.statstrack.fragments.common.BusinessFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView6"
-                android:name="com.example.statstrack.fragments.pages.searchpage.BusinessFragment"
+                android:name="com.example.statstrack.fragments.common.BusinessFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

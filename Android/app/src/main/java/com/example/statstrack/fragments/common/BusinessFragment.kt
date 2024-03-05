@@ -1,4 +1,4 @@
-package com.example.statstrack.fragments.pages.searchpage
+package com.example.statstrack.fragments.common
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

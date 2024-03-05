@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.widget.TextViewCompat
 import com.example.statstrack.R
+import com.example.statstrack.activities.HomeActivity
 import kotlin.properties.Delegates
 
 class NavbarFragment : Fragment() {
@@ -44,9 +45,11 @@ class NavbarFragment : Fragment() {
         setDrawableSearch()
         myBusinessesBtn.setOnClickListener{
             setDrawableBusiness()
+            (requireActivity() as? HomeActivity)?.goToMyBusinessesPage()
         }
         searchBtn.setOnClickListener{
             setDrawableSearch()
+            (requireActivity() as? HomeActivity)?.goToSearchPage()
         }
         couponsBtn.setOnClickListener{
             setDrawableCoupon()

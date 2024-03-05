@@ -10,5 +10,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <item name="colorSecondaryVariant">@color/orangeDark</item>
 
+        <item name="android:textColor">@color/black</item>
+
     </style>
 </resources>

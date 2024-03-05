@@ -54,7 +54,9 @@
         <Spinner
             android:id="@+id/userFragmentPhoneCode"
             android:layout_width="120dp"
-            android:layout_height="50dp" />
+            android:layout_height="50dp"
+            android:popupBackground="@color/white"
+            />
 
         <EditText
             android:id="@+id/userFragmentPhone"
@@ -70,6 +72,7 @@
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
+        android:popupBackground="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
@@ -79,6 +82,7 @@
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
+        android:popupBackground="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"

@@ -7,7 +7,7 @@
     android:layout_height="500dp"
     android:layout_margin="5dp"
     android:background="@drawable/rounded_background_business"
-    tools:context=".fragments.pages.searchpage.BusinessFragment">
+    tools:context=".fragments.common.BusinessFragment">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/businessFragmentViewPager"

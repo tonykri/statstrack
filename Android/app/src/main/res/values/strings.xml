@@ -33,6 +33,8 @@
     <string name="select_income">Select your Income</string>
     <string name="select_industry">Select your Industry</string>
     <string name="select_work_hours">Select your Working Hours</string>
+    <string name="add">Add</string>
+    <string name="no_businesses">You do not have any business yet</string>
 
     <string-array name="hobbies">
         <item>Reading</item>

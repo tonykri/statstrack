@@ -21,7 +21,6 @@
             android:name=".activities.HomeActivity"
             android:exported="true">
 
-
         </activity>
         <activity
             android:name=".activities.MainActivity"

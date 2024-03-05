@@ -10,6 +10,8 @@
         <item name="colorOnSecondary">@color/black</item>
         <item name="colorSecondaryVariant">@color/orangeDark</item>
 
+        <item name="android:textColor">@color/black</item>
+
     </style>
 
     <style name="Theme.StatsTrack" parent="Base.Theme.StatsTrack" />
