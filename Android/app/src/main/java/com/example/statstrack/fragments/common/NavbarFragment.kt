@@ -53,6 +53,7 @@ class NavbarFragment : Fragment() {
         }
         couponsBtn.setOnClickListener{
             setDrawableCoupon()
+            (requireActivity() as? HomeActivity)?.goToCouponsPage()
         }
         profileBtn.setOnClickListener{
             setDrawableProfile()

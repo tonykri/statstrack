@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.statstrack.R
 import com.example.statstrack.fragments.common.NavbarFragment
+import com.example.statstrack.fragments.pages.CouponsPageFragment
 import com.example.statstrack.fragments.pages.MyBusinessesPageFragment
 import com.example.statstrack.fragments.pages.SearchPageFragment
 import com.example.statstrack.helper.InitSettings
@@ -37,5 +38,8 @@ class HomeActivity : AppCompatActivity() {
     }
     public fun goToMyBusinessesPage() {
         replaceFragment(MyBusinessesPageFragment())
+    }
+    public fun goToCouponsPage() {
+        replaceFragment(CouponsPageFragment())
     }
 }

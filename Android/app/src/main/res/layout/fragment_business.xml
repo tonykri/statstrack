@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="500dp"
     android:layout_margin="5dp"
-    android:background="@drawable/rounded_background_business"
+    android:background="@drawable/rounded_background_border"
     tools:context=".fragments.common.BusinessFragment">
 
     <androidx.viewpager2.widget.ViewPager2
