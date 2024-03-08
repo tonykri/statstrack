@@ -57,6 +57,7 @@ class NavbarFragment : Fragment() {
         }
         profileBtn.setOnClickListener{
             setDrawableProfile()
+            (requireActivity() as? HomeActivity)?.goToProfilePage()
         }
 
         return view

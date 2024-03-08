@@ -5,7 +5,8 @@
     <string name="email">Email</string>
     <string name="next">Next</string>
     <string name="finish">Finish</string>
-    <string name="name">Name</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="or">or</string>
@@ -38,6 +39,14 @@
     <string name="no_coupons">You do not have any discount coupons yet</string>
     <string name="purchased">Purchase Date</string>
     <string name="redeemed">Redeem Date</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="user_data">User Data</string>
+    <string name="professional_data">Professional Data</string>
+    <string name="personal_data">Personal Data</string>
+    <string name="hobbies_data">Hobbies Data</string>
+    <string name="expenses_data">Expenses Data</string>
+    <string name="general">General</string>
+    <string name="logout">Logout</string>
 
     <string-array name="hobbies">
         <item>Reading</item>

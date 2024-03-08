@@ -20,16 +20,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/registerFragmentName"
+        android:id="@+id/registerFragmentFirstName"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
         android:ems="10"
-        android:hint="@string/name"
+        android:hint="@string/firstname"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/registerFragmentLastName"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/lastname"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerFragmentFirstName" />
 
     <EditText
         android:id="@+id/registerFragmentEmailAddress"
@@ -42,7 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerFragmentName" />
+        app:layout_constraintTop_toBottomOf="@+id/registerFragmentLastName" />
 
     <Button
         android:id="@+id/registerFragmentRegisterButton"

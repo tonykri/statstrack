@@ -9,6 +9,7 @@ import com.example.statstrack.R
 import com.example.statstrack.fragments.common.NavbarFragment
 import com.example.statstrack.fragments.pages.CouponsPageFragment
 import com.example.statstrack.fragments.pages.MyBusinessesPageFragment
+import com.example.statstrack.fragments.pages.ProfilePageFragment
 import com.example.statstrack.fragments.pages.SearchPageFragment
 import com.example.statstrack.helper.InitSettings
 
@@ -41,5 +42,8 @@ class HomeActivity : AppCompatActivity() {
     }
     public fun goToCouponsPage() {
         replaceFragment(CouponsPageFragment())
+    }
+    public fun goToProfilePage() {
+        replaceFragment(ProfilePageFragment())
     }
 }
