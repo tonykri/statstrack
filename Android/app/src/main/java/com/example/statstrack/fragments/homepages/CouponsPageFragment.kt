@@ -1,4 +1,4 @@
-package com.example.statstrack.fragments.pages
+package com.example.statstrack.fragments.homepages
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.example.statstrack.R
-import com.example.statstrack.fragments.common.BusinessFragment
 import com.example.statstrack.fragments.common.CouponFragment
 
 class CouponsPageFragment : Fragment() {

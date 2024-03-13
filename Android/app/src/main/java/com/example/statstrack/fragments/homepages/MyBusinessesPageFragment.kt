@@ -1,4 +1,4 @@
-package com.example.statstrack.fragments.pages
+package com.example.statstrack.fragments.homepages
 
 import android.os.Bundle
 import android.view.LayoutInflater

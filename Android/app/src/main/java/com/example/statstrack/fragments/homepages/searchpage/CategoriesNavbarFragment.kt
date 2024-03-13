@@ -1,4 +1,4 @@
-package com.example.statstrack.fragments.pages.searchpage
+package com.example.statstrack.fragments.homepages.searchpage
 
 import android.graphics.Color
 import android.os.Bundle

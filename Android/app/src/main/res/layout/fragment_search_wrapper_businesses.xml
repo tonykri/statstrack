@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:minHeight="500dp"
     android:background="@color/white"
-    tools:context=".fragments.pages.searchpage.SearchWrapperBusinessesFragment">
+    tools:context=".fragments.homepages.searchpage.SearchWrapperBusinessesFragment">
 
 
     <androidx.core.widget.NestedScrollView

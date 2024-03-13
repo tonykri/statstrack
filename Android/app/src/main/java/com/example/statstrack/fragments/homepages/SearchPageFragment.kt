@@ -1,18 +1,14 @@
-package com.example.statstrack.fragments.pages
+package com.example.statstrack.fragments.homepages
 
 import android.os.Bundle
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.TextView
 import com.example.statstrack.R
-import com.example.statstrack.fragments.pages.searchpage.CategoriesNavbarFragment
-import com.example.statstrack.fragments.pages.searchpage.MapsFragment
-import com.example.statstrack.fragments.pages.searchpage.SearchWrapperBusinessesFragment
+import com.example.statstrack.fragments.homepages.searchpage.CategoriesNavbarFragment
+import com.example.statstrack.fragments.homepages.searchpage.MapsFragment
+import com.example.statstrack.fragments.homepages.searchpage.SearchWrapperBusinessesFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class SearchPageFragment : Fragment() {
