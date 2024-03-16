@@ -60,7 +60,12 @@
     <string name="get_coupon_message_3">You can get a coupon every 3 days for the same business</string>
     <string name="get_coupon_message_4">Code is valid for 3 days</string>
     <string name="get_offer">Get Offer</string>
-
+    <string name="business_photos">Business Photos</string>
+    <string name="business_info">Business Info</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="address">Address</string>
+    
     <string-array name="hobbies">
         <item>Reading</item>
         <item>Gardening</item>

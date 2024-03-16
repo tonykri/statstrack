@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.widget.ViewPager2
 import com.example.statstrack.R
+import com.example.statstrack.fragments.businesspages.BusinessEditFragment
 import com.example.statstrack.fragments.businesspages.BusinessInfoFragment
 import com.example.statstrack.fragments.businesspages.GetCouponFragment
 import com.example.statstrack.fragments.businesspages.ReviewsWrapperFragment
@@ -67,6 +68,7 @@ class BusinessActivity : AppCompatActivity() {
         }
         editBtn.setOnClickListener{
             resetButtons()
+            replaceFragment(BusinessEditFragment())
             editBtn.setTextColor(ContextCompat.getColor(this, R.color.orangeDark))
         }
     }
