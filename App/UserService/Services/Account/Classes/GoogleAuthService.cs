@@ -65,7 +65,8 @@ public class GoogleAuthService : IGoogleAuthService
             User newUser = new User
             {
                 Email = payload.Email,
-                FullName = payload.Name,
+                FirstName = payload.GivenName,
+                LastName = payload.FamilyName,
                 PhotoUrl = payload.Picture,
                 ProfileStage = ProfileStages.UserBasics.ToString(),
                 Provider = "Google"

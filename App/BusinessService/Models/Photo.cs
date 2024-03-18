@@ -9,5 +9,4 @@ public class Photo
     [Required]
     public Guid BusinessId { get; set; }
     public Business Business { get; set; } = null!;
-    public string PhotoUri { get; set; } = null!;
 }

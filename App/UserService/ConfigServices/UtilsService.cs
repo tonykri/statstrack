@@ -11,6 +11,7 @@ public static class UtilsService
         services.AddScoped<ITokenDecoder, TokenDecoder>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IPhotoValidator, PhotoValidator>();
+        services.AddScoped<IBlobStorageService, BlobStorageService>();
         services.AddScoped<JwtToken>();
 
         services.AddScoped<IEventHandler, UserService.AsymcDataProcessing.EventHandling.EventHandler>();

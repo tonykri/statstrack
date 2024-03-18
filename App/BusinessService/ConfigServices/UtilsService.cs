@@ -10,6 +10,7 @@ public static class UtilsService
     {
         services.AddScoped<ITokenDecoder, TokenDecoder>();
         services.AddScoped<IPhotoValidator, PhotoValidator>();
+        services.AddScoped<IBlobStorageService, BlobStorageService>();
 
         services.AddScoped<IEventHandler, BusinessService.AsymcDataProcessing.EventHandling.EventHandler>();
         services.AddSingleton<IMessageBusClient, MessageBusClient>();

@@ -8,12 +8,12 @@ namespace BusinessService.Repositories;
 public class BusinessPhotosRepo : IBusinessPhotosRepo
 {
     private readonly DataContext dataContext;
-    private readonly IPhotoValidator photoValidator;
+    private readonly IBlobStorageService blobStorageService;
 
-    public BusinessPhotosRepo(DataContext dataContext, IPhotoValidator photoValidator)
+    public BusinessPhotosRepo(DataContext dataContext, IBlobStorageService blobStorageService)
     {
         this.dataContext = dataContext;
-        this.photoValidator = photoValidator;
+        this.blobStorageService = blobStorageService;
     }
 
     public async Task<ApiResponse<List<Guid>, Exception>> GetPhotos(Guid businessId)
@@ -27,23 +27,12 @@ public class BusinessPhotosRepo : IBusinessPhotosRepo
 
     public async Task<ApiResponse<ImageDto, Exception>> GetPhoto(Guid photoId)
     {
-        string filePath = await dataContext.Photos.Where(p => p.PhotoId == photoId).Select(p => p.PhotoUri).FirstAsync();
-        try
+        var fileName = await dataContext.Photos.Where(p => p.PhotoId == photoId).Select(p => p.PhotoId).FirstAsync();
+        if (fileName.ToString() is not null)
         {
-            if (File.Exists(filePath))
-            {
-                byte[] photoData = File.ReadAllBytes(filePath);
-                string contentType = photoValidator.GetContentType(filePath);
-
-                var img = new ImageDto(photoData, contentType);
-                return new ApiResponse<ImageDto, Exception>(img);
-            }
-            throw new Exception(ExceptionMessages.NOT_FOUND);
+            var img = await blobStorageService.GetBlobAsync(fileName.ToString());
+            return new ApiResponse<ImageDto, Exception>(img);
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            return new ApiResponse<ImageDto, Exception>(ex);
-        }
+        return new ApiResponse<ImageDto, Exception>(new Exception(ExceptionMessages.NOT_FOUND));
     }
 }

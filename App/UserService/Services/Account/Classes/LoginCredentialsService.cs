@@ -31,7 +31,7 @@ public class LoginCredentialsService : ILoginCredentialsService
         try
         {
             string code = emailService.CodeGenerator(user.Id);
-            var message = new EmailNameCodeDto(user.Email, user.FullName, code, "Login_User_Email");
+            var message = new EmailNameCodeDto(user.Email, user.FirstName + " " + user.LastName, code, "Login_User_Email");
             messageBusClient.Send(ref message);
         }
         catch (Exception ex)

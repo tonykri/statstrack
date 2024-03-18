@@ -34,7 +34,8 @@ public class RegisterCredentialsService : IRegisterCredentialsService
             User newUser = new User
             {
                 Email = user.Email,
-                FullName = user.FullName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 ProfileStage = ProfileStages.EmailConfirmation.ToString(),
                 Provider = "Credentials"
             };
@@ -42,7 +43,7 @@ public class RegisterCredentialsService : IRegisterCredentialsService
             await dataContext.SaveChangesAsync();
 
             string code = emailService.CodeGenerator(newUser.Id);
-            var message = new EmailNameCodeDto(user.Email, user.FullName, code, "Register_User_Email");
+            var message = new EmailNameCodeDto(user.Email, user.FirstName + " " + user.LastName, code, "Register_User_Email");
             messageBusClient.Send(ref message);
 
             string token = jwtToken.CreateLoginToken(newUser);

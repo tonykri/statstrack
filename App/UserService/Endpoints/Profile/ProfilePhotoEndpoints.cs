@@ -1,7 +1,5 @@
 using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
-using UserService.Dto.Profile;
-using UserService.Repositories.Profile;
 using UserService.Services.Profile;
 
 namespace UserService.Endpoints.Profile;
@@ -22,7 +20,6 @@ public class ProfilePhotoEndpoints : IEndpointDefinition
 
     public void DefineServices(IServiceCollection services)
     {
-        services.AddScoped<IProfilePhotoRepo, ProfilePhotoRepo>();
         services.AddScoped<IProfilePhotoService, ProfilePhotoService>();
     }
 
@@ -30,13 +27,7 @@ public class ProfilePhotoEndpoints : IEndpointDefinition
     {
         var result = await profilePhotoService.UploadPhoto(photo);
         return result.Match<IResult>(
-            data =>
-            {
-                if (data is null)
-                    return Results.BadRequest();
-                else
-                    return Results.File(data.PhotoData, data.ContentType);
-            },
+            data => Results.NoContent(),
             exception => Results.BadRequest(exception?.Message)
         );
     }
@@ -54,20 +45,14 @@ public class ProfilePhotoEndpoints : IEndpointDefinition
     {
         var result = await profilePhotoService.UpdatePhoto(photo);
         return result.Match<IResult>(
-            data =>
-            {
-                if (data is null)
-                    return Results.BadRequest();
-                else
-                    return Results.File(data.PhotoData, data.ContentType);
-            },
+            data => Results.NoContent(),
             exception => Results.BadRequest(exception?.Message)
         );
     }
 
-    private async Task<IResult> GetPhoto([FromServices] IProfilePhotoRepo profilePhotoRepo)
+    private async Task<IResult> GetPhoto([FromServices] IProfilePhotoService profilePhotoService)
     {
-        var result = await profilePhotoRepo.GetPhoto();
+        var result = await profilePhotoService.GetPhoto();
         return result.Match<IResult>(
             data =>
             {

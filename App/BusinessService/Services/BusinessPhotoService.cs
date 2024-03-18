@@ -10,17 +10,18 @@ public class BusinessPhotoService : IBusinessPhotoService
     private readonly DataContext dataContext;
     private readonly ITokenDecoder tokenDecoder;
     private readonly IPhotoValidator photoValidator;
-    private readonly string folderPath = "/var";
+    private readonly IBlobStorageService blobStorageService;
 
-    public BusinessPhotoService(DataContext dataContext, ITokenDecoder tokenDecoder, IPhotoValidator photoValidator)
+    public BusinessPhotoService(DataContext dataContext, ITokenDecoder tokenDecoder, IPhotoValidator photoValidator, IBlobStorageService blobStorageService)
     {
         this.dataContext = dataContext;
         this.tokenDecoder = tokenDecoder;
         this.photoValidator = photoValidator;
+        this.blobStorageService = blobStorageService;
     }
 
 
-    private void AddPhotos(Business business, IFormFileCollection photos)
+    private async void AddPhotos(Business business, IFormFileCollection photos)
     {
         Photo newPhoto;
         foreach (IFormFile photo in photos)
@@ -30,22 +31,7 @@ public class BusinessPhotoService : IBusinessPhotoService
                 Business = business,
                 BusinessId = business.Id
             };
-            newPhoto.PhotoUri = Path.Combine(folderPath, newPhoto.PhotoId.ToString() + Path.GetExtension(photo.FileName)); ;
-
-            try
-            {
-                using (var fileStream = new FileStream(newPhoto.PhotoUri, FileMode.Create))
-                {
-                    photo.CopyTo(fileStream);
-                }
-                dataContext.Add(photo);
-                dataContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
+            await blobStorageService.UpdateBlobAsync(newPhoto.PhotoId.ToString(), photo);
         }
     }
 
@@ -54,20 +40,7 @@ public class BusinessPhotoService : IBusinessPhotoService
         var photo = await dataContext.Photos.FirstOrDefaultAsync(p => p.PhotoId == photoId);
         if (photo is null)
             return new ApiResponse<int, Exception>(new Exception(ExceptionMessages.NOT_FOUND));
-        try
-        {
-            if (File.Exists(photo.PhotoUri))
-            {
-                File.Delete(photo.PhotoUri);
-                dataContext.Remove(photo);
-                await dataContext.SaveChangesAsync();
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            return new ApiResponse<int, Exception>(ex);
-        }
+        await blobStorageService.DeleteBlobAsync(photo.PhotoId.ToString());
         return new ApiResponse<int, Exception>(0);
     }
 
@@ -88,15 +61,7 @@ public class BusinessPhotoService : IBusinessPhotoService
         if (photos.Count() + dataContext.Photos.Where(p => p.BusinessId == businessId).ToList().Count() > 10)
             return new ApiResponse<int, Exception>(new Exception(ExceptionMessages.NOT_VALID));
 
-        try
-        {
-            AddPhotos(business, photos);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            return new ApiResponse<int, Exception>(ex);
-        }
+        AddPhotos(business, photos);
         return new ApiResponse<int, Exception>(0);
     }
 }

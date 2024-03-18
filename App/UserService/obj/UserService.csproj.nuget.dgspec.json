@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\UserService\\UserService.csproj": {}
+    "C:\\ptyxiaki\\statstrack\\App\\UserService\\UserService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\UserService\\UserService.csproj": {
+    "C:\\ptyxiaki\\statstrack\\App\\UserService\\UserService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\UserService\\UserService.csproj",
+        "projectUniqueName": "C:\\ptyxiaki\\statstrack\\App\\UserService\\UserService.csproj",
         "projectName": "UserService",
-        "projectPath": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\UserService\\UserService.csproj",
+        "projectPath": "C:\\ptyxiaki\\statstrack\\App\\UserService\\UserService.csproj",
         "packagesPath": "C:\\Users\\tonyk\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\UserService\\obj\\",
+        "outputPath": "C:\\ptyxiaki\\statstrack\\App\\UserService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -79,6 +79,10 @@
             "RabbitMQ.Client": {
               "target": "Package",
               "version": "[6.7.0, )"
+            },
+            "WindowsAzure.Storage": {
+              "target": "Package",
+              "version": "[9.3.3, )"
             }
           },
           "imports": [

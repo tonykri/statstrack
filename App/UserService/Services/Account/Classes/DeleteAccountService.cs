@@ -35,7 +35,7 @@ public class DeleteAccountService : IDeleteAccountService
         try
         {
             string code = emailService.CodeGenerator(user.Id);
-            var message = new EmailNameCodeDto(user.Email, user.FullName, code, "Delete_Account_Email");
+            var message = new EmailNameCodeDto(user.Email, user.FirstName + " " + user.LastName, code, "Delete_Account_Email");
             messageBusClient.Send(ref message);
         }catch(Exception ex)
         {

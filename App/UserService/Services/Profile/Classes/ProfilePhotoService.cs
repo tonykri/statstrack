@@ -8,18 +8,19 @@ namespace UserService.Services.Profile;
 
 public class ProfilePhotoService : IProfilePhotoService
 {
-    private readonly string folderPath = "/var";
     private readonly ITokenDecoder tokenDecoder;
     private readonly DataContext dataContext;
     private readonly IPhotoValidator photoValidator;
-    public ProfilePhotoService(ITokenDecoder tokenDecoder, DataContext dataContext, IPhotoValidator photoValidator)
+    private readonly IBlobStorageService blobStorageService;
+    public ProfilePhotoService(ITokenDecoder tokenDecoder, DataContext dataContext, IPhotoValidator photoValidator, IBlobStorageService blobStorageService)
     {
         this.tokenDecoder = tokenDecoder;
         this.dataContext = dataContext;
         this.photoValidator = photoValidator;
+        this.blobStorageService = blobStorageService;
     }
 
-    public async Task<ApiResponse<ImageDto, Exception>> UploadPhoto(IFormFile photo)
+    public async Task<ApiResponse<int, Exception>> UploadPhoto(IFormFile photo)
     {
         try
         {
@@ -27,24 +28,22 @@ public class ProfilePhotoService : IProfilePhotoService
             photoValidator.PhotoValidation(photo);
             var user = await dataContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if (user is null)
-                return new ApiResponse<ImageDto, Exception>(new Exception(ExceptionMessages.NOT_FOUND));
+                return new ApiResponse<int, Exception>(new Exception(ExceptionMessages.NOT_FOUND));
             if (user.PhotoUrl is not null)
-                return new ApiResponse<ImageDto, Exception>(new Exception("Photo exists"));
+                return new ApiResponse<int, Exception>(new Exception("Photo exists"));
 
-            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
-            string filePath = Path.Combine(folderPath, fileName);
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                photo.CopyTo(fileStream);
-            }
-            user.PhotoUrl = filePath;
+            string fileName = Guid.NewGuid().ToString();
+            await blobStorageService.UploadBlobAsync(fileName, photo);
+
+            user.PhotoUrl = fileName;
             await dataContext.SaveChangesAsync();
-            return await GetPhoto();
+
+            return new ApiResponse<int, Exception>(0);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            return new ApiResponse<ImageDto, Exception>(new Exception());
+            return new ApiResponse<int, Exception>(new Exception());
         }
     }
 
@@ -55,15 +54,14 @@ public class ProfilePhotoService : IProfilePhotoService
             Guid userId = tokenDecoder.GetUserId();
             var user = await dataContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if (user is null)
-            return new ApiResponse<int, Exception>(new Exception(ExceptionMessages.NOT_FOUND));
-            string? filePath = user.PhotoUrl;
+                return new ApiResponse<int, Exception>(new Exception(ExceptionMessages.NOT_FOUND));
+            string? fileName = user.PhotoUrl;
 
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-                user.PhotoUrl = null;
-                await dataContext.SaveChangesAsync();
-            }
+            if (user.PhotoUrl is not null)
+                await blobStorageService.DeleteBlobAsync(user.PhotoUrl);
+            user.PhotoUrl = null;
+            await dataContext.SaveChangesAsync();
+
             return new ApiResponse<int, Exception>(0);
         }
         catch (Exception ex)
@@ -73,7 +71,7 @@ public class ProfilePhotoService : IProfilePhotoService
         }
     }
 
-    public async Task<ApiResponse<ImageDto, Exception>> UpdatePhoto(IFormFile photo)
+    public async Task<ApiResponse<int, Exception>> UpdatePhoto(IFormFile photo)
     {
         try
         {
@@ -84,7 +82,7 @@ public class ProfilePhotoService : IProfilePhotoService
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            return new ApiResponse<ImageDto, Exception>(new Exception());
+            return new ApiResponse<int, Exception>(new Exception());
         }
     }
 
@@ -96,14 +94,11 @@ public class ProfilePhotoService : IProfilePhotoService
             var user = await dataContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if (user is null)
                 return new ApiResponse<ImageDto, Exception>(new Exception(ExceptionMessages.NOT_FOUND));
-            string? filePath = user.PhotoUrl;
+            string? fileName = user.PhotoUrl;
 
-            if (File.Exists(filePath))
+            if (fileName is not null)
             {
-                byte[] photoData = File.ReadAllBytes(filePath);
-                string contentType = photoValidator.GetContentType(filePath);
-
-                var img = new ImageDto(photoData, contentType);
+                var img = await blobStorageService.GetBlobAsync(fileName);
                 return new ApiResponse<ImageDto, Exception>(img);
             }
             return new ApiResponse<ImageDto, Exception>(new Exception(ExceptionMessages.NOT_FOUND));
