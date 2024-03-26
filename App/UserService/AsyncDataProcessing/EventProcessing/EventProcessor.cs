@@ -17,6 +17,9 @@ public class EventProcessor : IEventProcessor
 
         switch (eventType)
         {
+            case EventType.UserRegistered:
+                UserRegistered(message);
+                break;
             case EventType.BusinessCreated:
                 BusinessCreated(message);
                 break;
@@ -37,12 +40,24 @@ public class EventProcessor : IEventProcessor
 
         switch (eventType.Event)
         {
+            case "User_Registered":
+                Console.WriteLine("--> User Registered Event Detected");
+                return EventType.UserRegistered;
             case "Business_Created":
                 Console.WriteLine("--> Business Created Event Detected");
                 return EventType.BusinessCreated;
             default:
                 Console.WriteLine("--> Could not determine the event type");
                 return EventType.Undetermined;
+        }
+    }
+
+    private void UserRegistered(string message)
+    {
+        using (var scope = serviceScopeFactory.CreateScope())
+        {
+            var scopedService = scope.ServiceProvider.GetRequiredService<IEventHandler>();
+            scopedService.UserRegistered(message);
         }
     }
 
@@ -67,6 +82,7 @@ public class EventProcessor : IEventProcessor
 
 enum EventType
 {
+    UserRegistered,
     BusinessCreated,
     BusinessDeleted,
     Undetermined

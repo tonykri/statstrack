@@ -2,7 +2,6 @@ namespace UserService.Dto.MessageBus.Received;
 
 public class BusinessUpdatedDeletedDto
 {
-    public Guid BusinessId { get; set; }
-    public Guid UserId { get; set; }
-    public string Event {get; set; } 
+    public Guid BusinessId { get; }
+    public Guid UserId { get; }
 }

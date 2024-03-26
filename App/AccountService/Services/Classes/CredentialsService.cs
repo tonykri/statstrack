@@ -128,7 +128,7 @@ public class CredentialsService : ICredentialsService
         };
         dataContext.Accounts.Add(account);
         await dataContext.SaveChangesAsync();
-        var registerMessage = new UserRegisteredDto(account.Id);
+        var registerMessage = new UserRegisteredDto(account.Id, account.FirstName, account.LastName, account.Email);
         messageBusClient.Send(ref registerMessage);
 
         string code = await CodeGenerator(account.Id);

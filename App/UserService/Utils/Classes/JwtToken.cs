@@ -24,7 +24,7 @@ public class JwtToken
             new Claim("ProfileStage", user.ProfileStage),
             new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
             new Claim(ClaimTypes.Uri, user.PhotoUrl is null ? "" : user.PhotoUrl),
-            new Claim("Provider", user.Provider)
+            new Claim("Provider", "")
         };
 
         string? AppToken = configuration.GetSection("AppSettings:Token").Value;

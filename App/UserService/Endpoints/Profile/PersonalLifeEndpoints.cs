@@ -37,7 +37,7 @@ public class PersonalLifeEndpoints : IEndpointDefinition
     {
         var result = await personalLifeService.UpdatePersonalLife(userData);
         return result.Match<IResult>(
-            data => Results.Ok(data),
+            data => Results.NoContent(),
             exception => Results.BadRequest(exception?.Message)
         );
     }

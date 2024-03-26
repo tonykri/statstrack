@@ -48,7 +48,7 @@ public class ProfessionalLifeEndpoints : IEndpointDefinition
 
         var result = await professionalLifeService.UpdateProfessionalLife(userData);
         return result.Match<IResult>(
-            data => Results.Ok(data),
+            data => Results.NoContent(),
             exception => Results.BadRequest(exception?.Message)
         );
     }

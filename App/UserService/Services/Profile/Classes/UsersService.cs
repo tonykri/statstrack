@@ -24,7 +24,7 @@ public class UsersService : IUsersService
         var user = await dataContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
         if (user is null)
             return new ApiResponse<string, Exception>(new Exception(ExceptionMessages.NOT_FOUND));
-        user.Birthdate = new DateTime(userData.Birthdate.Year, userData.Birthdate.Month, userData.Birthdate.Day);
+        user.Birthdate = new DateOnly(userData.Birthdate.Year, userData.Birthdate.Month, userData.Birthdate.Day);
         user.Country = userData.Country;
         user.Gender = userData.Gender;
         user.PhoneNumber = "+" + userData.DialingCode + userData.PhoneNumber;

@@ -48,7 +48,7 @@ public class HobbiesEndpoints : IEndpointDefinition
 
         var result = await hobbiesService.UpdateHobbies(userData);
         return result.Match<IResult>(
-            data => Results.Ok(data),
+            data => Results.NoContent(),
             exception => Results.BadRequest(exception?.Message)
         );
     }

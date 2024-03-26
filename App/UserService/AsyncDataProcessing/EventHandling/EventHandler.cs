@@ -12,6 +12,23 @@ public class EventHandler : IEventHandler
         this.dataContext = dataContext;
     }
     
+    public void UserRegistered(string message)
+    {
+        var eventDto = JsonSerializer.Deserialize<UserRegisteredDto>(message);
+        if (eventDto is null) return;
+        var newUser = new User{
+            Id = eventDto.UserId,
+            FirstName = eventDto.FirstName,
+            LastName = eventDto.LastName,
+            Email = eventDto.Email,
+            ProfileStage = eventDto.ProfileStage
+        };
+        dataContext.Users.Add(newUser);
+        dataContext.SaveChanges();
+        Console.WriteLine("--> User Registered");
+    }
+
+
     public void BusinessCreated(string message)
     {
         var eventDto = JsonSerializer.Deserialize<BusinessCreatedRenewedDto>(message);

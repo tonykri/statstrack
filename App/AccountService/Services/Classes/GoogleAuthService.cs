@@ -98,7 +98,10 @@ public class GoogleAuthService : IGoogleAuthService
         dataContext.Accounts.Add(newUser);
         await dataContext.SaveChangesAsync();
 
-        var message = new UserRegisteredDto(newUser.Id);
+        var message = new UserRegisteredDto(newUser.Id, newUser.FirstName, newUser.LastName, newUser.Email)
+        {
+            ProfileStage = newUser.ProfileStage
+        };
         messageBusClient.Send(ref message);
 
         return await HandleLogin(newUser);

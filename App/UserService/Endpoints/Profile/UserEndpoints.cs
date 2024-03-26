@@ -48,7 +48,7 @@ public class UserEndpoints : IEndpointDefinition
 
         var result = await usersService.UpdateUser(userData);
         return result.Match<IResult>(
-            data => Results.Ok(data),
+            data => Results.NoContent(),
             exception => Results.BadRequest(exception?.Message)
         );
     }

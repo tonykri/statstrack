@@ -12,7 +12,6 @@ public class DataContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<ProfessionalLife> ProfessionalLife { get; set; }
     public DbSet<PersonalLife> PersonalLife { get; set; }
-    public DbSet<EmailCode> EmailCodes { get; set; }
     public DbSet<Hobby> Hobbies { get; set; }
     public DbSet<Expense> Expenses { get; set; }
 
@@ -41,12 +40,6 @@ public class DataContext : DbContext
             .HasOne(u => u.UserProfessionalLife)
             .WithOne(p => p.User)
             .HasForeignKey<ProfessionalLife>(p => p.UserId);
-
-        modelBuilder
-            .Entity<User>()
-            .HasOne(u => u.UserEmailCode)
-            .WithOne(c => c.User)
-            .HasForeignKey<EmailCode>(c => c.UserId);
 
         modelBuilder
             .Entity<Expense>()
