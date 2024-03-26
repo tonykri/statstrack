@@ -3,7 +3,6 @@ using UserService.AsymcDataProcessing.MessageBusClient;
 using UserService.Dto;
 using UserService.Dto.MessageBus.Send;
 using UserService.Models;
-using UserService.Repositories.Profile;
 using UserService.Services.Profile;
 using UserService.Utils;
 

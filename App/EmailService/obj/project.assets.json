@@ -129,11 +129,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tonyk\\Desktop\\EmailService\\EmailService.csproj",
+      "projectUniqueName": "C:\\ptyxiaki\\statstrack\\App\\EmailService\\EmailService.csproj",
       "projectName": "EmailService",
-      "projectPath": "C:\\Users\\tonyk\\Desktop\\EmailService\\EmailService.csproj",
+      "projectPath": "C:\\ptyxiaki\\statstrack\\App\\EmailService\\EmailService.csproj",
       "packagesPath": "C:\\Users\\tonyk\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tonyk\\Desktop\\EmailService\\obj\\",
+      "outputPath": "C:\\ptyxiaki\\statstrack\\App\\EmailService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -190,7 +190,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

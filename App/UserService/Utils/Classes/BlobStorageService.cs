@@ -14,7 +14,7 @@ public class BlobStorageService : IBlobStorageService
     public BlobStorageService(IConfiguration configuration)
     {
         _configuration = configuration;
-        string? connectionString = _configuration["BlobStorageConnection"];
+        string? connectionString = _configuration.GetConnectionString("BlobStorageConnection");
         _storageAccount = CloudStorageAccount.Parse(connectionString);
         _blobClient = _storageAccount.CreateCloudBlobClient();
     }
@@ -24,6 +24,7 @@ public class BlobStorageService : IBlobStorageService
         var container = _blobClient.GetContainerReference(containerName);
         await container.CreateIfNotExistsAsync();
         var blob = container.GetBlockBlobReference(blobName);
+        blob.Properties.ContentType = file.ContentType;
         using (var stream = file.OpenReadStream())
         {
             await blob.UploadFromStreamAsync(stream);

@@ -44,7 +44,10 @@ public class PersonalLifeEndpoints : IEndpointDefinition
 
     private async Task<IResult> GetPersonalLife([FromServices] IPersonalLifeRepo personalLifeRepo)
     {
-        var personallife = await personalLifeRepo.GetPersonalLife();
-        return Results.Ok(personallife);
+        var result = await personalLifeRepo.GetPersonalLife();
+        return result.Match<IResult>(
+            data => Results.Ok(data),
+            exception => Results.BadRequest(exception?.Message)
+        );
     }
 }
