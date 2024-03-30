@@ -11,12 +11,13 @@ public class EventHandler : IEventHandler
     {
         this.dataContext = dataContext;
     }
-    
+
     public void UserRegistered(string message)
     {
         var eventDto = JsonSerializer.Deserialize<UserRegisteredDto>(message);
         if (eventDto is null) return;
-        var newUser = new User{
+        var newUser = new User
+        {
             Id = eventDto.UserId,
             FirstName = eventDto.FirstName,
             LastName = eventDto.LastName,
@@ -28,6 +29,17 @@ public class EventHandler : IEventHandler
         Console.WriteLine("--> User Registered");
     }
 
+    public void UserDataUpdated(string message)
+    {
+        var eventDto = JsonSerializer.Deserialize<AccountUpdatedDto>(message);
+        if (eventDto is null) return;
+        var user = dataContext.Users.First(u => u.Id == eventDto.UserId);
+        if (eventDto.ProfileStage is not null)
+            user.ProfileStage = eventDto.ProfileStage; 
+
+        dataContext.SaveChanges();
+        Console.WriteLine("--> User Updated");
+    }
 
     public void BusinessCreated(string message)
     {

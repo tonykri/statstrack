@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using UserService.AsymcDataProcessing.MessageBusClient;
 using UserService.Categories;
 using UserService.Dto;
+using UserService.Dto.MessageBus.Send;
 using UserService.Dto.Profile;
 using UserService.Models;
 using UserService.Utils;
@@ -12,11 +14,13 @@ public class ExpensesService : IExpensesService
     private readonly ITokenDecoder tokenDecoder;
     private readonly DataContext dataContext;
     private readonly JwtToken jwtToken;
-    public ExpensesService(ITokenDecoder tokenDecoder, DataContext dataContext, JwtToken jwtToken)
+    private readonly IMessageBusClient messageBusClient;
+    public ExpensesService(ITokenDecoder tokenDecoder, DataContext dataContext, JwtToken jwtToken, IMessageBusClient messageBusClient)
     {
         this.tokenDecoder = tokenDecoder;
         this.dataContext = dataContext;
         this.jwtToken = jwtToken;
+        this.messageBusClient = messageBusClient;
     }
 
     private async Task<ApiResponse<string, Exception>> HandleExpenses(ExpensesDto userData, Guid userId, string action)
@@ -35,7 +39,12 @@ public class ExpensesService : IExpensesService
             await dataContext.Expenses.AddAsync(new Expense(user, expense));
 
         if (action.Equals("register"))
+        {
             user.ProfileStage = ProfileStages.Completed.ToString();
+
+            var message = new ProfileStageUpdatedDto(user.Id, ProfileStages.Completed);
+            messageBusClient.Send(ref message);
+        }
         await dataContext.SaveChangesAsync();
 
         string msg = action.Equals("register") ? jwtToken.CreateLoginToken(user) : "Update completed";

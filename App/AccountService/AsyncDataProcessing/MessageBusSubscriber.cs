@@ -1,3 +1,5 @@
+using System.Text;
+using AccountService.AsymcDataProcessing.EventProcessing;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -6,12 +8,14 @@ namespace UserService.AsymcDataProcessing;
 public class MessageBusSubscriber : BackgroundService
 {
     private readonly IConfiguration configuration;
+    private readonly IEventProcessor eventProcessor;
     private IConnection connection;
     private IModel channel;
     private string queueName;
-    public MessageBusSubscriber(IConfiguration configuration)
+    public MessageBusSubscriber(IConfiguration configuration, IEventProcessor eventProcessor)
     {
         this.configuration = configuration;
+        this.eventProcessor = eventProcessor;
 
         InitializeRabbitMQ();
     }
@@ -41,6 +45,11 @@ public class MessageBusSubscriber : BackgroundService
         consumer.Received += (ModuleHandle, ea) =>
         {
             Console.WriteLine("--> Event Received!");
+
+            var body = ea.Body;
+            var notificationMessage = Encoding.UTF8.GetString(body.ToArray());
+
+            eventProcessor.ProcessEvent(notificationMessage);
         };
 
         channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);

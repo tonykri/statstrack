@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using UserService.AsymcDataProcessing.MessageBusClient;
 using UserService.Categories;
 using UserService.Dto;
+using UserService.Dto.MessageBus.Send;
 using UserService.Dto.Profile;
 using UserService.Models;
 using UserService.Utils;
@@ -12,11 +14,13 @@ public class ProfessionalLifeService : IProfessionalLifeService
     private readonly ITokenDecoder tokenDecoder;
     private readonly DataContext dataContext;
     private readonly JwtToken jwtToken;
-    public ProfessionalLifeService(ITokenDecoder tokenDecoder, DataContext dataContext, JwtToken jwtToken)
+    private readonly IMessageBusClient messageBusClient;
+    public ProfessionalLifeService(ITokenDecoder tokenDecoder, DataContext dataContext, JwtToken jwtToken, IMessageBusClient messageBusClient)
     {
         this.tokenDecoder = tokenDecoder;
         this.dataContext = dataContext;
         this.jwtToken = jwtToken;
+        this.messageBusClient = messageBusClient;
     }
 
     private async Task<ApiResponse<string, Exception>> HandleProfessionalLife(ProfessionalLifeDto userData, Guid userId, string action)
@@ -37,6 +41,9 @@ public class ProfessionalLifeService : IProfessionalLifeService
             };
             await dataContext.ProfessionalLife.AddAsync(professionalLife);
             user.ProfileStage = ProfileStages.ProfessionalLife.ToString();
+
+            var message = new ProfileStageUpdatedDto(user.Id, ProfileStages.ProfessionalLife);
+            messageBusClient.Send(ref message);
         }
         else
         {

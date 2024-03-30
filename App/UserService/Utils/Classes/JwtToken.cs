@@ -18,12 +18,10 @@ public class JwtToken
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim("Id", user.Id.ToString()),
+            new Claim(ClaimTypes.Sid, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email),
-            new Claim("NoOfBusinesses", user.NoOfBusinesses.ToString()),
             new Claim("ProfileStage", user.ProfileStage),
             new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
-            new Claim(ClaimTypes.Uri, user.PhotoUrl is null ? "" : user.PhotoUrl),
             new Claim("Provider", "")
         };
 

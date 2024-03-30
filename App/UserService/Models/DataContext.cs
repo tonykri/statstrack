@@ -4,9 +4,9 @@ namespace UserService.Models;
 
 public class DataContext : DbContext
 {
-    public DataContext(DbContextOptions<DataContext> opt ) : base(opt)
+    public DataContext(DbContextOptions<DataContext> opt) : base(opt)
     {
-        
+
     }
 
     public DbSet<User> Users { get; set; }
@@ -28,7 +28,7 @@ public class DataContext : DbContext
             .HasMany(u => u.Hobbies)
             .WithOne(h => h.User)
             .HasForeignKey(h => h.UserId);
-        
+
         modelBuilder
             .Entity<User>()
             .HasOne(u => u.UserPersonalLife)
@@ -43,10 +43,10 @@ public class DataContext : DbContext
 
         modelBuilder
             .Entity<Expense>()
-            .HasKey(e => new {e.UserId, e.UserExpense});
-        
+            .HasKey(e => new { e.UserId, e.UserExpense });
+
         modelBuilder
             .Entity<Hobby>()
-            .HasKey(e => new {e.UserId, e.UserHobby});
+            .HasKey(e => new { e.UserId, e.UserHobby });
     }
 }

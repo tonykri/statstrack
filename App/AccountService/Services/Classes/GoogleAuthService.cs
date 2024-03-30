@@ -2,7 +2,7 @@ using System.Security.Cryptography;
 using AccountService.Categories;
 using AccountService.Dto;
 using AccountService.Dto.ExternalAuth;
-using AccountService.Dto.MessageBus;
+using AccountService.Dto.MessageBus.Send;
 using AccountService.Dto.Response;
 using AccountService.Models;
 using AccountService.Utils;

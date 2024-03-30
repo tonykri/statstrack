@@ -8,8 +8,7 @@ public class RefreshTokenEndpoints : IEndpointDefinition
 {
     public void DefineEndpoints(WebApplication app)
     {
-        app.MapGet("refreshtoken/{token}", RefreshToken)
-            .RequireAuthorization("completed_profile");
+        app.MapGet("refreshtoken", RefreshToken);
     }
 
     public void DefineServices(IServiceCollection services)
@@ -17,7 +16,7 @@ public class RefreshTokenEndpoints : IEndpointDefinition
         services.AddScoped<IRefreshTokenService, RefreshTokenService>();
     }
 
-    private async Task<IResult> RefreshToken([FromServices] IRefreshTokenService refreshTokenService, [FromRoute] string token)
+    private async Task<IResult> RefreshToken([FromServices] IRefreshTokenService refreshTokenService, [FromHeader] string token)
     {
         var result = await refreshTokenService.RefreshToken(token);
         return result.Match<IResult>(

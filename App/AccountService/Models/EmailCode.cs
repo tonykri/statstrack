@@ -5,6 +5,8 @@ namespace AccountService.Models;
 public class EmailCode
 {
     [Key]
+    public Guid Id { get; set; } = new Guid();
+    [Required]
     public Guid AccountId { get; set; }
     [Required]
     public Account Account { get; set; } = null!;

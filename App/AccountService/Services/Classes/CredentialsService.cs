@@ -1,7 +1,8 @@
 using System.Security.Cryptography;
 using AccountService.Categories;
 using AccountService.Dto;
-using AccountService.Dto.MessageBus;
+using AccountService.Dto.MessageBus.Received;
+using AccountService.Dto.MessageBus.Send;
 using AccountService.Dto.Request;
 using AccountService.Dto.Response;
 using AccountService.Models;
@@ -24,7 +25,7 @@ public class CredentialsService : ICredentialsService
     }
 
 
-    private async Task<string> CodeGenerator(Guid userId)
+    private async Task<string> CodeGenerator(Guid userId, bool register = false)
     {
         string characterSet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
@@ -44,7 +45,8 @@ public class CredentialsService : ICredentialsService
         {
             AccountId = user.Id,
             Account = user,
-            Code = randomCode
+            Code = randomCode,
+            Type = register ? EmailCodeType.Register.ToString() : EmailCodeType.Login.ToString()
         });
 
         await dataContext.SaveChangesAsync();
@@ -57,23 +59,19 @@ public class CredentialsService : ICredentialsService
         if (account is null)
             return new ApiResponse<int, Exception>(new Exception(ExceptionMessages.NOT_FOUND));
 
-        string code = await CodeGenerator(account.Id);
+        string code;
+        if (account.ProfileStage.Equals(ProfileStages.EmailConfirmation.ToString()))
+            code = await CodeGenerator(account.Id, true);
+        else
+        code = await CodeGenerator(account.Id);
+
         var message = new EmailNameCodeDto(account.Email, account.FirstName + " " + account.LastName, code, "Login_User_Email");
         messageBusClient.Send(ref message);
-
-        dataContext.EmailCodes.Add(new EmailCode
-        {
-            AccountId = account.Id,
-            Account = account,
-            Code = code,
-            Type = EmailCodeType.Login.ToString()
-        });
-        await dataContext.SaveChangesAsync();
 
         return new ApiResponse<int, Exception>(0);
     }
 
-    public async Task<ApiResponse<AccountDto, Exception>> Login(LoginDto accountData, bool emailVerify = false)
+    public async Task<ApiResponse<AccountDto, Exception>> Login(LoginDto accountData)
     {
         var account = await dataContext.Accounts.FirstOrDefaultAsync(a => a.Email.Equals(accountData.Email));
         if (account is null)
@@ -82,13 +80,19 @@ public class CredentialsService : ICredentialsService
         var emailCode = dataContext.EmailCodes.FirstOrDefault(e => e.Code.Equals(accountData.Code));
         if (emailCode is null)
             return new ApiResponse<AccountDto, Exception>(new Exception(ExceptionMessages.NOT_VALID));
-        if (emailCode.ExpiresAt < DateTimeOffset.UtcNow || emailCode.IsUsed ||
-                emailCode.Type != EmailCodeType.Login.ToString() || emailCode.AccountId != account.Id)
+
+        if (emailCode.ExpiresAt < DateTime.UtcNow || emailCode.IsUsed || emailCode.AccountId != account.Id)
+            return new ApiResponse<AccountDto, Exception>(new Exception(ExceptionMessages.NOT_VALID));
+        if (account.ProfileStage.Equals(ProfileStages.EmailConfirmation.ToString()) && !emailCode.Type.Equals(EmailCodeType.Register.ToString()))
             return new ApiResponse<AccountDto, Exception>(new Exception(ExceptionMessages.NOT_VALID));
         emailCode.IsUsed = true;
 
-        if (emailVerify)
+        if (emailCode.Type.Equals(EmailCodeType.Register.ToString()))
+        {
             account.ProfileStage = ProfileStages.UserBasics.ToString();
+            var message = new UserUpdatedDto(account.Id, ProfileStages.UserBasics);
+            messageBusClient.Send(ref message);
+        }
 
         var refreshToken = new RefreshToken
         {
@@ -131,18 +135,10 @@ public class CredentialsService : ICredentialsService
         var registerMessage = new UserRegisteredDto(account.Id, account.FirstName, account.LastName, account.Email);
         messageBusClient.Send(ref registerMessage);
 
-        string code = await CodeGenerator(account.Id);
+        string code = await CodeGenerator(account.Id, true);
         var message = new EmailNameCodeDto(account.Email, account.FirstName + " " + account.LastName, code, "Register_User_Email");
         messageBusClient.Send(ref message);
 
-        dataContext.EmailCodes.Add(new EmailCode
-        {
-            AccountId = account.Id,
-            Account = account,
-            Code = code,
-            Type = EmailCodeType.Register.ToString()
-        });
-        await dataContext.SaveChangesAsync();
         return new ApiResponse<int, Exception>(0);
     }
 

@@ -1,4 +1,4 @@
-namespace AccountService.Dto.MessageBus;
+namespace AccountService.Dto.MessageBus.Send;
 
 public class UserDeletedDto
 {

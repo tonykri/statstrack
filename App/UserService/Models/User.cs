@@ -12,7 +12,7 @@ public class User
     public string FirstName { get; set; } = null!;
     [Required]
     public string LastName { get; set; } = null!;
-    public DateOnly Birthdate { get; set; }
+    public DateTime? Birthdate { get; set; }
     public string? PhoneNumber { get; set; }
     public string? Gender { get; set; }
     public string? Country { get; set; }

@@ -12,7 +12,7 @@ builder.Services.AddEndpointDefinitions(typeof(IEndpointDefinition));
 builder.Services.UtilsConfig();
 
 // Configure Database using Entity Framework
-string? ConnectionString = builder.Configuration.GetConnectionString("AzureDbConnection");
+string? ConnectionString = builder.Configuration.GetConnectionString("LocalDbConnection");
 builder.Services.AddDbContext<DataContext>(
     opt => opt.UseSqlServer(ConnectionString)
 );

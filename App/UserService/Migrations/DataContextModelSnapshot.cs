@@ -22,23 +22,6 @@ namespace UserService.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("UserService.Models.EmailCode", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CodeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("EmailCodes");
-                });
-
             modelBuilder.Entity("UserService.Models.Expense", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -113,7 +96,7 @@ namespace UserService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("Birthdate")
+                    b.Property<DateTime?>("Birthdate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Country")
@@ -147,24 +130,9 @@ namespace UserService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Provider")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("UserService.Models.EmailCode", b =>
-                {
-                    b.HasOne("UserService.Models.User", "User")
-                        .WithOne("UserEmailCode")
-                        .HasForeignKey("UserService.Models.EmailCode", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("UserService.Models.Expense", b =>
@@ -216,8 +184,6 @@ namespace UserService.Migrations
                     b.Navigation("Expenses");
 
                     b.Navigation("Hobbies");
-
-                    b.Navigation("UserEmailCode");
 
                     b.Navigation("UserPersonalLife");
 

@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using UserService.AsymcDataProcessing.MessageBusClient;
 using UserService.Categories;
 using UserService.Dto;
+using UserService.Dto.MessageBus.Send;
 using UserService.Dto.Profile;
 using UserService.Models;
 using UserService.Utils;
@@ -12,11 +14,13 @@ public class HobbiesService : IHobbiesService
     private readonly ITokenDecoder tokenDecoder;
     private readonly DataContext dataContext;
     private readonly JwtToken jwtToken;
-    public HobbiesService(ITokenDecoder tokenDecoder, DataContext dataContext, JwtToken jwtToken)
+    private readonly IMessageBusClient messageBusClient;
+    public HobbiesService(ITokenDecoder tokenDecoder, DataContext dataContext, JwtToken jwtToken, IMessageBusClient messageBusClient)
     {
         this.tokenDecoder = tokenDecoder;
         this.dataContext = dataContext;
         this.jwtToken = jwtToken;
+        this.messageBusClient = messageBusClient;
     }
 
     private async Task<ApiResponse<string, Exception>> HandleHobbies(HobbiesDto userData, Guid userId, string action)
@@ -35,8 +39,12 @@ public class HobbiesService : IHobbiesService
             await dataContext.Hobbies.AddAsync(new Hobby(user, hobby));
 
         if (action.Equals("register"))
+        {
             user.ProfileStage = ProfileStages.Hobbies.ToString();
 
+            var message = new ProfileStageUpdatedDto(user.Id, ProfileStages.Hobbies);
+            messageBusClient.Send(ref message);
+        }
         await dataContext.SaveChangesAsync();
 
         string msg = action.Equals("register") ? jwtToken.CreateLoginToken(user) : "Update completed";

@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using RabbitMQ.Client;
-using AccountService.Dto.MessageBus;
+using AccountService.Dto.MessageBus.Send;
 
 namespace UserService.AsymcDataProcessing.MessageBusClient;
 
@@ -34,7 +34,7 @@ public class MessageBusClient : IMessageBusClient
 
     public void Send<T>(ref T data)
     {
-        if (data is not EmailNameCodeDto)
+        if (data is not EmailNameCodeDto && data is not UserDeletedDto && data is not UserRegisteredDto && data is not UserUpdatedDto)
         {
             Console.WriteLine("Not accepted type of object");
             return;

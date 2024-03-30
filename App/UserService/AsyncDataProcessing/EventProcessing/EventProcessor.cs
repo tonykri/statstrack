@@ -20,6 +20,9 @@ public class EventProcessor : IEventProcessor
             case EventType.UserRegistered:
                 UserRegistered(message);
                 break;
+            case EventType.UserDataUpdated:
+                UserDataUpdated(message);
+                break;
             case EventType.BusinessCreated:
                 BusinessCreated(message);
                 break;
@@ -36,13 +39,16 @@ public class EventProcessor : IEventProcessor
         Console.WriteLine("--> Determining Event");
 
         var eventType = JsonSerializer.Deserialize<GenericEventDto>(notifcationMessage);
-        if(eventType is null) return EventType.Undetermined;
+        if (eventType is null) return EventType.Undetermined;
 
         switch (eventType.Event)
         {
             case "User_Registered":
                 Console.WriteLine("--> User Registered Event Detected");
                 return EventType.UserRegistered;
+            case "User_Data_Updated":
+                Console.WriteLine("--> User Data Updated Event Detected");
+                return EventType.UserDataUpdated;
             case "Business_Created":
                 Console.WriteLine("--> Business Created Event Detected");
                 return EventType.BusinessCreated;
@@ -58,6 +64,15 @@ public class EventProcessor : IEventProcessor
         {
             var scopedService = scope.ServiceProvider.GetRequiredService<IEventHandler>();
             scopedService.UserRegistered(message);
+        }
+    }
+
+    private void UserDataUpdated(string message)
+    {
+        using (var scope = serviceScopeFactory.CreateScope())
+        {
+            var scopedService = scope.ServiceProvider.GetRequiredService<IEventHandler>();
+            scopedService.UserDataUpdated(message);
         }
     }
 
@@ -83,6 +98,7 @@ public class EventProcessor : IEventProcessor
 enum EventType
 {
     UserRegistered,
+    UserDataUpdated,
     BusinessCreated,
     BusinessDeleted,
     Undetermined

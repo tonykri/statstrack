@@ -1,4 +1,6 @@
+using AccountService.Categories;
 using AccountService.Dto.Request;
+using AccountService.Models;
 using AccountService.Services;
 using Config.Stracture;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +16,7 @@ public class CredentialsEndpoints : IEndpointDefinition
         app.MapPost("register", Register);
         app.MapGet("delete", DeleteRequest)
             .RequireAuthorization("completed_profile");
-        app.MapGet("delete/{code}", Delete)
+        app.MapDelete("delete", Delete)
             .RequireAuthorization("completed_profile");
     }
 
@@ -61,8 +63,8 @@ public class CredentialsEndpoints : IEndpointDefinition
         await credentialsService.DeleteRequest();
         return Results.NoContent();
     }
-    
-    private async Task<IResult> Delete([FromServices] ICredentialsService credentialsService, [FromRoute] string code)
+
+    private async Task<IResult> Delete([FromServices] ICredentialsService credentialsService, [FromHeader] string code)
     {
         var result = await credentialsService.Delete(code);
         return result.Match<IResult>(

@@ -1,4 +1,4 @@
-namespace AccountService.Dto.MessageBus;
+namespace AccountService.Dto.MessageBus.Send;
 
 public class UserRegisteredDto
 {
@@ -11,9 +11,9 @@ public class UserRegisteredDto
     }
 
     public Guid UserId { get; set; }
-    public string Event {get; set; } = "User_Registered";
     public string FirstName { get; set; }
-    public string LastName { get; set;}
+    public string LastName { get; set; }
     public string Email { get; set; }
     public string ProfileStage { get; set; } = "EmailConfirmation";
+    public string Event { get; } = "User_Registered";
 }

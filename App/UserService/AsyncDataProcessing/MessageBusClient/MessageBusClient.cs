@@ -36,7 +36,7 @@ public class MessageBusClient : IMessageBusClient
 
     public void Send<T>(ref T data)
     {
-        if (data is not UserDeletedDto && data is not UserUpdatedDto && data is not EmailNameCodeDto)
+        if (data is not UserUpdatedDto && data is not EmailNameCodeDto && data is not ProfileStageUpdatedDto)
         {
             Console.WriteLine("Not accepted type of object");
             return;
