@@ -17,7 +17,7 @@ public class BusinessRepo : IBusinessRepo
 
     public async Task<ApiResponse<Business, Exception>> GetBusiness(Guid businessId)
     {
-        var storedBusiness = await dataContext.Businesses.FirstOrDefaultAsync(b => b.Id == businessId && b.ExpirationDate < DateTime.Now);
+        var storedBusiness = await dataContext.Businesses.FirstOrDefaultAsync(b => b.Id == businessId && b.ExpirationDate > DateTime.UtcNow);
         if (storedBusiness is null)
             return new ApiResponse<Business, Exception>(new Exception(ExceptionMessages.NOT_FOUND));
         return new ApiResponse<Business, Exception>(storedBusiness);
@@ -32,9 +32,9 @@ public class BusinessRepo : IBusinessRepo
 
     public async Task<ApiResponse<List<Business>, Exception>> GetBusinesses(double upperLat, double upperLong, double bottomLat, double bottomLong)
     {
-        var storedBusinesses = await dataContext.Businesses.Where(b => b.Latitude < upperLat && b.Latitude > bottomLat
-            && b.Longitude < upperLong && b.Longitude > bottomLong && b.ExpirationDate < DateTime.Now)
+        var businesses = await dataContext.Businesses
+            .Where(b => b.Latitude <= upperLat && b.Latitude >= bottomLat && b.Longitude <= upperLong && b.Longitude >= bottomLong && b.ExpirationDate > DateTime.UtcNow)
             .ToListAsync();
-        return new ApiResponse<List<Business>, Exception>(storedBusinesses);
+        return new ApiResponse<List<Business>, Exception>(businesses);
     }
 }

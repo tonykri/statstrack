@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusinessService.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240207141533_InitialCreate")]
+    [Migration("20240330093713_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -73,10 +73,6 @@ namespace BusinessService.Migrations
 
                     b.Property<Guid>("PhotoId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PhotoUri")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BusinessId", "PhotoId");
 

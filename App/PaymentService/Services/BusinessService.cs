@@ -24,7 +24,7 @@ public class BusinessService : IBusinessService
         Business business = new Business
         {
             UserId = user_id,
-            ExpirationDate = DateTime.Now.AddYears(1)
+            ExpirationDate = DateTime.UtcNow.AddYears(1)
         };
         Payment payment = new Payment
         {

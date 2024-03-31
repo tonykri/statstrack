@@ -31,7 +31,7 @@ public class BusinessPhotoService : IBusinessPhotoService
                 Business = business,
                 BusinessId = business.Id
             };
-            await blobStorageService.UpdateBlobAsync(newPhoto.PhotoId.ToString(), photo);
+            await blobStorageService.UploadBlobAsync(newPhoto.PhotoId.ToString(), photo);
         }
     }
 

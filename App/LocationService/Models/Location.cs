@@ -13,5 +13,5 @@ public class Location
     [Required]
     public double Longitude { get; set; }
     [Required]
-    public DateTime CreationDate { get; set; } = DateTime.Now;
+    public DateTime CreationDate { get; set; } = DateTime.UtcNow;
 }

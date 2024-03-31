@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace LocationService.Utils;
 
@@ -32,6 +33,6 @@ public class TokenDecoder : ITokenDecoder
         givenToken = givenToken.Split(" ").Last();
         Dictionary<string, string> claims = GetClaims(givenToken);
 
-        return Guid.Parse(claims["Id"]);
+        return Guid.Parse(claims[ClaimTypes.Sid]);
     }
 }

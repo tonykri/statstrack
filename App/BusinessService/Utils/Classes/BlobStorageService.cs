@@ -15,7 +15,7 @@ public class BlobStorageService : IBlobStorageService
     public BlobStorageService(IConfiguration configuration)
     {
         _configuration = configuration;
-        string? connectionString = _configuration["BlobStorageConnection"];
+        string? connectionString = _configuration.GetConnectionString("BlobStorageConnection");
         _storageAccount = CloudStorageAccount.Parse(connectionString);
         _blobClient = _storageAccount.CreateCloudBlobClient();
     }

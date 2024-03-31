@@ -12,7 +12,7 @@ using PaymentService.Models;
 namespace PaymentService.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240205185604_InitialCreate")]
+    [Migration("20240330093524_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

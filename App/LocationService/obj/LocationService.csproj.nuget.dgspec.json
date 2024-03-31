@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\LocationService\\LocationService.csproj": {}
+    "C:\\ptyxiaki\\statstrack\\App\\LocationService\\LocationService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\LocationService\\LocationService.csproj": {
+    "C:\\ptyxiaki\\statstrack\\App\\LocationService\\LocationService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\LocationService\\LocationService.csproj",
+        "projectUniqueName": "C:\\ptyxiaki\\statstrack\\App\\LocationService\\LocationService.csproj",
         "projectName": "LocationService",
-        "projectPath": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\LocationService\\LocationService.csproj",
+        "projectPath": "C:\\ptyxiaki\\statstrack\\App\\LocationService\\LocationService.csproj",
         "packagesPath": "C:\\Users\\tonyk\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\LocationService\\obj\\",
+        "outputPath": "C:\\ptyxiaki\\statstrack\\App\\LocationService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

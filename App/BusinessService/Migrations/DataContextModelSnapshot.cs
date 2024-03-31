@@ -71,10 +71,6 @@ namespace BusinessService.Migrations
                     b.Property<Guid>("PhotoId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("PhotoUri")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("BusinessId", "PhotoId");
 
                     b.ToTable("Photos");

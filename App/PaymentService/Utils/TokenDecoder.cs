@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace PaymentService.Utils;
 
@@ -32,12 +33,12 @@ public class TokenDecoder : ITokenDecoder
         givenToken = givenToken.Split(" ").Last();
         Dictionary<string, string> claims = GetClaims(givenToken);
 
-        return Guid.Parse(claims["Id"]);
+        return Guid.Parse(claims[ClaimTypes.Sid]);
     }
 
     public Guid GetUserId(string token)
     {
         Dictionary<string, string> claims = GetClaims(token);
-        return Guid.Parse(claims["Id"]);
+        return Guid.Parse(claims[ClaimTypes.Sid]);
     }
 }

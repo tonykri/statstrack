@@ -9,5 +9,5 @@ public class Payment
     public Business Business { get; set; } = null!;
     public Guid BusinessId { get; set; }
     [Required]
-    public DateTime PaymentDate { get; set; } = DateTime.Now;
+    public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
 }

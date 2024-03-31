@@ -37,8 +37,7 @@ namespace BusinessService.Migrations
                 columns: table => new
                 {
                     PhotoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BusinessId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PhotoUri = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    BusinessId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
