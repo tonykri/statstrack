@@ -7,9 +7,9 @@ public static class AuthService
 {
     public static void AuthConfig(this IServiceCollection services, string? AppToken)
     {
-        if(AppToken is null) 
+        if (AppToken is null)
             return;
-            
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {

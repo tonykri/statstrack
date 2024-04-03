@@ -12,7 +12,7 @@ public class LocationEndpoints : IEndpointDefinition
     {
         app.MapPost("", PostLocation)
             .RequireAuthorization("completed_profile");
-        app.MapGet("", GetUsersId)
+        app.MapGet("", GetUsersIds)
             .RequireAuthorization("statistics_service");
     }
 
@@ -31,7 +31,7 @@ public class LocationEndpoints : IEndpointDefinition
         );
     }
 
-    private async Task<IResult> GetUsersId([FromServices] ILocationsRepo locationsRepo, [FromQuery] double businessLat, [FromQuery] double businessLong, [FromQuery] DateTime startTime, [FromQuery] DateTime endTime)
+    private async Task<IResult> GetUsersIds([FromServices] ILocationsRepo locationsRepo, [FromQuery] double businessLat, [FromQuery] double businessLong, [FromQuery] DateTime startTime, [FromQuery] DateTime endTime)
     {
         var ids = await locationsRepo.GetUsersId(businessLat, businessLong, startTime, endTime);
         return Results.Ok(ids);

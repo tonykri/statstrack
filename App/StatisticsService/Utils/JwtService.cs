@@ -30,7 +30,7 @@ public class JwtService : IJwtService
         return hashMap;
     }
 
-    public string CreateLoginToken()
+    public string CreateToken()
     {
         List<Claim> claims = new List<Claim>
         {

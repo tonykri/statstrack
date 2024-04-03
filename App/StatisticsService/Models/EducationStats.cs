@@ -4,6 +4,13 @@ namespace StatisticsService.Models;
 
 public class EducationStats
 {
+    public EducationStats(Business business, DateTime startTime, DateTime endTime)
+    {
+        BusinessId = business.BusinessId;
+        Business = business;
+        StartTime = startTime;
+        EndTime = endTime;
+    }
     [Key]
     public Guid Guid { get; set; } = Guid.NewGuid();
     [Required]
@@ -18,14 +25,14 @@ public class EducationStats
     public DateTime EndTime { get; set; }
 
     [Required]
-    public int Primary { get; set; }
+    public int Primary { get; set; } = 0;
 
     [Required]
-    public int Secondary { get; set; }
+    public int Secondary { get; set; } = 0;
 
     [Required]
-    public int Higher { get; set; }
+    public int Higher { get; set; } = 0;
 
     [Required]
-    public int Technical { get; set; }
+    public int Technical { get; set; } = 0;
 }

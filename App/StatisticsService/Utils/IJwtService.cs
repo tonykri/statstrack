@@ -2,6 +2,6 @@ namespace StatisticsService.Utils;
 
 public interface IJwtService 
 {
-    string CreateLoginToken();
+    string CreateToken();
     public Guid GetUserId();
 }

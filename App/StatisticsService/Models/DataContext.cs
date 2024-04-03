@@ -16,6 +16,7 @@ public class DataContext : DbContext
     public DbSet<HobbyStats> HobbyStats { get; set; }
     public DbSet<ExpenseStats> ExpenseStats { get; set; }
     public DbSet<EducationStats> EducationStats { get; set; }
+    public DbSet<WorkingHoursStats> WorkingHoursStats { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

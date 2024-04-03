@@ -40,10 +40,10 @@ public class UserDtoValidator : AbstractValidator<UserDto>
             {
                 validDialingCode = true;
                 break;
-            }   
+            }
         }
         return validDialingCode;
-    }   
+    }
 
     private bool ValidCountry(string arg)
     {
@@ -54,7 +54,7 @@ public class UserDtoValidator : AbstractValidator<UserDto>
             {
                 validCountry = true;
                 break;
-            }   
+            }
         }
         return validCountry;
     }
