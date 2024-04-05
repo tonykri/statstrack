@@ -132,3 +132,4 @@ C:\ptyxiaki\statstrack\App\StatisticsService\obj\Debug\net8.0\refint\StatisticsS
 C:\ptyxiaki\statstrack\App\StatisticsService\obj\Debug\net8.0\StatisticsService.pdb
 C:\ptyxiaki\statstrack\App\StatisticsService\obj\Debug\net8.0\StatisticsService.genruntimeconfig.cache
 C:\ptyxiaki\statstrack\App\StatisticsService\obj\Debug\net8.0\ref\StatisticsService.dll
+C:\ptyxiaki\statstrack\App\StatisticsService\bin\Debug\net8.0\Newtonsoft.Json.dll

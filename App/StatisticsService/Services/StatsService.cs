@@ -56,7 +56,7 @@ public class StatsService : IStatsService
                 string apiUrl = $"{baseUrl}/{userServiceEndpoint}";
                 var requestData = new Dictionary<string, List<Guid>>
                 {
-                    { "userIds", userIds }
+                    { "UserIds", userIds }
                 };
                 string json = JsonConvert.SerializeObject(requestData);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");

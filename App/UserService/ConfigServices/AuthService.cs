@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -6,9 +7,9 @@ public static class AuthService
 {
     public static void AuthConfig(this IServiceCollection services, string? AppToken)
     {
-        if(AppToken is null) 
+        if (AppToken is null)
             return;
-            
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -22,6 +23,8 @@ public static class AuthService
                 };
             });
         services.AddAuthorization();
+        services.AddAuthorizationBuilder()
+            .AddPolicy("statistics_service", policy => policy.RequireClaim(ClaimTypes.Name).Equals("StatisticsService"));
         services.AddAuthorizationBuilder()
             .AddPolicy("completed_profile", policy => policy.RequireClaim("ProfileStage").Equals("Completed"));
 
