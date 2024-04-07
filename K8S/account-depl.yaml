@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-depl
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accountservice
+  template:
+    metadata:
+      labels:
+        app: accountservice
+    spec:
+      containers:
+        - name: accountservice
+          image: tonykr/accountservice:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-clusterip-srv
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: accountservice
+  ports:
+  - name: accountservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

@@ -7,6 +7,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/use-regex: 'true'
     nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^/api/account(/.*)$ $1 break;
       rewrite ^/api/user(/.*)$ $1 break;
       rewrite ^/api/business(/.*)$ $1 break;
       rewrite ^/api/discount(/.*)$ $1 break;
@@ -19,6 +20,13 @@ spec:
     - host: statstrack.com
       http:
         paths:
+          - path: /api/account
+            pathType: Prefix
+            backend:
+              service:
+                name: account-clusterip-srv
+                port:
+                  number: 80
           - path: /api/user
             pathType: Prefix
             backend:
