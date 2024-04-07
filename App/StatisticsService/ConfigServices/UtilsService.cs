@@ -15,5 +15,6 @@ public static class UtilsService
         services.AddSingleton<IEventProcessor, EventProcessor>();
 
         services.AddHostedService<MessageBusSubscriber>();
+        services.AddHostedService<BusinessStatsService>();
     }
 }

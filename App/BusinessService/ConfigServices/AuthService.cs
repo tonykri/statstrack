@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -23,6 +24,7 @@ public static class AuthService
             });
         services.AddAuthorization();
         services.AddAuthorizationBuilder()
-            .AddPolicy("completed_profile", policy => policy.RequireClaim("ProfileStage").Equals("Completed"));
+            .AddPolicy("completed_profile", policy => policy.RequireClaim("ProfileStage").Equals("Completed"))
+            .AddPolicy("statistics_service", policy => policy.RequireClaim(ClaimTypes.Name).Equals("StatisticsService"));
     }
 }

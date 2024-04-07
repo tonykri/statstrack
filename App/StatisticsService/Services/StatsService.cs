@@ -11,6 +11,7 @@ public class StatsService : IStatsService
 {
     private readonly string baseUrl = "http://localhost:4004";
     private readonly string userServiceEndpoint = "";
+    private readonly string businessServiceEndpoint = "";
 
     private readonly IJwtService jwtService;
     private readonly DataContext dataContext;
@@ -82,13 +83,45 @@ public class StatsService : IStatsService
         }
     }
 
-    public async void CreateHourlyStatsAsync(Guid businessId, double businessLat, double businessLong, DateTime startTime, DateTime endTime)
+    private async Task<BusinessLocationDto?> GetBusinessLocationAsync(Guid businessId)
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            try
+            {
+                string baseUrl = "";
+                string apiUrl = $"{baseUrl}/{businessServiceEndpoint}?businessid={businessId}";
+
+                string token = jwtService.CreateToken();
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (!response.IsSuccessStatusCode)
+                    throw new Exception();
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+                BusinessLocationDto? businessLocation = JsonConvert.DeserializeObject<BusinessLocationDto>(responseContent);
+                return businessLocation;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+    }
+
+    public async void CreateHourlyStatsAsync(Guid businessId, DateTime startTime, DateTime endTime)
     {
         var business = await dataContext.Businesses.FirstOrDefaultAsync(b => b.BusinessId == businessId);
         if (business is null)
             return;
 
-        List<Guid> ids = await GetUserIdsAsync(businessLat, businessLong, startTime, endTime);
+        BusinessLocationDto? businessLocation = await GetBusinessLocationAsync(businessId);
+        if (businessLocation is null)
+            return;
+        List<Guid> ids = await GetUserIdsAsync(businessLocation.Latitude, businessLocation.Longitude, startTime, endTime);
         List<UserAccountDto> userProfiles = await GetUserProfilesAsync(ids);
 
         var educationStats = new EducationStats(business, startTime, endTime);
