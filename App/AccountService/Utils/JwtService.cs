@@ -60,7 +60,6 @@ public class JwtService : IJwtService
         return jwt;
     }
 
-
     public Guid GetUserId()
     {
         var givenToken = httpContextAccessor.HttpContext?.Request.Headers.Authorization.FirstOrDefault();
@@ -69,7 +68,6 @@ public class JwtService : IJwtService
         givenToken = givenToken.Split(" ").Last();
         Dictionary<string, string> claims = GetClaims(givenToken);
 
-        return Guid.Parse(claims["Id"]);
+        return Guid.Parse(claims[ClaimTypes.Sid]);
     }
-
 }

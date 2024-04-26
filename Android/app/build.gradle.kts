@@ -46,6 +46,9 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.github.kittinunf.fuel:fuel:2.3.1")
+    implementation ("com.google.code.gson:gson:2.8.8")
+
 
 
     implementation("androidx.core:core-ktx:1.9.0")

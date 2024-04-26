@@ -1,5 +1,7 @@
 package com.example.statstrack.fragments.auth
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,8 +10,13 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.statstrack.R
 import com.example.statstrack.activities.MainActivity
+import com.example.statstrack.helper.apiCalls.CompleteAccountService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ProfessionalFragment : Fragment() {
 
@@ -17,6 +24,11 @@ class ProfessionalFragment : Fragment() {
     private lateinit var industry: Spinner
     private lateinit var income: Spinner
     private lateinit var workHours: Spinner
+
+    private lateinit var sharedPref: SharedPreferences
+    private val completeAccountService: CompleteAccountService by lazy {
+        CompleteAccountService(requireContext())
+    }
 
     private lateinit var next: Button
 
@@ -35,12 +47,34 @@ class ProfessionalFragment : Fragment() {
         initIndustry(view)
         initWorkHours(view)
 
+        sharedPref = requireContext().getSharedPreferences("UserData", Context.MODE_PRIVATE)
+
         next = view.findViewById(R.id.professionalFragmentNext)
         next.setOnClickListener{
-            (requireActivity() as? MainActivity)?.goToPersonal()
+            next()
         }
 
         return view
+    }
+
+    private fun next() {
+        val eduLevel = eduLevel.selectedItem.toString()
+        val industry = industry.selectedItem.toString()
+        val income = income.selectedItem.toString()
+        val workingHours = workHours.selectedItem.toString()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            completeAccountService.setProfessionalData(eduLevel, industry, income, workingHours) { success ->
+                lifecycleScope.launch(Dispatchers.Main) {
+                    if (success) {
+                        (requireActivity() as? MainActivity)?.goToPersonal()
+                        Toast.makeText(requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
     }
 
     private fun initEduLevel(view: View) {

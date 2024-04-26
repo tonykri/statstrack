@@ -1,5 +1,7 @@
 package com.example.statstrack.fragments.auth
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,8 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioButton
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.statstrack.R
 import com.example.statstrack.activities.MainActivity
+import com.example.statstrack.helper.apiCalls.CompleteAccountService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PersonalFragment : Fragment() {
 
@@ -18,6 +25,11 @@ class PersonalFragment : Fragment() {
     private lateinit var marriedNo: RadioButton
 
     private lateinit var next: Button
+
+    private lateinit var sharedPref: SharedPreferences
+    private val completeAccountService: CompleteAccountService by lazy {
+        CompleteAccountService(requireContext())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +45,8 @@ class PersonalFragment : Fragment() {
         stayHomeNo = view.findViewById(R.id.personalFragmentStayHomeNo)
         marriedYes = view.findViewById(R.id.personalFragmentMarriedYes)
         marriedNo = view.findViewById(R.id.personalFragmentMarriedNo)
+
+        sharedPref = requireContext().getSharedPreferences("UserData", Context.MODE_PRIVATE)
 
         stayHomeYes.isChecked = true
         stayHomeNo.isChecked = false
@@ -58,10 +72,28 @@ class PersonalFragment : Fragment() {
 
         next = view.findViewById(R.id.personalFragmentNext)
         next.setOnClickListener{
-            (requireActivity() as? MainActivity)?.goToHobbies()
+            next()
         }
 
         return view
+    }
+
+    private fun next() {
+        val married = marriedYes.isChecked
+        val stayHome = stayHomeYes.isChecked
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            completeAccountService.setPersonalData(married, stayHome) { success ->
+                lifecycleScope.launch(Dispatchers.Main) {
+                    if (success) {
+                        (requireActivity() as? MainActivity)?.goToHobbies()
+                        Toast.makeText(requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
     }
 
 }

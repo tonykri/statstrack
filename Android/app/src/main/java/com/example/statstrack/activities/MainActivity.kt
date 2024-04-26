@@ -1,10 +1,15 @@
 package com.example.statstrack.activities
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.lifecycleScope
 import com.example.statstrack.R
 import com.example.statstrack.fragments.auth.CodeFragment
 import com.example.statstrack.fragments.auth.ExpensesFragment
@@ -15,10 +20,18 @@ import com.example.statstrack.fragments.auth.ProfessionalFragment
 import com.example.statstrack.fragments.auth.RegisterFragment
 import com.example.statstrack.fragments.auth.UserFragment
 import com.example.statstrack.helper.InitSettings
+import com.example.statstrack.helper.apiCalls.AccountService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var layout: FrameLayout
+
+    private lateinit var sharedPref: SharedPreferences
+    private val accountService: AccountService by lazy {
+        AccountService(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,9 +40,35 @@ class MainActivity : AppCompatActivity() {
         val settings = InitSettings(this, findViewById(android.R.id.content))
         settings.initScreen()
 
+        sharedPref = this.getSharedPreferences("UserData", Context.MODE_PRIVATE)
+
         layout = findViewById(R.id.mainActivityFrameLayout)
 
-        goToSignIn()
+        refreshToken()
+    }
+
+    private fun handleRedirect() {
+        when (sharedPref.getString("profileStage", "")) {
+            "UserBasics" -> goToUser()
+            "User" -> goToProfessional()
+            "ProfessionalLife" -> goToPersonal()
+            "PersonalLife" -> goToHobbies()
+            "Hobbies" -> goToExpenses()
+            "Completed" -> goToHomePage()
+        }
+    }
+    private fun refreshToken() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            accountService.refreshToken() { success ->
+                lifecycleScope.launch(Dispatchers.Main) {
+                    if (success) {
+                        handleRedirect()
+                    } else {
+                         goToSignIn()
+                    }
+                }
+            }
+        }
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -45,8 +84,8 @@ class MainActivity : AppCompatActivity() {
         val fragment = RegisterFragment()
         replaceFragment(fragment)
     }
-    fun goToCode() {
-        val fragment = CodeFragment()
+    fun goToCode(email: String) {
+        val fragment = CodeFragment.newInstance(email)
         replaceFragment(fragment)
     }
     fun goToUser() {
@@ -68,5 +107,9 @@ class MainActivity : AppCompatActivity() {
     fun goToExpenses() {
         val fragment = ExpensesFragment()
         replaceFragment(fragment)
+    }
+    fun goToHomePage() {
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
     }
 }

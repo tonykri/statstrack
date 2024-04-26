@@ -1,6 +1,8 @@
 package com.example.statstrack.fragments.auth
 
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,20 +10,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.statstrack.R
 import com.example.statstrack.activities.MainActivity
+import com.example.statstrack.helper.apiCalls.AccountService
+import com.example.statstrack.helper.apiCalls.CompleteAccountService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class UserFragment : Fragment() {
 
     private lateinit var birthdate: TextView
+    private lateinit var phoneNumber: EditText
     private lateinit var phoneCode: Spinner
     private lateinit var gender: Spinner
     private lateinit var country: Spinner
 
     private lateinit var next: Button
+
+    private lateinit var sharedPref: SharedPreferences
+    private val completeAccountService: CompleteAccountService by lazy {
+        CompleteAccountService(requireContext())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +49,10 @@ class UserFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_user, container, false)
 
+        sharedPref = requireContext().getSharedPreferences("UserData", Context.MODE_PRIVATE)
+
         birthdate = view.findViewById(R.id.userFragmentBirthdate)
+        phoneNumber = view.findViewById(R.id.userFragmentPhone)
 
         initGender(view)
         initCountries(view)
@@ -46,10 +64,31 @@ class UserFragment : Fragment() {
 
         next = view.findViewById(R.id.userFragmentNext)
         next.setOnClickListener{
-            (requireActivity() as? MainActivity)?.goToProfessional()
+            next()
         }
 
         return view
+    }
+
+    private fun next() {
+        val birthdate = birthdate.text.toString()
+        val dialingNumber = phoneCode.selectedItem.toString()
+        val phoneNum = phoneNumber.text.toString()
+        val gender = gender.selectedItem.toString()
+        val country = country.selectedItem.toString()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            completeAccountService.setUserData(birthdate, dialingNumber, phoneNum, gender, country) { success ->
+                lifecycleScope.launch(Dispatchers.Main) {
+                    if (success) {
+                        (requireActivity() as? MainActivity)?.goToProfessional()
+                        Toast.makeText(requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
     }
 
     private fun showDatePickerDialog() {
