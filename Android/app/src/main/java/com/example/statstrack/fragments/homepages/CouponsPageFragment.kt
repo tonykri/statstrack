@@ -6,12 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.statstrack.R
+import com.example.statstrack.fragments.common.BusinessFragment
 import com.example.statstrack.fragments.common.CouponFragment
+import com.example.statstrack.helper.apiCalls.HomePageService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CouponsPageFragment : Fragment() {
 
     private lateinit var layout: LinearLayout
+
+    private val homePageService: HomePageService by lazy {
+        HomePageService(requireContext())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,20 +46,21 @@ class CouponsPageFragment : Fragment() {
 
         layout.removeAllViews()
 
-        val fragment1 = CouponFragment()
-        val fragment2 = CouponFragment()
-        val fragment3 = CouponFragment()
-        val fragment4 = CouponFragment()
-        val fragment5 = CouponFragment()
-        val fragment6 = CouponFragment()
-        fragmentTransaction.add(R.id.couponsPageFragmentLayout, fragment1)
-        fragmentTransaction.add(R.id.couponsPageFragmentLayout, fragment2)
-        fragmentTransaction.add(R.id.couponsPageFragmentLayout, fragment3)
-        fragmentTransaction.add(R.id.couponsPageFragmentLayout, fragment4)
-        fragmentTransaction.add(R.id.couponsPageFragmentLayout, fragment5)
-        fragmentTransaction.add(R.id.couponsPageFragmentLayout, fragment6)
-
-        fragmentTransaction.commit()
+        lifecycleScope.launch(Dispatchers.IO) {
+            homePageService.getMyCoupons() { data ->
+                lifecycleScope.launch(Dispatchers.Main) {
+                    if (data != null) {
+                        for (coupon in data) {
+                            val fragment = CouponFragment(coupon)
+                            fragmentTransaction.add(R.id.couponsPageFragmentLayout, fragment)
+                        }
+                        fragmentTransaction.commit()
+                    } else {
+                        Toast.makeText(requireContext(), "Could not fetch data", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
     }
 
 }

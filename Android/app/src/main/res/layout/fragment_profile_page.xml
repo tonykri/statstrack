@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="Tony"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/profilePageFragmentPhoto"
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="Kristaki"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/profilePageFragmentPhoto"
@@ -78,7 +78,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="50dp"
                 android:textStyle="bold"
-                android:textSize="30sp"/>
+                android:textSize="25sp"/>
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,7 +97,13 @@
                         android:text="@string/user_data"
                         android:layout_margin="10dp"
                         android:textStyle="bold"
-                        android:textSize="20sp"/>
+                        android:textSize="18sp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginHorizontal="10sp"
+                        android:layout_height="1dp"
+                        android:background="@color/darkGray"/>
+
                     <TextView
                         android:id="@+id/profilePageFragmentProfessionalData"
                         android:layout_width="match_parent"
@@ -105,7 +111,13 @@
                         android:text="@string/professional_data"
                         android:layout_margin="10dp"
                         android:textStyle="bold"
-                        android:textSize="20sp"/>
+                        android:textSize="18sp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginHorizontal="10sp"
+                        android:layout_height="1dp"
+                        android:background="@color/darkGray"/>
+
                     <TextView
                         android:id="@+id/profilePageFragmentPersonalData"
                         android:layout_width="match_parent"
@@ -113,7 +125,13 @@
                         android:text="@string/personal_data"
                         android:layout_margin="10dp"
                         android:textStyle="bold"
-                        android:textSize="20sp"/>
+                        android:textSize="18sp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginHorizontal="10sp"
+                        android:layout_height="1dp"
+                        android:background="@color/darkGray"/>
+
                     <TextView
                         android:id="@+id/profilePageFragmentHobbiesData"
                         android:layout_width="match_parent"
@@ -121,7 +139,13 @@
                         android:text="@string/hobbies_data"
                         android:layout_margin="10dp"
                         android:textStyle="bold"
-                        android:textSize="20sp"/>
+                        android:textSize="18sp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginHorizontal="10sp"
+                        android:layout_height="1dp"
+                        android:background="@color/darkGray"/>
+
                     <TextView
                         android:id="@+id/profilePageFragmentExpensesData"
                         android:layout_width="match_parent"
@@ -129,7 +153,7 @@
                         android:text="@string/expenses_data"
                         android:layout_margin="10dp"
                         android:textStyle="bold"
-                        android:textSize="20sp"/>
+                        android:textSize="18sp"/>
                 </LinearLayout>
             </FrameLayout>
 
@@ -140,7 +164,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="50dp"
                 android:textStyle="bold"
-                android:textSize="30sp"/>
+                android:textSize="25sp"/>
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -159,7 +183,12 @@
                 android:text="@string/languages"
                 android:layout_margin="10dp"
                 android:textStyle="bold"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="10sp"
+                android:layout_height="1dp"
+                android:background="@color/darkGray"/>
 
             <TextView
                 android:id="@+id/profilePageFragmentLogout"
@@ -169,7 +198,7 @@
                 android:layout_margin="10dp"
                 android:textStyle="bold"
                 android:textColor="@color/red"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
         </LinearLayout>
         </FrameLayout>
         </LinearLayout>

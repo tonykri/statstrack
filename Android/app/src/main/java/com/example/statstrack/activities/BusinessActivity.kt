@@ -39,8 +39,8 @@ class BusinessActivity : AppCompatActivity() {
         settings.initScreen()
 
         val viewPager: ViewPager2 = findViewById(R.id.businessActivityViewPager)
-        val adapter = SliderPagerAdapter(this, images)
-        viewPager.adapter = adapter
+//        val adapter = SliderPagerAdapter(this, images)
+//        viewPager.adapter = adapter
 
         layout = findViewById(R.id.businessActivityLayout)
 

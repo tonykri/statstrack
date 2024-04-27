@@ -1,5 +1,7 @@
 package com.example.statstrack.activities
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.FrameLayout
@@ -10,10 +12,13 @@ import com.example.statstrack.fragments.homepages.MyBusinessesPageFragment
 import com.example.statstrack.fragments.homepages.ProfilePageFragment
 import com.example.statstrack.fragments.homepages.SearchPageFragment
 import com.example.statstrack.helper.InitSettings
+import com.example.statstrack.helper.apiCalls.AccountService
+import com.example.statstrack.helper.apiCalls.HomePageService
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var pagesLayout: FrameLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)

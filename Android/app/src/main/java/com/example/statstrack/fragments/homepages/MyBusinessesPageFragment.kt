@@ -1,17 +1,28 @@
 package com.example.statstrack.fragments.homepages
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.statstrack.R
 import com.example.statstrack.fragments.common.BusinessFragment
+import com.example.statstrack.helper.apiCalls.HomePageService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MyBusinessesPageFragment : Fragment() {
 
     private lateinit var layout: LinearLayout
+
+    private val homePageService: HomePageService by lazy {
+        HomePageService(requireContext())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +47,21 @@ class MyBusinessesPageFragment : Fragment() {
 
         layout.removeAllViews()
 
-        val fragment1 = BusinessFragment()
-        val fragment2 = BusinessFragment()
-        val fragment3 = BusinessFragment()
-        fragmentTransaction.add(R.id.myBusinessesPageFragmentLayout, fragment1)
-        fragmentTransaction.add(R.id.myBusinessesPageFragmentLayout, fragment2)
-        fragmentTransaction.add(R.id.myBusinessesPageFragmentLayout, fragment3)
-
-        fragmentTransaction.commit()
+        lifecycleScope.launch(Dispatchers.IO) {
+            homePageService.getMyBusinesses() { data ->
+                lifecycleScope.launch(Dispatchers.Main) {
+                    if (data != null) {
+                        for (business in data) {
+                            val fragment = BusinessFragment(business)
+                            fragmentTransaction.add(R.id.myBusinessesPageFragmentLayout, fragment)
+                        }
+                        fragmentTransaction.commit()
+                    } else {
+                        Toast.makeText(requireContext(), "Could not fetch data", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
     }
 
 }
