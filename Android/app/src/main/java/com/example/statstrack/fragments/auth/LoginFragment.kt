@@ -54,6 +54,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun login() {
+        next.isEnabled = false
         val email = emailAddress.text.toString()
         lifecycleScope.launch(Dispatchers.IO) {
             accountService.login(email) { success ->
@@ -63,6 +64,7 @@ class LoginFragment : Fragment() {
                         Toast.makeText(requireContext(), "Email has been sent", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()
+                        next.isEnabled = true
                     }
                 }
             }

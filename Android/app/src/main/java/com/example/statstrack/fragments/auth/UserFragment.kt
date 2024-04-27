@@ -77,6 +77,8 @@ class UserFragment : Fragment() {
         val gender = gender.selectedItem.toString()
         val country = country.selectedItem.toString()
 
+        next.isEnabled = false
+
         lifecycleScope.launch(Dispatchers.IO) {
             completeAccountService.setUserData(birthdate, dialingNumber, phoneNum, gender, country) { success ->
                 lifecycleScope.launch(Dispatchers.Main) {
@@ -85,6 +87,7 @@ class UserFragment : Fragment() {
                         Toast.makeText(requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()
+                        next.isEnabled = true
                     }
                 }
             }

@@ -63,6 +63,8 @@ class ProfessionalFragment : Fragment() {
         val income = income.selectedItem.toString()
         val workingHours = workHours.selectedItem.toString()
 
+        next.isEnabled = false
+
         lifecycleScope.launch(Dispatchers.IO) {
             completeAccountService.setProfessionalData(eduLevel, industry, income, workingHours) { success ->
                 lifecycleScope.launch(Dispatchers.Main) {
@@ -71,6 +73,7 @@ class ProfessionalFragment : Fragment() {
                         Toast.makeText(requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()
+                        next.isEnabled = true
                     }
                 }
             }

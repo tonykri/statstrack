@@ -65,6 +65,9 @@ class RegisterFragment : Fragment() {
         val email = emailEditText.text.toString()
         val firstName = firstNameEditText.text.toString()
         val lastName = lastNameEditText.text.toString()
+
+        next.isEnabled = false
+
         lifecycleScope.launch(Dispatchers.IO) {
             accountService.register(email, firstName, lastName) { success ->
                 lifecycleScope.launch(Dispatchers.Main) {
@@ -73,6 +76,7 @@ class RegisterFragment : Fragment() {
                         Toast.makeText(requireContext(), "Email has been sent", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()
+                        next.isEnabled = true
                     }
                 }
             }

@@ -82,6 +82,8 @@ class PersonalFragment : Fragment() {
         val married = marriedYes.isChecked
         val stayHome = stayHomeYes.isChecked
 
+        next.isEnabled = false
+
         lifecycleScope.launch(Dispatchers.IO) {
             completeAccountService.setPersonalData(married, stayHome) { success ->
                 lifecycleScope.launch(Dispatchers.Main) {
@@ -90,6 +92,7 @@ class PersonalFragment : Fragment() {
                         Toast.makeText(requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()
+                        next.isEnabled = true
                     }
                 }
             }

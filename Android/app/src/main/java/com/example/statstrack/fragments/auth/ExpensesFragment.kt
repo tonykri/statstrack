@@ -100,6 +100,7 @@ class ExpensesFragment : Fragment() {
     }
 
     private fun next() {
+        next.isEnabled = false
         lifecycleScope.launch(Dispatchers.IO) {
             completeAccountService.setExpenses(selectedItems) { success ->
                 lifecycleScope.launch(Dispatchers.Main) {
@@ -109,6 +110,7 @@ class ExpensesFragment : Fragment() {
                         Toast.makeText(requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()
+                        next.isEnabled = true
                     }
                 }
             }

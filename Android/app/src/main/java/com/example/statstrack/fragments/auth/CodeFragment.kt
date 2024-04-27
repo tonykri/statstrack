@@ -94,6 +94,7 @@ class CodeFragment : Fragment() {
     }
 
     private fun login() {
+        next.isEnabled = false
         val code = code.text.toString()
         lifecycleScope.launch(Dispatchers.IO) {
             accountService.login(email, code) { success ->
@@ -103,6 +104,7 @@ class CodeFragment : Fragment() {
                         Toast.makeText(requireContext(), "Login Completed", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()
+                        next.isEnabled = true
                     }
                 }
             }
