@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2TU5kOpTNA/2CkXOWDEzJCgBMUHI2zZc1W5ISen2kps9Tbrzqvu85yhiiHkPz1e4A39qsIBPddAuS+8Fu/BqQg==",
+  "dgSpecHash": "9HJ9V11P1IB02kLUh3Sot5V/UekdU1BITyb06h/Ngbwko/MP1TYopx3GRNGsyP56wCU/oXttc2NnjGustK18dg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\tonyk\\Desktop\\statstrack\\App\\DiscountService\\DiscountService.csproj",
+  "projectFilePath": "C:\\ptyxiaki\\statstrack\\App\\DiscountService\\DiscountService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tonyk\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\tonyk\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

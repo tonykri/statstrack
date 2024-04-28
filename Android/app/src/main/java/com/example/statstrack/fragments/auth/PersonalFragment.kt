@@ -14,10 +14,11 @@ import androidx.lifecycle.lifecycleScope
 import com.example.statstrack.R
 import com.example.statstrack.activities.MainActivity
 import com.example.statstrack.helper.apiCalls.CompleteAccountService
+import com.example.statstrack.helper.apiCalls.UpdateAccountService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PersonalFragment : Fragment() {
+class PersonalFragment(private var update: Boolean = false) : Fragment() {
 
     private lateinit var stayHomeYes: RadioButton
     private lateinit var stayHomeNo: RadioButton
@@ -29,6 +30,9 @@ class PersonalFragment : Fragment() {
     private lateinit var sharedPref: SharedPreferences
     private val completeAccountService: CompleteAccountService by lazy {
         CompleteAccountService(requireContext())
+    }
+    private val updateAccountService: UpdateAccountService by lazy {
+        UpdateAccountService(requireContext())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,8 +75,13 @@ class PersonalFragment : Fragment() {
         }
 
         next = view.findViewById(R.id.personalFragmentNext)
+        if (update)
+            next.text = requireContext().getString(R.string.update)
         next.setOnClickListener{
-            next()
+            if (update)
+                update()
+            else
+                next()
         }
 
         return view
@@ -89,6 +98,27 @@ class PersonalFragment : Fragment() {
                 lifecycleScope.launch(Dispatchers.Main) {
                     if (success) {
                         (requireActivity() as? MainActivity)?.goToHobbies()
+                        Toast.makeText(requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()
+                        next.isEnabled = true
+                    }
+                }
+            }
+        }
+    }
+
+    private fun update() {
+        val married = marriedYes.isChecked
+        val stayHome = stayHomeYes.isChecked
+
+        next.isEnabled = false
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            updateAccountService.updatePersonalData(married, stayHome) { success ->
+                lifecycleScope.launch(Dispatchers.Main) {
+                    if (success) {
+                        next.isEnabled = true
                         Toast.makeText(requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()

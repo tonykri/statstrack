@@ -28,11 +28,15 @@ class HomePageService(context: Context) {
                 when (result) {
                     is Result.Success -> {
                         val responseData = String(response.data)
-                        val gson = Gson()
-                        val businessResponse: List<BusinessResponse> = gson.fromJson(responseData, Array<BusinessResponse>::class.java).toList()
-
-                        Log.d("SUCCESS: ", "Data retrieved")
-                        callback(businessResponse)
+                        Log.d("DATA: ", responseData)
+                        try {
+                            val gson = Gson()
+                            val businessResponse: List<BusinessResponse> = gson.fromJson(responseData, Array<BusinessResponse>::class.java).toList()
+                            Log.d("SUCCESS: ", "Data retrieved")
+                            callback(businessResponse)
+                        }catch (e: Exception) {
+                            Log.d("ERROR MESSAGE: ", e.message.toString())
+                        }
                     }
                     is Result.Failure -> {
                         Log.d("ERROR: ", "Something is wrong")
@@ -52,6 +56,7 @@ class HomePageService(context: Context) {
                 when (result) {
                     is Result.Success -> {
                         val responseData = String(response.data)
+                        Log.d("DATA: ", responseData)
                         val gson = Gson()
                         val coupons: List<CouponResponse> = gson.fromJson(responseData, Array<CouponResponse>::class.java).toList()
 
@@ -77,6 +82,7 @@ class HomePageService(context: Context) {
                 when (result) {
                     is Result.Success -> {
                         val responseData = String(response.data)
+                        Log.d("DATA: ", responseData)
                         val gson = Gson()
                         val userResponse: UserResponse = gson.fromJson(responseData, UserResponse::class.java)
 

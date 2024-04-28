@@ -12,7 +12,7 @@ builder.Services.AddEndpointDefinitions(typeof(IEndpointDefinition));
 builder.Services.UtilsConfig();
 
 // Configure Database using Entity Framework
-string? ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+string? ConnectionString = builder.Configuration.GetConnectionString("LocalDbConnection");
 //string? ConnectionString = builder.Configuration.GetConnectionString("DeploymentConnection");
 builder.Services.AddDbContext<DataContext>(
     opt => opt.UseSqlServer(ConnectionString)

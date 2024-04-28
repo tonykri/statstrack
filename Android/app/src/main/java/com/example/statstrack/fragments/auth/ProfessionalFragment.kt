@@ -15,10 +15,11 @@ import androidx.lifecycle.lifecycleScope
 import com.example.statstrack.R
 import com.example.statstrack.activities.MainActivity
 import com.example.statstrack.helper.apiCalls.CompleteAccountService
+import com.example.statstrack.helper.apiCalls.UpdateAccountService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ProfessionalFragment : Fragment() {
+class ProfessionalFragment(private var update: Boolean = false) : Fragment() {
 
     private lateinit var eduLevel: Spinner
     private lateinit var industry: Spinner
@@ -28,6 +29,9 @@ class ProfessionalFragment : Fragment() {
     private lateinit var sharedPref: SharedPreferences
     private val completeAccountService: CompleteAccountService by lazy {
         CompleteAccountService(requireContext())
+    }
+    private val updateAccountService: UpdateAccountService by lazy {
+        UpdateAccountService(requireContext())
     }
 
     private lateinit var next: Button
@@ -50,8 +54,13 @@ class ProfessionalFragment : Fragment() {
         sharedPref = requireContext().getSharedPreferences("UserData", Context.MODE_PRIVATE)
 
         next = view.findViewById(R.id.professionalFragmentNext)
+        if (update)
+            next.text = requireContext().getString(R.string.update)
         next.setOnClickListener{
-            next()
+            if (update)
+                update()
+            else
+                next()
         }
 
         return view
@@ -70,6 +79,28 @@ class ProfessionalFragment : Fragment() {
                 lifecycleScope.launch(Dispatchers.Main) {
                     if (success) {
                         (requireActivity() as? MainActivity)?.goToPersonal()
+                        Toast.makeText(requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()
+                        next.isEnabled = true
+                    }
+                }
+            }
+        }
+    }
+    private fun update() {
+        val eduLevel = eduLevel.selectedItem.toString()
+        val industry = industry.selectedItem.toString()
+        val income = income.selectedItem.toString()
+        val workingHours = workHours.selectedItem.toString()
+
+        next.isEnabled = false
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            updateAccountService.updateProfessionalData(eduLevel, industry, income, workingHours) { success ->
+                lifecycleScope.launch(Dispatchers.Main) {
+                    if (success) {
+                        next.isEnabled = true
                         Toast.makeText(requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()

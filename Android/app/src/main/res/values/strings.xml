@@ -65,7 +65,8 @@
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="address">Address</string>
-    
+    <string name="update">Update</string>
+
     <string-array name="hobbies">
         <item>Reading</item>
         <item>Gardening</item>

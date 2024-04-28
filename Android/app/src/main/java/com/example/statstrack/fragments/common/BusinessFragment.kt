@@ -2,6 +2,7 @@ package com.example.statstrack.fragments.common
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,6 +29,7 @@ class BusinessFragment(private val business: BusinessResponse) : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var title: TextView
     private lateinit var description: TextView
+    private lateinit var category: TextView
     private lateinit var address: TextView
     private lateinit var reviews: TextView
     private lateinit var stars: TextView
@@ -50,11 +52,17 @@ class BusinessFragment(private val business: BusinessResponse) : Fragment() {
         viewPager = view.findViewById(R.id.businessFragmentViewPager)
         title = view.findViewById(R.id.businessFragmentTitle)
         description = view.findViewById(R.id.businessFragmentDescription)
+        category = view.findViewById(R.id.businessFragmentCategory)
         address = view.findViewById(R.id.businessFragmentAddress)
         reviews = view.findViewById(R.id.businessFragmentReviews)
         stars = view.findViewById(R.id.businessFragmentStars)
 
         initData()
+
+        address.setOnClickListener{
+            val address = address.text.toString()
+            openGoogleMaps(address)
+        }
 
         view.setOnClickListener{
             val intent = Intent(requireContext(), BusinessActivity::class.java)
@@ -64,9 +72,19 @@ class BusinessFragment(private val business: BusinessResponse) : Fragment() {
         return view
     }
 
+    private fun openGoogleMaps(address: String) {
+        val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=$address"))
+        mapIntent.setPackage("com.google.android.apps.maps")
+        if (mapIntent.resolveActivity(requireContext().packageManager) != null) {
+            startActivity(mapIntent)
+        }
+    }
+
+
     private fun initData() {
         title.text = business.brand
         description.text = business.description
+        category.text = business.category.toString().replace("_", " ")
         address.text = business.address
         reviews.text = business.reviews.toString()
         stars.text = business.stars.toString()

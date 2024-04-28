@@ -19,11 +19,12 @@ import com.example.statstrack.R
 import com.example.statstrack.activities.MainActivity
 import com.example.statstrack.helper.apiCalls.AccountService
 import com.example.statstrack.helper.apiCalls.CompleteAccountService
+import com.example.statstrack.helper.apiCalls.UpdateAccountService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
-class UserFragment : Fragment() {
+class UserFragment(private val update: Boolean = false) : Fragment() {
 
     private lateinit var birthdate: TextView
     private lateinit var phoneNumber: EditText
@@ -36,6 +37,9 @@ class UserFragment : Fragment() {
     private lateinit var sharedPref: SharedPreferences
     private val completeAccountService: CompleteAccountService by lazy {
         CompleteAccountService(requireContext())
+    }
+    private val updateAccountService: UpdateAccountService by lazy {
+        UpdateAccountService(requireContext())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,8 +67,13 @@ class UserFragment : Fragment() {
         }
 
         next = view.findViewById(R.id.userFragmentNext)
+        if (update)
+            next.text = requireContext().getString(R.string.update)
         next.setOnClickListener{
-            next()
+            if (update)
+                update()
+            else
+                next()
         }
 
         return view
@@ -84,6 +93,29 @@ class UserFragment : Fragment() {
                 lifecycleScope.launch(Dispatchers.Main) {
                     if (success) {
                         (requireActivity() as? MainActivity)?.goToProfessional()
+                        Toast.makeText(requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()
+                        next.isEnabled = true
+                    }
+                }
+            }
+        }
+    }
+    private fun update() {
+        val birthdate = birthdate.text.toString()
+        val dialingNumber = phoneCode.selectedItem.toString()
+        val phoneNum = phoneNumber.text.toString()
+        val gender = gender.selectedItem.toString()
+        val country = country.selectedItem.toString()
+
+        next.isEnabled = false
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            updateAccountService.updateUserData(birthdate, dialingNumber, phoneNum, gender, country) { success ->
+                lifecycleScope.launch(Dispatchers.Main) {
+                    if (success) {
+                        next.isEnabled = true
                         Toast.makeText(requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(requireContext(), "Something is wrong. Try again...", Toast.LENGTH_LONG).show()

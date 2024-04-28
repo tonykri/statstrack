@@ -12,7 +12,7 @@ data class BusinessResponse(
     val address: String?,
     val latitude: Double,
     val longitude: Double,
-    val expirationDate: LocalDateTime,
+    val expirationDate: String,
     val stars: Double = 0.0,
     val reviews: Int = 0,
     val photos: List<Photo> = emptyList()
