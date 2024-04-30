@@ -9,6 +9,7 @@ import com.example.statstrack.helper.apiCalls.dto.response.CouponResponse
 import com.example.statstrack.helper.apiCalls.dto.response.UserResponse
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.result.Result
+import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import java.util.UUID
 
@@ -111,6 +112,46 @@ class HomePageService(context: Context) {
                         callback(bitmap)
 
                         Log.d("SUCCESS: ", "Data retrieved")
+                    }
+                    is Result.Failure -> {
+                        Log.d("ERROR: ", "Something is wrong")
+                        callback(null)
+                    }
+                }
+            }
+    }
+
+    fun getBusinesses(topRightLatLng: LatLng, bottomRightLatLng: LatLng, category: String?, callback: (List<BusinessResponse>?) -> Unit) {
+        val token = sharedPref.getString("accessToken", "")
+
+        val baseUrl = "$businessBaseUrl/businesses"
+        val queryParams = mutableListOf<String>()
+
+        queryParams.add("upperLat=${topRightLatLng.latitude}")
+        queryParams.add("upperLong=${topRightLatLng.longitude}")
+        queryParams.add("bottomLat=${bottomRightLatLng.latitude}")
+        queryParams.add("bottomLong=${bottomRightLatLng.longitude}")
+
+        if (category != null) {
+            queryParams.add("category=$category")
+        }
+
+        val url = "$baseUrl?${queryParams.joinToString("&")}"
+        Fuel.get(url)
+            .header("Authorization" to "Bearer $token")
+            .response { _, response, result ->
+                when (result) {
+                    is Result.Success -> {
+                        val responseData = String(response.data)
+                        Log.d("DATA: ", responseData)
+                        try {
+                            val gson = Gson()
+                            val businessResponse: List<BusinessResponse> = gson.fromJson(responseData, Array<BusinessResponse>::class.java).toList()
+                            Log.d("SUCCESS: ", "Data retrieved")
+                            callback(businessResponse)
+                        }catch (e: Exception) {
+                            Log.d("ERROR MESSAGE: ", e.message.toString())
+                        }
                     }
                     is Result.Failure -> {
                         Log.d("ERROR: ", "Something is wrong")

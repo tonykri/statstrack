@@ -67,9 +67,10 @@ public class BusinessEndpoints : IEndpointDefinition
         );
     }
 
-    private async Task<IResult> GetBusinesses([FromServices] IBusinessRepo businessRepo, [FromQuery]double upperLat, [FromQuery]double upperLong, [FromQuery]double bottomLat, [FromQuery]double bottomLong)
+    private async Task<IResult> GetBusinesses([FromServices] IBusinessRepo businessRepo, [FromQuery]double upperLat, [FromQuery]double upperLong, 
+        [FromQuery]double bottomLat, [FromQuery]double bottomLong, [FromQuery]string? category)
     {
-        var result = await businessRepo.GetBusinesses(upperLat, upperLong, bottomLat, bottomLong);
+        var result = await businessRepo.GetBusinesses(upperLat, upperLong, bottomLat, bottomLong, category);
         return result.Match<IResult>(
             data => Results.Ok(data),
             exception => Results.NotFound(exception?.Message)

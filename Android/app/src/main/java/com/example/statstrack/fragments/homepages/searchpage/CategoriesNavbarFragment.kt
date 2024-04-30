@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.statstrack.R
+import com.example.statstrack.fragments.homepages.SearchPageFragment
 
 class CategoriesNavbarFragment : Fragment() {
 
@@ -50,10 +51,7 @@ class CategoriesNavbarFragment : Fragment() {
         textView.setPadding(paddingInPixels, paddingInPixels, paddingInPixels, paddingInPixels)
 
         textView.setOnClickListener{
-            for (category in categoryList) {
-                category.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            }
-            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.orangeDark))
+            handleClick(textView)
         }
 
         categoryList.add(textView)
@@ -68,6 +66,26 @@ class CategoriesNavbarFragment : Fragment() {
         for (category in categories) {
             val textView = initTextView(category)
             layout.addView(textView)
+        }
+    }
+
+    private fun handleClick(textView: TextView) {
+        val parentFragment = parentFragment
+        val textViewColor = textView.currentTextColor
+        val orangeColor = ContextCompat.getColor(requireContext(), R.color.orangeDark)
+        if(textViewColor == orangeColor) {
+            for (category in categoryList) {
+                category.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            }
+            if(parentFragment is SearchPageFragment)
+                parentFragment.getCategory()
+        }else {
+            for (category in categoryList) {
+                category.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            }
+            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.orangeDark))
+            if(parentFragment is SearchPageFragment)
+                parentFragment.getCategory(textView.text.toString().replace(" ", "_"))
         }
     }
 }
