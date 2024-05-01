@@ -40,14 +40,25 @@ public class BusinessRepo : IBusinessRepo
         if (category is null)
             businesses = await dataContext.Businesses
                 .Include(b => b.Photos)
-                .Where(b => b.Latitude <= upperLat && b.Latitude >= bottomLat && b.Longitude <= upperLong && b.Longitude >= bottomLong && b.ExpirationDate > DateTime.UtcNow)
+                .Where(b =>
+                    b.Latitude <= upperLat &&
+                    b.Latitude >= bottomLat &&
+                    b.Longitude <= upperLong &&
+                    b.Longitude >= bottomLong &&
+                    b.ExpirationDate > DateTime.UtcNow)
                 .ToListAsync();
         else
             businesses = await dataContext.Businesses
-                    .Include(b => b.Photos)
-                    .Where(b => b.Latitude <= upperLat && b.Latitude >= bottomLat && b.Longitude <= upperLong && b.Longitude >= bottomLong && 
-                        b.ExpirationDate > DateTime.UtcNow && b.Category != null && b.Category.Equals(category))
-                    .ToListAsync();
+                .Include(b => b.Photos)
+                .Where(b =>
+                    b.Latitude <= upperLat &&
+                    b.Latitude >= bottomLat &&
+                    b.Longitude <= upperLong &&
+                    b.Longitude >= bottomLong &&
+                    b.ExpirationDate > DateTime.UtcNow &&
+                    b.Category != null &&
+                    b.Category.Equals(category))
+                .ToListAsync();
 
         return new ApiResponse<List<Business>, Exception>(businesses);
     }

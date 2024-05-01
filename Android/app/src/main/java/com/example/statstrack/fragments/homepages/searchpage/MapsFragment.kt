@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -96,12 +97,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         val visibleRegion = projection.visibleRegion
 
         val topRightLatLng = visibleRegion.latLngBounds.northeast
-        val bottomRightLatLng = LatLng(visibleRegion.latLngBounds.southwest.latitude, visibleRegion.latLngBounds.northeast.longitude)
+        val bottomLeftLatLng = visibleRegion.latLngBounds.southwest
         val parentFragment = parentFragment
-        if(parentFragment is SearchPageFragment)
-            parentFragment.storeLatLng(topRightLatLng, bottomRightLatLng) {
+        if(parentFragment is SearchPageFragment) {
+            Log.d("LOCATION", topRightLatLng.latitude.toString())
+            Log.d("LOCATION", topRightLatLng.longitude.toString())
+            Log.d("LOCATION", bottomLeftLatLng.latitude.toString())
+            Log.d("LOCATION", bottomLeftLatLng.longitude.toString())
+            parentFragment.storeLatLng(topRightLatLng, bottomLeftLatLng) {
                 businesses = parentFragment.getBusinesses()
             }
+        }
         updateMarkers()
     }
 
@@ -144,7 +150,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
 
     companion object {
-        private const val DEFAULT_ZOOM = 15f
+        private const val DEFAULT_ZOOM = 17f
         private const val REQUEST_LOCATION_PERMISSION = 1
     }
 }

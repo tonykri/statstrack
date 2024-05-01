@@ -2,6 +2,7 @@ package com.example.statstrack.fragments.common
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -89,10 +90,12 @@ class BusinessFragment(private val business: BusinessResponse) : Fragment() {
         reviews.text = business.reviews.toString()
         stars.text = business.stars.toString()
 
-        if(business.photos.isEmpty())
-            return
-
         val images: MutableList<Bitmap> = mutableListOf()
+        if (business.photos.isEmpty()) {
+            val drawableId = R.drawable.no_image
+            val bitmap = BitmapFactory.decodeResource(resources, drawableId)
+            images.add(bitmap)
+        }
         for (photo in business.photos) {
             lifecycleScope.launch(Dispatchers.IO) {
                 homePageService.getBusinessPhoto(business.id, photo.photoId) { data ->
@@ -100,7 +103,7 @@ class BusinessFragment(private val business: BusinessResponse) : Fragment() {
                         if (data != null) {
                             images.add(data)
                         } else {
-//                            Toast.makeText(requireContext(), "Could not fetch data", Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), "Could not fetch data", Toast.LENGTH_LONG).show()
                         }
                     }
                 }

@@ -121,7 +121,7 @@ class HomePageService(context: Context) {
             }
     }
 
-    fun getBusinesses(topRightLatLng: LatLng, bottomRightLatLng: LatLng, category: String?, callback: (List<BusinessResponse>?) -> Unit) {
+    fun getBusinesses(topRightLatLng: LatLng, bottomLeftLatLng: LatLng, category: String?, callback: (List<BusinessResponse>?) -> Unit) {
         val token = sharedPref.getString("accessToken", "")
 
         val baseUrl = "$businessBaseUrl/businesses"
@@ -129,8 +129,8 @@ class HomePageService(context: Context) {
 
         queryParams.add("upperLat=${topRightLatLng.latitude}")
         queryParams.add("upperLong=${topRightLatLng.longitude}")
-        queryParams.add("bottomLat=${bottomRightLatLng.latitude}")
-        queryParams.add("bottomLong=${bottomRightLatLng.longitude}")
+        queryParams.add("bottomLat=${bottomLeftLatLng.latitude}")
+        queryParams.add("bottomLong=${bottomLeftLatLng.longitude}")
 
         if (category != null) {
             queryParams.add("category=$category")

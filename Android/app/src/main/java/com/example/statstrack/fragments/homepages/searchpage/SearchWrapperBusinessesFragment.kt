@@ -1,11 +1,15 @@
 package com.example.statstrack.fragments.homepages.searchpage
 
+import android.app.ActionBar
 import android.os.Bundle
+import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import com.example.statstrack.R
 import com.example.statstrack.fragments.common.BusinessFragment
 import com.example.statstrack.fragments.homepages.SearchPageFragment
@@ -39,6 +43,33 @@ class SearchWrapperBusinessesFragment : BottomSheetDialogFragment() {
         val fragmentManager = childFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         layout.removeAllViews()
+
+        val cardView = CardView(requireContext())
+
+        val layoutParams = LinearLayout.LayoutParams(
+            resources.getDimensionPixelSize(R.dimen.swipe_line_width),
+            resources.getDimensionPixelSize(R.dimen.swipe_line_height)
+        )
+        layoutParams.gravity = Gravity.CENTER
+        cardView.layoutParams = layoutParams
+        cardView.cardElevation = resources.getDimension(R.dimen.swipe_line_elevation)
+        cardView.setCardBackgroundColor(resources.getColor(R.color.black))
+
+//        val marginLayoutParams = LinearLayout.LayoutParams(
+//            resources.getDimensionPixelSize(R.dimen.swipe_line_width),
+//            resources.getDimensionPixelSize(R.dimen.swipe_line_height)
+//        )
+//        marginLayoutParams.setMargins(
+//            resources.getDimensionPixelSize(R.dimen.swipe_line_margin),
+//            resources.getDimensionPixelSize(R.dimen.swipe_line_margin),
+//            resources.getDimensionPixelSize(R.dimen.swipe_line_margin),
+//            resources.getDimensionPixelSize(R.dimen.swipe_line_margin)
+//        )
+//        cardView.layoutParams = marginLayoutParams
+
+        layout.addView(cardView)
+
+
         if(businesses.isEmpty())
             Toast.makeText(requireContext(), "No businesses where found", Toast.LENGTH_LONG).show()
         for (business in businesses) {

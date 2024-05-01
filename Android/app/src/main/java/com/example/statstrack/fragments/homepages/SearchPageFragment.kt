@@ -24,7 +24,7 @@ class SearchPageFragment : Fragment() {
     private var businesses: List<BusinessResponse> = listOf()
     private var category: String? = null
     private lateinit var topRightLatLng: LatLng
-    private lateinit var bottomRightLatLng: LatLng
+    private lateinit var bottomLeftLatLng: LatLng
     private val mapsFragment = MapsFragment()
 
     private val homePageService: HomePageService by lazy {
@@ -61,11 +61,13 @@ class SearchPageFragment : Fragment() {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
                         bottomSheetFragment.dismiss()
                     }
+                    else -> {  }
                 }
             }
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
             }
         })
+
 
         return view
     }
@@ -73,7 +75,7 @@ class SearchPageFragment : Fragment() {
     fun getCategory(category: String? = null) {
         this.category = category
         lifecycleScope.launch(Dispatchers.IO) {
-            homePageService.getBusinesses(topRightLatLng, bottomRightLatLng, category) { data ->
+            homePageService.getBusinesses(topRightLatLng, bottomLeftLatLng, category) { data ->
                 lifecycleScope.launch(Dispatchers.Main) {
                     if (data != null) {
                         businesses = data
@@ -86,11 +88,11 @@ class SearchPageFragment : Fragment() {
         }
     }
 
-    fun storeLatLng(topRightLatLng: LatLng, bottomRightLatLng: LatLng, callback: () -> Unit) {
+    fun storeLatLng(topRightLatLng: LatLng, bottomLeftLatLng: LatLng, callback: () -> Unit) {
         this.topRightLatLng = topRightLatLng
-        this.bottomRightLatLng = bottomRightLatLng
+        this.bottomLeftLatLng = bottomLeftLatLng
         lifecycleScope.launch(Dispatchers.IO) {
-            homePageService.getBusinesses(topRightLatLng, bottomRightLatLng, category) { data ->
+            homePageService.getBusinesses(topRightLatLng, bottomLeftLatLng, category) { data ->
                 lifecycleScope.launch(Dispatchers.Main) {
                     if (data != null) {
                         businesses = data
