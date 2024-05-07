@@ -14,20 +14,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout5"
+    <HorizontalScrollView
+        android:id="@+id/businessActivityScrollView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/businessActivityViewPager">
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/businessActivityInfo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/info"
@@ -38,6 +42,7 @@
             android:id="@+id/businessActivityReviews"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/reviews"
@@ -47,6 +52,17 @@
             android:id="@+id/businessActivityCouponsSub"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/coupons"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/businessActivityCouponsBus"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/coupons"
@@ -56,11 +72,23 @@
             android:id="@+id/businessActivityEdit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/edit"
             android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/businessActivityStats"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/stats"
+            android:textSize="18sp" />
     </LinearLayout>
+    </HorizontalScrollView>
 
     <FrameLayout
         android:id="@+id/businessActivityLayout"
@@ -69,7 +97,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+        app:layout_constraintTop_toBottomOf="@+id/businessActivityScrollView">
 
     </FrameLayout>
 

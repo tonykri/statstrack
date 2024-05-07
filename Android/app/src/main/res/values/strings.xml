@@ -66,6 +66,9 @@
     <string name="description">Description</string>
     <string name="address">Address</string>
     <string name="update">Update</string>
+    <string name="stats">Stats</string>
+    <string name="redeem_coupon">Redeem your coupon</string>
+    <string name="redeem">Redeem</string>
 
     <string-array name="hobbies">
         <item>Reading</item>

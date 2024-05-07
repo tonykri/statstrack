@@ -67,6 +67,8 @@ class BusinessFragment(private val business: BusinessResponse) : Fragment() {
 
         view.setOnClickListener{
             val intent = Intent(requireContext(), BusinessActivity::class.java)
+            intent.putExtra("businessId", business.id)
+            intent.putExtra("userId", business.userId)
             startActivity(intent)
         }
 
