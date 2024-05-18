@@ -99,10 +99,18 @@
                 android:id="@+id/reviewFragmentReviewEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="20dp"
                 android:ems="10"
                 android:gravity="top|start"
                 android:inputType="textMultiLine"
-                android:text="This is supposed to be a comment in a business about its product or service. Nice!" />
+                android:text=" " />
+
+            <RatingBar
+                android:id="@+id/reviewFragmentReviewEditStars"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"/>
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -176,10 +184,11 @@
                 android:id="@+id/reviewFragmentResponseEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="20dp"
                 android:ems="10"
                 android:gravity="top|start"
                 android:inputType="textMultiLine"
-                android:text="This is supposed to be a response to review above. Thank you next time 5 stars..." />
+                android:text="" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

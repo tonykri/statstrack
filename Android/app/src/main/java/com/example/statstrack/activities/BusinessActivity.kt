@@ -45,6 +45,8 @@ class BusinessActivity : AppCompatActivity() {
     private val businessId = intent.getStringExtra("businessId")
     private val businessOwnerId = intent.getStringExtra("userId")
 
+    private var belongsToUser = false
+
     private lateinit var sharedPref: SharedPreferences
 
     private val homePageService: HomePageService by lazy {
@@ -84,7 +86,7 @@ class BusinessActivity : AppCompatActivity() {
         }
         reviewsBtn.setOnClickListener{
             resetButtons()
-            replaceFragment(ReviewsWrapperFragment())
+            replaceFragment(ReviewsWrapperFragment(UUID.fromString(businessId), belongsToUser))
             reviewsBtn.setTextColor(ContextCompat.getColor(this, R.color.orangeDark))
         }
         couponsSubBtn.setOnClickListener{
@@ -108,6 +110,7 @@ class BusinessActivity : AppCompatActivity() {
         val userId = sharedPref.getString("id", "")
         if (userId.equals(businessOwnerId)) {
             couponsSubBtn.isVisible = false
+            belongsToUser = true
         } else {
             couponsBusBtn.isVisible = false
             editBtn.isVisible = false

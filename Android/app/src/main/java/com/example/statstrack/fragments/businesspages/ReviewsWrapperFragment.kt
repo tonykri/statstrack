@@ -6,14 +6,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.statstrack.R
 import com.example.statstrack.fragments.businesspages.reviewspage.AddReviewFragment
 import com.example.statstrack.fragments.businesspages.reviewspage.ReviewFragment
 import com.example.statstrack.fragments.common.CouponFragment
+import com.example.statstrack.helper.apiCalls.BusinessService
+import com.example.statstrack.helper.apiCalls.ReviewsService
+import com.example.statstrack.helper.apiCalls.dto.response.BusinessResponse
+import com.example.statstrack.helper.apiCalls.dto.response.ReviewResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.UUID
 
-class ReviewsWrapperFragment : Fragment() {
+class ReviewsWrapperFragment(private val businessId: UUID, private val belongsToUser: Boolean) : Fragment() {
 
     private lateinit var layout: LinearLayout
+    private var reviews: List<ReviewResponse> = listOf()
+
+    private val reviewsService: ReviewsService by lazy {
+        ReviewsService(requireContext())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,34 +42,36 @@ class ReviewsWrapperFragment : Fragment() {
 
         layout = view.findViewById(R.id.reviewsWrapperLayout)
 
-        view.postDelayed({
-            addReviews()
-        }, 2000)
+        addReviews()
 
         return view
     }
 
-    private fun addReviews() {
+    fun addReviews() {
         val fragmentManager = childFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
 
+        lifecycleScope.launch(Dispatchers.IO) {
+            reviewsService.getReviews(businessId) { data ->
+                lifecycleScope.launch(Dispatchers.Main) {
+                    if (data != null) {
+                        reviews = data
+                    } else {
+                        Toast.makeText(requireContext(), "Could not fetch data", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
+
         layout.removeAllViews()
 
-        val fragment = AddReviewFragment()
+        val fragment = AddReviewFragment(businessId)
         fragmentTransaction.add(R.id.reviewsWrapperLayout, fragment)
 
-        val fragment1 = ReviewFragment()
-        val fragment2 = ReviewFragment()
-        val fragment3 = ReviewFragment()
-        val fragment4 = ReviewFragment()
-        val fragment5 = ReviewFragment()
-        val fragment6 = ReviewFragment()
-        fragmentTransaction.add(R.id.reviewsWrapperLayout, fragment1)
-        fragmentTransaction.add(R.id.reviewsWrapperLayout, fragment2)
-        fragmentTransaction.add(R.id.reviewsWrapperLayout, fragment3)
-        fragmentTransaction.add(R.id.reviewsWrapperLayout, fragment4)
-        fragmentTransaction.add(R.id.reviewsWrapperLayout, fragment5)
-        fragmentTransaction.add(R.id.reviewsWrapperLayout, fragment6)
+        for (review in reviews) {
+            val fragment = ReviewFragment(review, businessId, belongsToUser)
+            fragmentTransaction.add(R.id.reviewsWrapperLayout, fragment)
+        }
 
         fragmentTransaction.commit()
     }
