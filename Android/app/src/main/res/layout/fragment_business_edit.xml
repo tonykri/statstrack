@@ -61,9 +61,8 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
                 android:ems="10"
-                android:inputType="text"
                 android:hint="@string/title"
-                android:text="Title" />
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/businessEditFragmentDescription"
@@ -73,9 +72,8 @@
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:gravity="top|start"
-                android:inputType="textMultiLine"
                 android:hint="@string/description"
-                android:text="loreeeeeeeeeeemmmmmmmmmmmmmmmmmmmmmmmmmmmmm" />
+                android:inputType="textMultiLine" />
 
             <Spinner
                 android:id="@+id/businessEditFragmentSpinner"
@@ -88,12 +86,20 @@
                 android:id="@+id/businessEditFragmentAddress"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:ems="10"
-                android:inputType="text"
-                android:text="Karaoli kai Dimitriou 80"
-                android:hint="@string/address"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="@string/address"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/businessEditFragmentLocationBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                style="@style/ButtonStyle"
+                android:text="@string/set_location" />
 
             <Button
                 android:id="@+id/businessEditFragmentSaveBtn"

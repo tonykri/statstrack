@@ -101,7 +101,7 @@ class BusinessActivity : AppCompatActivity() {
         }
         editBtn.setOnClickListener{
             resetButtons()
-            replaceFragment(BusinessEditFragment())
+            replaceFragment(BusinessEditFragment(UUID.fromString(businessId)))
             editBtn.setTextColor(ContextCompat.getColor(this, R.color.orangeDark))
         }
     }
