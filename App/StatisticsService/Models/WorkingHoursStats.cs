@@ -4,6 +4,7 @@ namespace StatisticsService.Models;
 
 public class WorkingHoursStats
 {
+    public WorkingHoursStats(){}
     public WorkingHoursStats(Business business, DateTime startTime, DateTime endTime)
     {
         BusinessId = business.BusinessId;

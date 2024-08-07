@@ -15,6 +15,17 @@ public static class UtilsService
         services.AddSingleton<IEventProcessor, EventProcessor>();
 
         services.AddHostedService<MessageBusSubscriber>();
-        services.AddHostedService<BusinessStatsService>();
+        services.AddHostedService<BusinessStatsService>(provider =>
+        {
+            var scopeFactory = provider.GetRequiredService<IServiceScopeFactory>();
+            return new BusinessStatsService(scopeFactory);
+        });
+        services.AddHostedService(provider =>
+        {
+            var interval = TimeSpan.FromHours(1);
+            var dueTime = TimeSpan.Zero; 
+
+            return new HourlyService(provider, dueTime, interval);
+        });
     }
 }

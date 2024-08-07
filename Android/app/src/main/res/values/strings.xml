@@ -70,6 +70,9 @@
     <string name="redeem_coupon">Redeem your coupon</string>
     <string name="redeem">Redeem</string>
     <string name="set_location">Set Location</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="renew">Renew License</string>
 
     <string-array name="hobbies">
         <item>Reading</item>

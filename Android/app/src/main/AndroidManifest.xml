@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -18,6 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StatsTrack"
         tools:targetApi="31">
+
+        <service
+            android:name=".helper.LocationService"
+            android:enabled="true"
+            android:exported="false" />
+
         <activity
             android:name=".activities.UpdateUserDataActivity"
             android:exported="false" />
@@ -42,5 +49,12 @@
             </intent-filter>
         </activity>
     </application>
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http" />
+        </intent>
+    </queries>
 
 </manifest>

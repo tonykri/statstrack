@@ -1,6 +1,7 @@
 package com.example.statstrack.fragments.businesspages
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,7 @@ class ReviewsWrapperFragment(private val businessId: UUID, private val belongsTo
 
         lifecycleScope.launch(Dispatchers.IO) {
             reviewsService.getReviews(businessId) { data ->
+                Log.d("Reviews", data.toString())
                 lifecycleScope.launch(Dispatchers.Main) {
                     if (data != null) {
                         reviews = data

@@ -176,14 +176,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/profilePageFragmentLanguages"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/languages"
-                android:layout_margin="10dp"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_marginHorizontal="10sp"

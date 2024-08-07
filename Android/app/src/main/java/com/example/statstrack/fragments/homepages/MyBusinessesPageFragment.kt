@@ -1,11 +1,15 @@
 package com.example.statstrack.fragments.homepages
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -18,7 +22,10 @@ import kotlinx.coroutines.launch
 
 class MyBusinessesPageFragment : Fragment() {
 
+    private lateinit var sharedPref: SharedPreferences
+
     private lateinit var layout: LinearLayout
+    private lateinit var addBusinessBtn: Button
 
     private val homePageService: HomePageService by lazy {
         HomePageService(requireContext())
@@ -35,8 +42,22 @@ class MyBusinessesPageFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_my_businesses_page, container, false)
 
+        sharedPref = requireContext().getSharedPreferences("UserData", Context.MODE_PRIVATE)
+
         layout = view.findViewById(R.id.myBusinessesPageFragmentLayout)
+        addBusinessBtn = view.findViewById(R.id.myBusinessesPageFragmentAddBtn)
         addBusinesses()
+
+        addBusinessBtn.setOnClickListener{
+            val url = "http://localhost:4005/pay?token=${sharedPref.getString("id", "")}"
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            context?.packageManager?.let {
+                if (intent.resolveActivity(it) != null) {
+                    startActivity(intent)
+                }
+            }
+        }
 
         return view
     }
@@ -52,6 +73,7 @@ class MyBusinessesPageFragment : Fragment() {
                 lifecycleScope.launch(Dispatchers.Main) {
                     if (data != null) {
                         for (business in data) {
+                            Log.d("Bid", business.id.toString())
                             val fragment = BusinessFragment(business)
                             fragmentTransaction.add(R.id.myBusinessesPageFragmentLayout, fragment)
                         }

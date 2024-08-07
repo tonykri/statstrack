@@ -4,6 +4,7 @@ namespace StatisticsService.Models;
 
 public class IndustryStats
 {
+    public IndustryStats() {}
     public IndustryStats(Business business, DateTime startTime, DateTime endTime)
     {
         BusinessId = business.BusinessId;

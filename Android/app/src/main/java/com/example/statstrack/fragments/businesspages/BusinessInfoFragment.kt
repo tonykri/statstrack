@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-class BusinessInfoFragment(private val businessId: UUID) : Fragment() {
+class BusinessInfoFragment(private val businessId: UUID?) : Fragment() {
     private lateinit var title: TextView
     private lateinit var description: TextView
     private lateinit var category: TextView

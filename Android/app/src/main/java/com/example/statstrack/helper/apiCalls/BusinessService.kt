@@ -21,7 +21,7 @@ class BusinessService(context: Context) {
     private val couponBaseUrl = "http://10.0.2.2:4002"
     private val sharedPref = context.getSharedPreferences("UserData", Context.MODE_PRIVATE)
 
-    fun getBusinessPhotos(businessId: UUID, callback: (List<UUID>?) -> Unit) {
+    fun getBusinessPhotos(businessId: UUID?, callback: (List<UUID>?) -> Unit) {
         val token = sharedPref.getString("accessToken", "")
         val url = "$businessBaseUrl/photos/$businessId"
 
@@ -46,10 +46,10 @@ class BusinessService(context: Context) {
             }
     }
 
-    fun getBusiness(businessId: UUID, callback: (BusinessResponse?) -> Unit) {
+    fun getBusiness(businessId: UUID?, callback: (BusinessResponse?) -> Unit) {
         val token = sharedPref.getString("accessToken", "")
         val url = "$businessBaseUrl/$businessId"
-
+        Log.d("BID", businessId.toString())
         Fuel.get(url)
             .header("Authorization" to "Bearer $token")
             .response { _, response, result ->
@@ -64,7 +64,7 @@ class BusinessService(context: Context) {
                         callback(business)
                     }
                     is Result.Failure -> {
-                        Log.d("ERROR: ", "Something is wrong")
+                        Log.d("ERROR: ", result.toString())
                         callback(null)
                     }
                 }

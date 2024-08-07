@@ -19,75 +19,77 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/businessActivityViewPager">
-    <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/businessActivityInfo"
+        <LinearLayout
+            android:id="@+id/linearLayout5"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/info"
-            android:textSize="18sp"
-            android:textColor="@color/orangeDark"/>
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/businessActivityReviews"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/reviews"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/businessActivityInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/info"
+                android:textColor="@color/orangeDark"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/businessActivityCouponsSub"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/coupons"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/businessActivityReviews"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/reviews"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/businessActivityCouponsBus"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/coupons"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/businessActivityCouponsSub"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/coupons"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/businessActivityEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/edit"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/businessActivityCouponsBus"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/coupons"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/businessActivityStats"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/stats"
-            android:textSize="18sp" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/businessActivityEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/edit"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/businessActivityStats"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/stats"
+                android:textSize="18sp" />
+        </LinearLayout>
     </HorizontalScrollView>
 
     <FrameLayout

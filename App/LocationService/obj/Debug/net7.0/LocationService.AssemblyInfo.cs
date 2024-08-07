@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LocationService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d9cfe95945c3ac82ef919d5083e59c2f534d3d29")]
 [assembly: System.Reflection.AssemblyProductAttribute("LocationService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LocationService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

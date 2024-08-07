@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 public class BusinessStatsService : BackgroundService
 {
-    private readonly IStatsService statsService;
-    private readonly DataContext dataContext;
-    public BusinessStatsService(IStatsService statsService, DataContext dataContext)
+    private readonly IServiceScopeFactory _scopeFactory;
+
+    public BusinessStatsService(IServiceScopeFactory scopeFactory)
     {
-        this.statsService = statsService;
-        this.dataContext = dataContext;
+        _scopeFactory = scopeFactory;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -26,24 +25,25 @@ public class BusinessStatsService : BackgroundService
 
         await Task.Delay(delay, stoppingToken);
 
-        var businesses = dataContext.Businesses
-            .Where(b => b.ExpirationDate > DateTime.UtcNow)
-            .ToList();
-        foreach (var business in businesses)
-        {
-            statsService.CreateHourlyStatsAsync(business.BusinessId, DateTime.UtcNow.AddHours(-1), DateTime.UtcNow);
-        }
-
         while (!stoppingToken.IsCancellationRequested)
         {
-            var storedBusinesses = dataContext.Businesses
-            .Where(b => b.ExpirationDate > DateTime.UtcNow)
-            .ToList();
-            foreach (var business in storedBusinesses)
+            using (var scope = _scopeFactory.CreateScope())
             {
-                statsService.CreateHourlyStatsAsync(business.BusinessId, DateTime.UtcNow.AddHours(-1), DateTime.UtcNow);
+                var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                var statsService = scope.ServiceProvider.GetRequiredService<IStatsService>();
+
+                var businesses = dataContext.Businesses
+                    .Where(b => b.ExpirationDate > DateTime.UtcNow)
+                    .ToList();
+
+                foreach (var business in businesses)
+                {
+                    statsService.CreateHourlyStatsAsync(business.BusinessId, DateTime.UtcNow.AddHours(-1), DateTime.UtcNow);
+                }
             }
+
             await Task.Delay(TimeSpan.FromHours(1), stoppingToken);
         }
     }
 }
+

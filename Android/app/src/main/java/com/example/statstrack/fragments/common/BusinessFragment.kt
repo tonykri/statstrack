@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -67,8 +68,9 @@ class BusinessFragment(private val business: BusinessResponse) : Fragment() {
 
         view.setOnClickListener{
             val intent = Intent(requireContext(), BusinessActivity::class.java)
-            intent.putExtra("businessId", business.id)
-            intent.putExtra("userId", business.userId)
+            intent.putExtra("businessId", business.id.toString())
+            intent.putExtra("userId", business.userId.toString())
+            Log.d("USERIDDD", business.userId.toString())
             startActivity(intent)
         }
 

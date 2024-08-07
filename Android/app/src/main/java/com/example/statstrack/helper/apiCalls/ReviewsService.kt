@@ -20,10 +20,11 @@ class ReviewsService(context: Context) {
     fun getReviews(businessId: UUID, callback: (List<ReviewResponse>?) -> Unit) {
         val token = sharedPref.getString("accessToken", "")
         val url = "$baseUrl/$businessId"
-
+        Log.d("Bid", businessId.toString())
         Fuel.get(url)
             .header("Authorization" to "Bearer $token")
             .response { _, response, result ->
+                Log.d("res",response.toString())
                 when (result) {
                     is Result.Success -> {
                         val responseData = String(response.data)

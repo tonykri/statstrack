@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -22,6 +23,7 @@ import com.example.statstrack.fragments.businesspages.BusinessInfoFragment
 import com.example.statstrack.fragments.businesspages.GetCouponFragment
 import com.example.statstrack.fragments.businesspages.RedeemCouponFragment
 import com.example.statstrack.fragments.businesspages.ReviewsWrapperFragment
+import com.example.statstrack.fragments.businesspages.StatsFragment
 import com.example.statstrack.fragments.common.CouponFragment
 import com.example.statstrack.helper.InitSettings
 import com.example.statstrack.helper.SliderPagerAdapter
@@ -42,10 +44,12 @@ class BusinessActivity : AppCompatActivity() {
     private lateinit var editBtn: TextView
     private lateinit var statsBtn: TextView
     private lateinit var viewPager: ViewPager2
-    private val businessId = intent.getStringExtra("businessId")
-    private val businessOwnerId = intent.getStringExtra("userId")
+    private var businessId: String? = null
+    private var businessOwnerId: String? = null
 
     private var belongsToUser = false
+
+    private var bUId: UUID = UUID.randomUUID()
 
     private lateinit var sharedPref: SharedPreferences
 
@@ -64,6 +68,19 @@ class BusinessActivity : AppCompatActivity() {
         settings.initScreen()
         sharedPref = this.getSharedPreferences("UserData", Context.MODE_PRIVATE)
 
+        businessId = intent.getStringExtra("businessId")
+        businessOwnerId = intent.getStringExtra("userId")
+        val bId: UUID
+        if (businessId != null)
+            bId = UUID.fromString(businessId)
+        else
+            bId = UUID.randomUUID()
+
+        if (businessOwnerId != null)
+            bUId = UUID.fromString(businessOwnerId)
+        else
+            bUId = UUID.randomUUID()
+
         viewPager = findViewById(R.id.businessActivityViewPager)
 
         layout = findViewById(R.id.businessActivityLayout)
@@ -76,39 +93,46 @@ class BusinessActivity : AppCompatActivity() {
         statsBtn = findViewById(R.id.businessActivityStats)
 
         showButtons()
-        replaceFragment(BusinessInfoFragment(UUID.fromString(businessId)))
-        initPhotos(UUID.fromString(businessId))
+        replaceFragment(BusinessInfoFragment(bId))
+            initPhotos(bId)
 
         infoBtn.setOnClickListener{
             resetButtons()
-            replaceFragment(BusinessInfoFragment(UUID.fromString(businessId)))
+            replaceFragment(BusinessInfoFragment(bId))
             infoBtn.setTextColor(ContextCompat.getColor(this, R.color.orangeDark))
         }
         reviewsBtn.setOnClickListener{
             resetButtons()
-            replaceFragment(ReviewsWrapperFragment(UUID.fromString(businessId), belongsToUser))
+            replaceFragment(ReviewsWrapperFragment(bId, belongsToUser))
             reviewsBtn.setTextColor(ContextCompat.getColor(this, R.color.orangeDark))
         }
         couponsSubBtn.setOnClickListener{
             resetButtons()
-            replaceFragment(GetCouponFragment(UUID.fromString(businessId)))
+            replaceFragment(GetCouponFragment(bId))
             couponsSubBtn.setTextColor(ContextCompat.getColor(this, R.color.orangeDark))
         }
         couponsBusBtn.setOnClickListener{
             resetButtons()
-            replaceFragment(RedeemCouponFragment(UUID.fromString(businessId)))
+            replaceFragment(RedeemCouponFragment(bId))
             couponsBusBtn.setTextColor(ContextCompat.getColor(this, R.color.orangeDark))
         }
         editBtn.setOnClickListener{
             resetButtons()
-            replaceFragment(BusinessEditFragment(UUID.fromString(businessId)))
+            replaceFragment(BusinessEditFragment(bId))
             editBtn.setTextColor(ContextCompat.getColor(this, R.color.orangeDark))
+        }
+        statsBtn.setOnClickListener{
+            resetButtons()
+            replaceFragment(StatsFragment(bId))
+            statsBtn.setTextColor(ContextCompat.getColor(this, R.color.orangeDark))
         }
     }
 
     private fun showButtons() {
         val userId = sharedPref.getString("id", "")
-        if (userId.equals(businessOwnerId)) {
+        Log.d("USERID", userId+"")
+        Log.d("OWNERID", bUId.toString()+"")
+        if (userId.equals(bUId.toString())) {
             couponsSubBtn.isVisible = false
             belongsToUser = true
         } else {
