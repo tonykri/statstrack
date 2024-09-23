@@ -65,7 +65,7 @@ class HomePageService(context: Context) {
                         callback(coupons)
                     }
                     is Result.Failure -> {
-                        Log.d("ERROR: ", "Something is wrong")
+                        Log.d("ERROR: ", result.toString())
                         callback(null)
                     }
                 }

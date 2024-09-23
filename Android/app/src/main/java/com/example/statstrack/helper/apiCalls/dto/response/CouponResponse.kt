@@ -7,7 +7,7 @@ data class CouponResponse(
     val businessId: UUID? = null,
     val brand: String? = null,
     var code: String = "",
-    var purchaseDate: LocalDateTime,
-    var redeemDate: LocalDateTime? = null
+    var purchaseDate: String,
+    var redeemDate: String? = null
 
 )

@@ -58,24 +58,26 @@ class ReviewsWrapperFragment(private val businessId: UUID, private val belongsTo
                 lifecycleScope.launch(Dispatchers.Main) {
                     if (data != null) {
                         reviews = data
+                        Log.d("Reviews", reviews.toString())
+
+                        layout.removeAllViews()
+
+                        val fragment = AddReviewFragment(businessId)
+                        fragmentTransaction.add(R.id.reviewsWrapperLayout, fragment)
+
+                        Log.d("Fragments", reviews.size.toString())
+                        for (review in reviews) {
+                            val fragment = ReviewFragment(review, businessId, belongsToUser)
+                            fragmentTransaction.add(R.id.reviewsWrapperLayout, fragment)
+                        }
+
+                        fragmentTransaction.commit()
                     } else {
                         Toast.makeText(requireContext(), "Could not fetch data", Toast.LENGTH_LONG).show()
                     }
                 }
             }
         }
-
-        layout.removeAllViews()
-
-        val fragment = AddReviewFragment(businessId)
-        fragmentTransaction.add(R.id.reviewsWrapperLayout, fragment)
-
-        for (review in reviews) {
-            val fragment = ReviewFragment(review, businessId, belongsToUser)
-            fragmentTransaction.add(R.id.reviewsWrapperLayout, fragment)
-        }
-
-        fragmentTransaction.commit()
     }
 
 }

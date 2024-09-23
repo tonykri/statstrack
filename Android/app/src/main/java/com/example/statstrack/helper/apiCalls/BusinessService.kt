@@ -73,7 +73,8 @@ class BusinessService(context: Context) {
 
     fun getCoupon(businessId: UUID, callback: (Boolean) -> Unit) {
         val token = sharedPref.getString("accessToken", "")
-        val url = "$couponBaseUrl/coupon/$businessId"
+        val url = "$couponBaseUrl/coupon/${businessId.toString()}"
+        Log.d("DEBUG: ", "Request URL: $url")
 
         Fuel.get(url)
             .header("Authorization" to "Bearer $token")
@@ -84,7 +85,7 @@ class BusinessService(context: Context) {
                         callback(true)
                     }
                     is Result.Failure -> {
-                        Log.d("ERROR: ", "Something is wrong")
+                        Log.d("ERROR: ", result.toString())
                         callback(false)
                     }
                 }
@@ -120,13 +121,13 @@ class BusinessService(context: Context) {
             "BID": "${business.id}",
             "Brand": "${business.brand}",
             "Description": "${business.description}",
-            "Category": "${business.category}",
+            "Category": "${business.category.replace(" ","_")}",
             "Address": "${business.address}",
             "Latitude": ${business.latitude},
             "Longitude": ${business.longitude}
         }
         """.trimIndent()
-
+        Log.d("Update", jsonBody)
         Fuel.put(url)
             .header("Authorization" to "Bearer $token")
             .jsonBody(jsonBody)
@@ -137,7 +138,7 @@ class BusinessService(context: Context) {
                         callback(true)
                     }
                     is Result.Failure -> {
-                        Log.d("ERROR: ", "Something is wrong")
+                        Log.d("ERROR: ", result.toString())
                         callback(false)
                     }
                 }

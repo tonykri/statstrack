@@ -19,7 +19,7 @@ class ReviewsService(context: Context) {
 
     fun getReviews(businessId: UUID, callback: (List<ReviewResponse>?) -> Unit) {
         val token = sharedPref.getString("accessToken", "")
-        val url = "$baseUrl/$businessId"
+        val url = "$baseUrl/${businessId.toString()}"
         Log.d("Bid", businessId.toString())
         Fuel.get(url)
             .header("Authorization" to "Bearer $token")
@@ -62,7 +62,7 @@ class ReviewsService(context: Context) {
                         callback(true)
                     }
                     is Result.Failure -> {
-                        Log.d("ERROR: ", "Something is wrong")
+                        Log.d("ERROR: ", result.toString())
                         callback(false)
                     }
                 }
@@ -85,7 +85,7 @@ class ReviewsService(context: Context) {
                         callback(true)
                     }
                     is Result.Failure -> {
-                        Log.d("ERROR: ", "Something is wrong")
+                        Log.d("ERROR: ", result.toString())
                         callback(false)
                     }
                 }
@@ -94,7 +94,7 @@ class ReviewsService(context: Context) {
 
     fun deleteReview(reviewId: UUID, callback: (Boolean) -> Unit) {
         val token = sharedPref.getString("accessToken", "")
-        val url = "$baseUrl/$reviewId"
+        val url = "$baseUrl/${reviewId.toString()}"
 
         Fuel.delete(url)
             .header("Authorization" to "Bearer $token")
@@ -105,7 +105,7 @@ class ReviewsService(context: Context) {
                         callback(true)
                     }
                     is Result.Failure -> {
-                        Log.d("ERROR: ", "Something is wrong")
+                        Log.d("ERROR: ", result.toString())
                         callback(false)
                     }
                 }
@@ -160,7 +160,7 @@ class ReviewsService(context: Context) {
 
     fun deleteResponse(reviewId: UUID, callback: (Boolean) -> Unit) {
         val token = sharedPref.getString("accessToken", "")
-        val url = "$baseUrl/response/$reviewId"
+        val url = "$baseUrl/response/${reviewId.toString()}"
 
         Fuel.delete(url)
             .header("Authorization" to "Bearer $token")

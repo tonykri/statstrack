@@ -99,6 +99,11 @@ class ReviewFragment(private val review: ReviewResponse, private val businessId:
         responseDeleteBtn = view.findViewById(R.id.reviewFragmentResponseDeleteBtn)
         responseSaveBtn = view.findViewById(R.id.reviewFragmentResponseEditBtn)
 
+        reviewerName.text = ""
+        reviewContent.text = review.content
+        reviewDate.text = review.lastModified.substring(0,10)
+        reviewStars.text = review.stars.toString()
+
         initView()
         replyEdit.setOnClickListener{
             if (businessBelongsToUser) {
@@ -221,6 +226,9 @@ class ReviewFragment(private val review: ReviewResponse, private val businessId:
         }
         if (review.response == null) {
             responseLayout.isVisible = false
+        }else{
+            responseContent.text = review.response.content
+            responseDate.text = review.response.lastModified.substring(0,10)
         }
     }
 

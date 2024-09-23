@@ -26,6 +26,7 @@ public class BusinessPhotoService : IBusinessPhotoService
         Photo newPhoto;
         foreach (IFormFile photo in photos)
         {
+            Console.WriteLine("Adding................");
             newPhoto = new Photo
             {
                 Business = business,

@@ -6,7 +6,15 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="http" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -19,10 +27,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StatsTrack"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.BrowserActivity"
+            android:exported="false" />
 
         <service
             android:name=".helper.LocationService"
-            android:enabled="true"
             android:exported="false" />
 
         <activity
@@ -35,7 +45,7 @@
 
         <activity
             android:name=".activities.BusinessActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activities.HomeActivity"
             android:exported="true" />
@@ -49,12 +59,5 @@
             </intent-filter>
         </activity>
     </application>
-
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="http" />
-        </intent>
-    </queries>
 
 </manifest>

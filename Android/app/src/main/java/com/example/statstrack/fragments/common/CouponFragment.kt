@@ -40,9 +40,9 @@ class CouponFragment(private val coupon: CouponResponse) : Fragment() {
     private fun initData() {
         business.text = coupon.brand
         code.text = coupon.code
-        purchase.text = coupon.purchaseDate.toString()
+        purchase.text = coupon.purchaseDate.toString().substring(0, 10)
         if (coupon.redeemDate != null)
-            redeem.text = coupon.redeemDate.toString()
+            redeem.text = coupon.redeemDate.toString().substring(0, 10)
     }
 
 }

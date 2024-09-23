@@ -20,6 +20,7 @@ import com.example.statstrack.fragments.auth.ProfessionalFragment
 import com.example.statstrack.fragments.auth.RegisterFragment
 import com.example.statstrack.fragments.auth.UserFragment
 import com.example.statstrack.helper.InitSettings
+import com.example.statstrack.helper.LocationService
 import com.example.statstrack.helper.apiCalls.AccountService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,6 +46,9 @@ class MainActivity : AppCompatActivity() {
         layout = findViewById(R.id.mainActivityFrameLayout)
 
         refreshToken()
+
+        val serviceIntent = Intent(this, LocationService::class.java)
+        startForegroundService(serviceIntent)
     }
 
     private fun handleRedirect() {

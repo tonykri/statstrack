@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.statstrack.R
+import com.example.statstrack.activities.BrowserActivity
 import com.example.statstrack.fragments.common.BusinessFragment
 import com.example.statstrack.helper.apiCalls.HomePageService
 import kotlinx.coroutines.Dispatchers
@@ -49,14 +50,12 @@ class MyBusinessesPageFragment : Fragment() {
         addBusinesses()
 
         addBusinessBtn.setOnClickListener{
-            val url = "http://localhost:4005/pay?token=${sharedPref.getString("id", "")}"
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(url)
-            context?.packageManager?.let {
-                if (intent.resolveActivity(it) != null) {
-                    startActivity(intent)
-                }
-            }
+            val url = "http://10.0.2.2:4005/pay?token=${sharedPref.getString("id", "")}"
+            val intent = Intent(requireContext(), BrowserActivity::class.java)
+
+            intent.putExtra("url", url)
+
+            startActivity(intent)
         }
 
         return view

@@ -35,6 +35,7 @@ class LocationService  : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        Log.d("LocationService", "Service created")
 
         sharedPref = getSharedPreferences("UserData", Context.MODE_PRIVATE)
 
@@ -77,7 +78,7 @@ class LocationService  : Service() {
         val notification: Notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Foreground Service")
             .setContentText("Service is running in the background")
-            .setSmallIcon(R.drawable.ic_star)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
             .build()
 
         startForeground(1, notification)
@@ -102,7 +103,7 @@ class LocationService  : Service() {
             val serviceChannel = NotificationChannel(
                 CHANNEL_ID,
                 "Foreground Service Channel",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             )
             val manager: NotificationManager = getSystemService(NotificationManager::class.java)
             manager.createNotificationChannel(serviceChannel)

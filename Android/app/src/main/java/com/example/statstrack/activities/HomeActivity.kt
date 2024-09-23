@@ -24,8 +24,8 @@ import com.example.statstrack.helper.apiCalls.HomePageService
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private val LOCATION_PERMISSION_REQUEST_CODE = 1
+//    private lateinit var binding: ActivityMainBinding
+//    private val LOCATION_PERMISSION_REQUEST_CODE = 1
 
     private lateinit var pagesLayout: FrameLayout
 
@@ -40,18 +40,18 @@ class HomeActivity : AppCompatActivity() {
         replaceFragment(SearchPageFragment())
 
 
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
-            )
-        } else {
-            startLocationService()
-        }
+//        if (ContextCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(
+//                this,
+//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+//                LOCATION_PERMISSION_REQUEST_CODE
+//            )
+//        } else {
+//            startLocationService()
+//        }
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -74,23 +74,23 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
-    private fun startLocationService() {
-        Intent(this, LocationService::class.java).also { intent ->
-            startService(intent)
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                startLocationService()
-            }
-        }
-    }
+//    private fun startLocationService() {
+//        Intent(this, LocationService::class.java).also { intent ->
+//            startService(intent)
+//        }
+//    }
+//
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+//            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+//                startLocationService()
+//            }
+//        }
+//    }
 
 }
