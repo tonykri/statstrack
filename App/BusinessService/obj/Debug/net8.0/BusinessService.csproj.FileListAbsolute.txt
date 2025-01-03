@@ -135,3 +135,6 @@ C:\Users\tonyk\Documents\gits\personal\statstrack\App\BusinessService\obj\Debug\
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\BusinessService\obj\Debug\net8.0\BusinessService.pdb
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\BusinessService\obj\Debug\net8.0\BusinessService.genruntimeconfig.cache
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\BusinessService\obj\Debug\net8.0\ref\BusinessService.dll
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\BusinessService\bin\Debug\net8.0\BusinessService.staticwebassets.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\BusinessService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\BusinessService\obj\Debug\net8.0\staticwebassets\msbuild.BusinessService.Microsoft.AspNetCore.StaticWebAssetEndpoints.props

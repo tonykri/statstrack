@@ -27,3 +27,6 @@ C:\Users\tonyk\Documents\gits\personal\statstrack\App\EmailService\obj\Debug\net
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\EmailService\obj\Debug\net8.0\EmailService.pdb
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\EmailService\obj\Debug\net8.0\EmailService.genruntimeconfig.cache
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\EmailService\obj\Debug\net8.0\ref\EmailService.dll
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\EmailService\bin\Debug\net8.0\EmailService.staticwebassets.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\EmailService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\EmailService\obj\Debug\net8.0\staticwebassets\msbuild.EmailService.Microsoft.AspNetCore.StaticWebAssetEndpoints.props

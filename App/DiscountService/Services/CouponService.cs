@@ -84,7 +84,7 @@ public class CouponService : ICouponService {
 
         coupon.RedeemDate = DateTime.Now;
         await dataContext.SaveChangesAsync();
-        messageBusClient.CouponRedeem(new CouponRedeemedDto(userId, business.BusinessId));
+        messageBusClient.CouponRedeem(new CouponRedeemedDto(coupon.UserId, business.BusinessId));
 
         return new ApiResponse<int, Exception>(0);
     }

@@ -132,3 +132,6 @@ C:\Users\tonyk\Documents\gits\personal\statstrack\App\LocationService\obj\Debug\
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\LocationService\obj\Debug\net8.0\LocationService.pdb
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\LocationService\obj\Debug\net8.0\LocationService.genruntimeconfig.cache
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\LocationService\obj\Debug\net8.0\ref\LocationService.dll
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\LocationService\bin\Debug\net8.0\LocationService.staticwebassets.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\LocationService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\LocationService\obj\Debug\net8.0\staticwebassets\msbuild.LocationService.Microsoft.AspNetCore.StaticWebAssetEndpoints.props

@@ -132,3 +132,6 @@ C:\Users\tonyk\Documents\gits\personal\statstrack\App\ReviewService\obj\Debug\ne
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\ReviewService\obj\Debug\net8.0\ReviewService.pdb
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\ReviewService\obj\Debug\net8.0\ReviewService.genruntimeconfig.cache
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\ReviewService\obj\Debug\net8.0\ref\ReviewService.dll
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\ReviewService\bin\Debug\net8.0\ReviewService.staticwebassets.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\ReviewService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\ReviewService\obj\Debug\net8.0\staticwebassets\msbuild.ReviewService.Microsoft.AspNetCore.StaticWebAssetEndpoints.props

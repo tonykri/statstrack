@@ -268,3 +268,6 @@ C:\Users\tonyk\Documents\gits\personal\statstrack\App\StatisticsService\obj\Debu
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\StatisticsService\obj\Debug\net8.0\StatisticsService.pdb
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\StatisticsService\obj\Debug\net8.0\StatisticsService.genruntimeconfig.cache
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\StatisticsService\obj\Debug\net8.0\ref\StatisticsService.dll
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\StatisticsService\bin\Debug\net8.0\StatisticsService.staticwebassets.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\StatisticsService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\StatisticsService\obj\Debug\net8.0\staticwebassets\msbuild.StatisticsService.Microsoft.AspNetCore.StaticWebAssetEndpoints.props

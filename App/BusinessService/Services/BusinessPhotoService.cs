@@ -11,13 +11,15 @@ public class BusinessPhotoService : IBusinessPhotoService
     private readonly ITokenDecoder tokenDecoder;
     private readonly IPhotoValidator photoValidator;
     private readonly IBlobStorageService blobStorageService;
+    private readonly IPhotoStorageService photoStorageService;
 
-    public BusinessPhotoService(DataContext dataContext, ITokenDecoder tokenDecoder, IPhotoValidator photoValidator, IBlobStorageService blobStorageService)
+    public BusinessPhotoService(DataContext dataContext, ITokenDecoder tokenDecoder, IPhotoStorageService photoStorageService, IPhotoValidator photoValidator, IBlobStorageService blobStorageService)
     {
         this.dataContext = dataContext;
         this.tokenDecoder = tokenDecoder;
         this.photoValidator = photoValidator;
         this.blobStorageService = blobStorageService;
+        this.photoStorageService = photoStorageService;
     }
 
 
@@ -32,7 +34,8 @@ public class BusinessPhotoService : IBusinessPhotoService
                 Business = business,
                 BusinessId = business.Id
             };
-            await blobStorageService.UploadBlobAsync(newPhoto.PhotoId.ToString(), photo);
+            //await blobStorageService.UploadBlobAsync(newPhoto.PhotoId.ToString(), photo);
+            await photoStorageService.UploadPhotoAsync(newPhoto.PhotoId.ToString(), photo);
         }
     }
 
@@ -41,7 +44,8 @@ public class BusinessPhotoService : IBusinessPhotoService
         var photo = await dataContext.Photos.FirstOrDefaultAsync(p => p.PhotoId == photoId);
         if (photo is null)
             return new ApiResponse<int, Exception>(new Exception(ExceptionMessages.NOT_FOUND));
-        await blobStorageService.DeleteBlobAsync(photo.PhotoId.ToString());
+        //await blobStorageService.DeleteBlobAsync(photo.PhotoId.ToString());
+        await photoStorageService.DeletePhotoAsync(photo.PhotoId.ToString());
         return new ApiResponse<int, Exception>(0);
     }
 

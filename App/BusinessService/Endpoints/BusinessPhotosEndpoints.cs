@@ -15,7 +15,8 @@ public class BusinessPhotosEndpoints : IEndpointDefinition
         app.MapGet("photos/{businessId:guid}/{photoId:guid}", GetPhoto)
             .RequireAuthorization("completed_profile");
         app.MapPost("photos/{businessId:guid}", UploadPhotos)
-            .RequireAuthorization("completed_profile");
+            .RequireAuthorization("completed_profile")
+            .DisableAntiforgery(); // For now, disable antiforgery to test photo upload
         app.MapDelete("photos/{photoId:guid}", DeletePhoto)
             .RequireAuthorization("completed_profile");
     }
@@ -56,18 +57,16 @@ public class BusinessPhotosEndpoints : IEndpointDefinition
         );
     }
 
-    private async Task<IResult> UploadPhotos([FromServices] IBusinessPhotoService businessPhotoService, [FromRoute] Guid businessId, [FromForm] IFormFileCollection photos)
+    private async Task<IResult> UploadPhotos([FromServices] IBusinessPhotoService businessPhotoService, [FromRoute] Guid businessId, HttpRequest request)
     {
+        request.EnableBuffering();
+        var photos = request.Form.Files;
         var result = await businessPhotoService.UploadPhotos(businessId, photos);
         return result.Match<IResult>(
             data => Results.NoContent(),
-            exception =>
-            {
-                if (exception?.Message == ExceptionMessages.NOT_FOUND)
-                    return Results.NotFound(exception?.Message);
-                else
-                    return Results.BadRequest(exception?.Message);
-            }
+            exception => exception?.Message == ExceptionMessages.NOT_FOUND 
+                ? Results.NotFound(exception?.Message)
+                : Results.BadRequest(exception?.Message)
         );
     }
 

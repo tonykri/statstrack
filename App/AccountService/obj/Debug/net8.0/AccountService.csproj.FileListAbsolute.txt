@@ -278,3 +278,6 @@ C:\Users\tonyk\Documents\gits\personal\statstrack\App\AccountService\obj\Debug\n
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\AccountService\obj\Debug\net8.0\AccountService.pdb
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\AccountService\obj\Debug\net8.0\AccountService.genruntimeconfig.cache
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\AccountService\obj\Debug\net8.0\ref\AccountService.dll
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\AccountService\bin\Debug\net8.0\AccountService.staticwebassets.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\AccountService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\AccountService\obj\Debug\net8.0\staticwebassets\msbuild.AccountService.Microsoft.AspNetCore.StaticWebAssetEndpoints.props

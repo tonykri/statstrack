@@ -20,6 +20,7 @@ import com.example.statstrack.fragments.common.BusinessFragment
 import com.example.statstrack.helper.apiCalls.HomePageService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.URLEncoder
 
 class MyBusinessesPageFragment : Fragment() {
 
@@ -50,7 +51,13 @@ class MyBusinessesPageFragment : Fragment() {
         addBusinesses()
 
         addBusinessBtn.setOnClickListener{
-            val url = "http://10.0.2.2:4005/pay?token=${sharedPref.getString("id", "")}"
+//            val url = "http://10.0.2.2:4005/pay?token=${sharedPref.getString("id", "")}"
+
+            // After - Encode the token for URL
+            val token = sharedPref.getString("accessToken", "") ?: ""
+            val encodedToken = URLEncoder.encode(token, "UTF-8")
+            val url = "http://10.0.2.2:4005/pay?token=$encodedToken"
+
             val intent = Intent(requireContext(), BrowserActivity::class.java)
 
             intent.putExtra("url", url)

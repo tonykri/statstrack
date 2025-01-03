@@ -134,3 +134,6 @@ C:\Users\tonyk\Documents\gits\personal\statstrack\App\PaymentService\obj\Debug\n
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\PaymentService\obj\Debug\net8.0\PaymentService.pdb
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\PaymentService\obj\Debug\net8.0\PaymentService.genruntimeconfig.cache
 C:\Users\tonyk\Documents\gits\personal\statstrack\App\PaymentService\obj\Debug\net8.0\ref\PaymentService.dll
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\PaymentService\bin\Debug\net8.0\PaymentService.staticwebassets.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\PaymentService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\tonyk\Documents\gits\personal\statstrack\App\PaymentService\obj\Debug\net8.0\staticwebassets\msbuild.PaymentService.Microsoft.AspNetCore.StaticWebAssetEndpoints.props

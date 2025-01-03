@@ -10,7 +10,6 @@ public class Business
     public Guid UserId { get; set; }
     [Required]
     public DateTime ExpirationDate { get; set; }
-    [Required]
-    public string Brand { get; set; } = null!;
+    public string? Brand { get; set; }
     public ICollection<Coupon> Coupons { get; set; } = new List<Coupon>();
 }

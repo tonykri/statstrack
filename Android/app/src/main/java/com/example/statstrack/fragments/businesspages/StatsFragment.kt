@@ -168,7 +168,8 @@ class StatsFragment(private val businessId: UUID) : Fragment() {
     }
     private  fun handleProps(input: String, noUsers: Int, totalUsers: Int) {
         val title = formatString(input)
-        val output = title + ": " + noUsers*100/totalUsers + "% (" + noUsers + ")"
+        val percentage = if (totalUsers > 0) noUsers * 100 / totalUsers else 0
+        val output = "$title: $percentage% ($noUsers)"
 
         val textView = TextView(context)
         textView.id = R.id.textView34

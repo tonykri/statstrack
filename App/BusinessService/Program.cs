@@ -11,6 +11,8 @@ builder.Services.AddEndpointDefinitions(typeof(IEndpointDefinition));
 
 builder.Services.UtilsConfig();
 
+builder.Services.AddAntiforgery();
+
 // Configure Database using Entity Framework
 string? ConnectionString = builder.Configuration.GetConnectionString("LocalDbConnection");
 builder.Services.AddDbContext<DataContext>(
@@ -31,5 +33,6 @@ app.UseEndpointDefinitions();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseAntiforgery();
 
 app.Run();

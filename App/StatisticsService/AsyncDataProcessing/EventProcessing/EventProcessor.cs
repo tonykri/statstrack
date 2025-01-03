@@ -37,7 +37,7 @@ public class EventProcessor : IEventProcessor
 
         switch (eventType.Event)
         {
-            case "Business_Deleted":
+            case "Business_Created":
                 Console.WriteLine("--> Business Created Event Detected");
                 return EventType.BusinessCreated;
             case "User_Deleted":

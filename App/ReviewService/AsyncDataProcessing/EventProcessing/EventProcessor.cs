@@ -20,6 +20,9 @@ public class EventProcessor : IEventProcessor
             case EventType.BusinessCreated:
                 BusinessCreated(message);
                 break;
+            case EventType.CouponRedeemed:
+                CouponRedeemed(message);
+                break;
             case EventType.BusinessUpdated:
                 BusinessUpdated(message);
                 break;
@@ -55,9 +58,21 @@ public class EventProcessor : IEventProcessor
             case "User_Deleted":
                 Console.WriteLine("--> User Deleted Event Detected");
                 return EventType.UserDeleted;
+            case "Coupon_Redeemed":
+                Console.WriteLine("--> Coupon Redeemed Event Detected");
+                return EventType.CouponRedeemed;
             default:
                 Console.WriteLine("--> Could not determine the event type");
                 return EventType.Undetermined;
+        }
+    }
+
+    private void CouponRedeemed(string message)
+    {
+        using (var scope = serviceScopeFactory.CreateScope())
+        {
+            var scopedService = scope.ServiceProvider.GetRequiredService<IEventHandler>();
+            scopedService.CouponRedeemed(message);
         }
     }
 
@@ -104,5 +119,6 @@ enum EventType
     BusinessUpdated,
     BusinessDeleted,
     UserDeleted,
+    CouponRedeemed,
     Undetermined
 }

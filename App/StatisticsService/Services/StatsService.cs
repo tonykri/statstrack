@@ -112,7 +112,7 @@ public class StatsService : IStatsService
         }
     }
 
-    public async void CreateHourlyStatsAsync(Guid businessId, DateTime startTime, DateTime endTime)
+    public async Task CreateHourlyStatsAsync(Guid businessId, DateTime startTime, DateTime endTime)
     {
         var business = await dataContext.Businesses.FirstOrDefaultAsync(b => b.BusinessId == businessId);
         if (business is null)

@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "IYajmhN4+TK6rjW9Pb7waRK5WV/3JkQLtwH9/bigprM=",
+  "Hash": "wIXmQZkzm6v5O7COpm/6yTpURCaRYEiT9OtLrtkqxdg=",
   "Source": "StatisticsService",
   "BasePath": "_content/StatisticsService",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

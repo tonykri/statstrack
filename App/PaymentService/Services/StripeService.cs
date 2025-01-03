@@ -40,8 +40,8 @@ public class StripeService : IStripeService
                     },
                 },
             Mode = "payment",
-            SuccessUrl = "http://localhost:4005/success?session_id={CHECKOUT_SESSION_ID}" + "&user_id=" + tokenDecoder.GetUserId(token) + businessUrl,
-            CancelUrl = "http://localhost:4005/cancelled",
+            SuccessUrl = "http://10.0.2.2:4005/success?session_id={CHECKOUT_SESSION_ID}" + "&user_id=" + tokenDecoder.GetUserId(token) + businessUrl,
+            CancelUrl = "http://10.0.2.2:4005/cancelled",
         };
 
         var sessionService = new SessionService();

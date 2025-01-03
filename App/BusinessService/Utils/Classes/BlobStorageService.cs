@@ -25,10 +25,12 @@ public class BlobStorageService : IBlobStorageService
         var container = _blobClient.GetContainerReference(containerName);
         await container.CreateIfNotExistsAsync();
         var blob = container.GetBlockBlobReference(blobName);
-        using (var stream = file.OpenReadStream())
-        {
-            await blob.UploadFromStreamAsync(stream);
-        }
+        
+        using var memoryStream = new MemoryStream();
+        await file.CopyToAsync(memoryStream);
+        memoryStream.Position = 0;
+        
+        await blob.UploadFromStreamAsync(memoryStream);
     }
 
     public async Task<ImageDto> GetBlobAsync(string blobName)
@@ -38,7 +40,8 @@ public class BlobStorageService : IBlobStorageService
         var stream = new MemoryStream();
         await blob.DownloadToStreamAsync(stream);
         stream.Position = 0;
-        return new ImageDto(stream, blob.Properties.ContentType, blobName);
+        //return new ImageDto(stream, blob.Properties.ContentType, blobName);
+        return new ImageDto(new byte[]{}, blob.Properties.ContentType, blobName);
     }
 
     public async Task DeleteBlobAsync(string blobName)

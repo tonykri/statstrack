@@ -27,6 +27,24 @@ public class EventHandler : IEventHandler
         Console.WriteLine("--> Business Created");
     }
 
+    public void CouponRedeemed(string message)
+    {
+        var eventDto = JsonSerializer.Deserialize<CouponRedeemedDto>(message);
+        if (eventDto is null) return;
+                
+        var business = dataContext.Businesses.First(b => b.BusinessId == eventDto.BusinessId);
+
+        VerifiedOrder verifiedOrder = new VerifiedOrder()
+        {
+            BusinessId = eventDto.BusinessId,
+            Business = business,
+            UserId = eventDto.UserId
+        };
+        dataContext.Add(verifiedOrder);
+        dataContext.SaveChanges();
+        Console.WriteLine("--> Verified Order Created");
+    }
+
     public void BusinessDeleted(string message)
     {
         var eventDto = JsonSerializer.Deserialize<BusinessUpdatedDeletedDto>(message);
